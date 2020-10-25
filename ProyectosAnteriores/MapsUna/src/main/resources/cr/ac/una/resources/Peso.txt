@@ -1,0 +1,381 @@
+matPeso[0][1] = 8;
+matPeso[0][5] = 14;
+
+
+matPeso[1][0] = 8;
+matPeso[1][2] = 7;
+
+
+matPeso[2][1] = 7;
+matPeso[2][3] = 9;
+matPeso[2][8] = 15;
+
+
+matPeso[3][2] = 9;
+matPeso[3][4] = 11;
+
+
+matPeso[4][3] = 11;
+matPeso[4][7] = 12;
+matPeso[4][8] = 15;
+
+
+matPeso[5][0] = 14;
+matPeso[5][6] = 5;
+matPeso[5][7] = 7;
+
+
+matPeso[6][5] = 5;
+matPeso[6][12] = 13;
+matPeso[6][74] = 15;
+
+
+matPeso[7][4] = 12;
+matPeso[7][5] = 7;
+matPeso[7][10] = 10;
+matPeso[7][11] = 9;
+
+
+matPeso[8][2] = 15;
+matPeso[8][4] = 15;
+matPeso[8][9] = 7;
+
+
+matPeso[9][8] = 7;
+matPeso[9][10] = 8;
+matPeso[9][21] = 16;
+
+
+matPeso[10][7] = 10;
+matPeso[10][9] = 8;
+
+
+matPeso[11][7] = 9;
+matPeso[11][12] = 9;
+
+
+matPeso[12][6] = 13;
+matPeso[12][11] = 9;
+matPeso[12][13] = 9;
+matPeso[12][17] = 10;
+
+
+matPeso[13][12] = 9;
+matPeso[13][16] = 8;
+matPeso[13][74] = 4;
+
+
+matPeso[14][15] = 6;
+matPeso[14][26] = 15;
+matPeso[14][74] = 10;
+
+
+matPeso[15][14] = 6;
+matPeso[15][23] = 3;
+matPeso[15][28] = 8;
+
+
+matPeso[16][13] = 8;
+matPeso[16][17] = 5;
+matPeso[16][23] = 3;
+matPeso[16][24] = 3;
+
+
+matPeso[17][12] = 10;
+matPeso[17][16] = 5;
+matPeso[17][18] = 3;
+matPeso[17][30] = 7;
+
+
+matPeso[18][17] = 3;
+matPeso[18][19] = 4;
+matPeso[18][31] = 9;
+
+
+matPeso[19][18] = 4;
+matPeso[19][20] = 2;
+matPeso[19][32] = 10;
+
+
+matPeso[20][10] = 5;
+
+
+matPeso[21][9] = 16;
+matPeso[21][22] = 2;
+matPeso[21][34] = 11;
+
+
+matPeso[22][21] = 2;
+
+
+matPeso[23][15] = 3;
+matPeso[23][16] = 3;
+
+
+matPeso[24][16] = 3;
+matPeso[24][25] = 2;
+matPeso[24][29] = 4;
+
+
+matPeso[25][23] = 3;
+
+
+matPeso[26][14] = 15;
+matPeso[26][27] = 4;
+
+
+matPeso[27][26] = 4;
+matPeso[27][28] = 14;
+matPeso[27][43] = 9;
+
+
+matPeso[28][27] = 14;
+matPeso[28][29] = 8;
+matPeso[28][41] = 9;
+
+
+matPeso[29][24] = 4;
+matPeso[29][28] = 8;
+matPeso[29][30] = 7;
+matPeso[29][40] = 10;
+
+
+matPeso[30][17] = 7;
+matPeso[30][29] = 7;
+matPeso[30][31] = 5;
+matPeso[30][38] = 9;
+
+
+matPeso[31][18] = 9;
+matPeso[31][30] = 5;
+matPeso[31][32] = 3;
+
+
+matPeso[32][19] = 10;
+matPeso[32][31] = 3;
+matPeso[32][33] = 7;
+matPeso[32][37] = 11;
+
+
+matPeso[33][34] = 8;
+matPeso[33][36] = 6;
+
+
+matPeso[34][21] = 11;
+matPeso[34][33] = 8;
+matPeso[34][35] = 6;
+
+
+matPeso[35][34] = 6;
+matPeso[35][36] = 6;
+matPeso[35][44] = 10;
+
+matPeso[36][33] = 6;
+matPeso[36][37] = 7;
+matPeso[36][45] = 9;
+
+
+matPeso[37][32] = 11;
+matPeso[37][38] = 9;
+matPeso[37][46] = 8;
+
+
+matPeso[38][30] = 9;
+matPeso[38][37] = 7;
+matPeso[38][39] = 5;
+matPeso[38][47] = 8;
+
+
+matPeso[39][38] = 5;
+matPeso[39][40] = 4;
+
+
+matPeso[40][29] = 10;
+matPeso[40][41] = 6;
+
+
+matPeso[41][28] = 9;
+matPeso[41][40] = 6;
+matPeso[41][42] = 9;
+matPeso[41][50] = 10;
+
+
+matPeso[42][41] = 9;
+matPeso[42][43] = 5;
+
+
+matPeso[43][27] = 9;
+matPeso[43][52] = 10;
+
+
+matPeso[44][35] = 10;
+matPeso[44][45] = 12;
+matPeso[44][53] = 8;
+
+
+matPeso[45][36] = 9;
+matPeso[45][44] = 12;
+matPeso[45][46] = 8;
+matPeso[45][55] = 11;
+
+
+matPeso[46][37] = 8;
+matPeso[46][45] = 8;
+matPeso[46][47] = 7;
+matPeso[46][56] = 9;
+
+
+matPeso[47][38] = 8;
+matPeso[47][46] = 7;
+matPeso[47][48] = 5;
+matPeso[47][57] = 10;
+
+
+matPeso[48][39] = 3;
+matPeso[48][47] = 5;
+matPeso[48][49] = 2;
+
+
+matPeso[49][48] = 2;
+matPeso[49][50] = 8;
+
+//ojo con el bug
+matPeso[50][41] = 10;
+matPeso[50][49] = 8;
+matPeso[50][51] = 7;
+matPeso[50][59] = 9;
+
+
+matPeso[51][42] = 5;
+matPeso[51][50] = 7;
+matPeso[51][52] = 8;
+
+//ojo con posible bug A53
+matPeso[52][43] = 10;
+matPeso[52][51] = 8;
+matPeso[52][68] = 14;
+
+matPeso[53][44] = 8;
+matPeso[53][54] = 7;
+matPeso[53][61] = 9;
+
+
+matPeso[54][53] = 7;
+matPeso[54][55] = 6;
+matPeso[54][63] = 4;
+
+
+matPeso[55][45] = 11;
+matPeso[55][54] = 6;
+matPeso[55][56] = 5;
+matPeso[55][64] = 5;
+
+
+matPeso[56][46] = 9;
+matPeso[56][55] = 5;
+matPeso[56][57] = 7;
+matPeso[56][72] = 12;
+
+matPeso[57][47] = 10;
+matPeso[57][56] = 7;
+matPeso[57][70] = 7;
+
+
+matPeso[58][49] = 4;
+matPeso[58][59] = 8;
+matPeso[58][65] = 7;
+
+
+matPeso[59][50] = 9;
+matPeso[59][58] = 8;
+matPeso[59][60] = 6;
+matPeso[59][66] = 6;
+
+
+matPeso[60][51] = 5;
+matPeso[60][59] = 6;
+matPeso[60][67] = 6;
+
+
+matPeso[61][53] = 9;
+matPeso[61][62] = 4;
+matPeso[61][75] = 13;
+
+
+matPeso[62][61] = 4;
+
+
+matPeso[63][54] = 4;
+
+
+matPeso[64][55] = 5;
+
+
+matPeso[65][58] = 7;
+matPeso[65][66] = 9;
+matPeso[65][73] = 5;
+
+
+matPeso[66][59] = 6;
+matPeso[66][65] = 9;
+matPeso[66][67] = 4;
+matPeso[66][77] = 12;
+
+
+matPeso[67][60] = 6;
+matPeso[67][66] = 4;
+matPeso[67][69] = 2;
+
+
+matPeso[68][52] = 14;
+matPeso[68][69] = 7;
+matPeso[68][79] = 10;
+
+
+matPeso[69][67] = 2;
+matPeso[69][68] = 7;
+matPeso[69][78] = 13;
+
+
+matPeso[70][57] = 7;
+
+
+matPeso[71][72] = 11;
+
+
+matPeso[72][56] = 12;
+matPeso[72][71] = 11;
+matPeso[72][73] = 14;
+
+
+matPeso[73][65] = 5;
+matPeso[73][72] = 14;
+matPeso[73][76] = 7;
+
+
+matPeso[74][6] = 15;
+matPeso[74][13] = 4;
+matPeso[74][14] = 10;
+
+
+matPeso[75][61] = 13;
+matPeso[75][76] = 20;
+
+
+matPeso[76][73] = 7;
+matPeso[76][75] = 20;
+matPeso[76][77] = 8;
+
+//ojo con posible bug
+matPeso[77][66] = 12;
+matPeso[77][76] = 8;
+matPeso[77][78] = 9;
+
+
+matPeso[78][69] = 13;
+matPeso[78][77] = 9;
+matPeso[78][79] = 3;
+
+
+matPeso[79][68] = 10;
+matPeso[79][78] = 3;
