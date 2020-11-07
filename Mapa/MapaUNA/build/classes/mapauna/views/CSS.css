@@ -13,13 +13,7 @@ and open the template in the editor.
     -fx-base-color-unfocus:#4d4d4d;
     -fx-base-color-etiquetas:#4d4d4d/*#bcbcbc*/;
     -fx-base-color-titulos:#51b6cd;
-    -fx-base-color-error:#D34336;
-    -fx-base-color-id:#00C853;
-    
 }
-
-
-
 .jfx-button{
     -fx-background-color: -fx-base-color-unfocus;
     -jfx-button-type: RAISED;

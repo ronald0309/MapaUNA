@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -85,6 +86,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void onActionSalir(ActionEvent event) {
+        Stage stage = (Stage) btnInciar.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
