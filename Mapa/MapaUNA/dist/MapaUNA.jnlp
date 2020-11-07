@@ -8,7 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="MapaUNA.jar" size="2559" download="eager" />
+    <jar href="MapaUNA.jar" size="133603" download="eager" />
+    <jar href="lib\jfoenix-8.0.2.jar" size="2442326" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="mapauna.MapaUNA"  name="MapaUNA" />
   <update check="always"/>

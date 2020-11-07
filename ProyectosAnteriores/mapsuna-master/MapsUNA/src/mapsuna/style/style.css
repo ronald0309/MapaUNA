@@ -1,0 +1,100 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : nov 15, 2018, 10:30:05 p.m.
+    Author     : ema_9
+*/
+
+
+.imagen{
+    /*-fx-image: url("../resources/map.png");*/
+    -fx-background-image:url('../resources/mapp7.png');
+    /*background: url('../resources/map.png') no-repeat center top;*/
+     /*width: 100%; height: 100%;*/
+    
+    -fx-background-size: cover;
+    /*-fx-background-size: 900 506;*/
+    /*-fx-background-position: center center;*/
+    /*-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);*/ 
+}
+
+/*.izq{
+    -fx-image: url("../resources/izq.png");
+}
+.der{
+    -fx-image: url("../resources/der.png");
+}*/
+.HBOXTitle{
+    -fx-background-color: #322F2F;
+}
+
+.btnEventosRuta:hover{
+    -fx-background-color: #322F2F;
+    -fx-text-fill: white;
+}
+
+.btnEventosRuta{
+    -fx-border-width: 1px;
+    -fx-border-color: #000;
+    /*-fx-background-color: rgba(0, 100, 100, 0.1);*/
+    -fx-background-image: null;
+    -fx-border-radius: 5px;
+    /*-fx-padding: px;*/
+}
+.radio-button .radio {
+    -fx-border-width: 1px;
+    -fx-border-color: #000;
+    -fx-background-color: rgba(0, 100, 100, 0.1);
+    -fx-background-image: null;
+    -fx-border-radius: 15px;
+    -fx-padding: 4px;
+}
+.radio-button .radio:selected {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+
+.radio-button .radio:checked {
+    -fx-background-color: red;
+    -fx-border-color: red;
+}
+
+.radio-button -radio:armed {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:determinate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button -radio:indeterminate {
+    -fx-background-color: white;
+    -fx-background-image: null;
+}
+.radio-button .dot {
+    -fx-background-radius: 15px;
+    -fx-padding: 2px;
+}
+
+
+.label{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.label-calculo{
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #8C8C8C;
+    -fx-font-weight: bold;
+}
+
+.label-header {
+    -fx-font-size: 25pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}

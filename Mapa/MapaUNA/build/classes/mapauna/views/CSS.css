@@ -1,0 +1,128 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05/11/2020, 04:15:11 PM
+    Author     : Ronny
+*/
+*{
+    -fx-font-family: Roboto;
+    -fx-base-color-focus:#09b6bc;
+    -fx-base-color-unfocus:#4d4d4d;
+    -fx-base-color-etiquetas:#4d4d4d/*#bcbcbc*/;
+    -fx-base-color-titulos:#51b6cd;
+    -fx-base-color-error:#D34336;
+    -fx-base-color-id:#00C853;
+    
+}
+
+
+
+.jfx-button{
+    -fx-background-color: -fx-base-color-unfocus;
+    -jfx-button-type: RAISED;
+    -fx-opacity: 0.8;
+    -fx-content-display: left;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment:CENTER_LEFT;
+}
+.jfx-button .jfx-rippler{-jfx-rippler-fill: white;}
+.jfx-button:hover, .button:hover{-fx-background-color: #FF6D00;}
+.jfx-button:disabled, .button:disabled {
+    -fx-background-color: #cccccc;
+    -fx-opacity: 0.4;
+}
+.jfx-toggle-button {
+    -fx-font-size: 14.0px;
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-max-height: 26px;
+    -jfx-checked-color: -fx-base-color-focus;
+    -jfx-unchecked-color: -fx-base-color-unfocus;
+    -fx-text-fill: -fx-base-color-etiquetas;
+}
+.jfx-toggle-button:disabled,.jfx-radio-button:disabled{
+    -fx-opacity: 0.7;
+}
+
+.jfx-radio-button{
+    -fx-font-size: 14.0px;
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-max-height: 26px;
+    -jfx-selected-color: -fx-base-color-focus;
+    -jfx-unselected-color: -fx-base-color-unfocus;
+    -fx-text-fill: -fx-base-color-etiquetas;
+}
+
+.jfx-combo-box{
+    -fx-font-size: 14.0px;
+    -fx-pref-height: 28px;
+    -fx-min-height: 28px;
+    -fx-max-height: 28px;
+    -fx-alignment: TOP_LEFT;
+    -jfx-focus-color: -fx-base-color-focus;
+    -jfx-unfocus-color: -fx-base-color-unfocus;
+}
+
+.jfx-combo-box .cell {
+	-fx-text-fill: -fx-base-color-etiquetas;
+}
+
+
+
+/*******************************************************************************
+*                                                                              *
+* Paneles                                                                 *
+*                                                                              *
+*******************************************************************************/
+
+.jfx-panelfondo {
+    -fx-background-color: #2196F3;
+    -fx-opacity: 0.8;
+}
+.jfx-contenedor-principal,.jfx-contenedor-secundario,.jfx-contenedor-titulo {
+    -fx-background-color: white;
+    -fx-background-radius: 4.0;
+    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.15), 10.0, 0.7, 0.0,1.5);
+   
+}
+.jfx-contenedor-secundario{-fx-padding: 5 10 10 10;}
+.jfx-contenedor-titulo{
+    -fx-background-color: #33c9dd;
+    -fx-padding: 5 5 5 5;
+}
+.jfx-contenedor-titulo > .label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 30.0px;
+}
+
+/*******************************************************************************
+*                                                                              *
+* Etiquetas                                                                 *
+*                                                                              *
+*******************************************************************************/
+
+.lbl-general{
+    -fx-font-size: 14.0px;
+    -fx-text-fill: -fx-base-color-etiquetas;
+}
+
+.titulo-label{
+    -fx-font-size: 24.0px;
+    -fx-padding: 5 0 5 0;
+    -fx-text-fill: -fx-base-color-titulos;
+    -fx-font-weight: bold; 
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 2, 0.0, 1, 2);
+}
+.subtitulo-label{
+    -fx-font-size: 14.0px;
+    -fx-text-fill: -fx-base-color-titulos;
+    -fx-font-weight: bold; 
+}
+
