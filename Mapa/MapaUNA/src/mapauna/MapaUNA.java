@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -20,11 +21,10 @@ public class MapaUNA extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-         
+        Parent root = FXMLLoader.load(getClass().getResource("/mapauna/views/FXMLDocument.fxml"));
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
+        stage.getIcons().add(new Image("/mapauna/resources/logo.png"));
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }

@@ -30,8 +30,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label lblCostFinal;
     @FXML
-    private Label timeCost;
-    @FXML
     private JFXRadioButton rdbDijkstra;
     @FXML
     private JFXRadioButton rdbFloyd;
@@ -53,6 +51,8 @@ public class FXMLDocumentController implements Initializable {
     private JFXToggleButton tbNoViaIzq;
     @FXML
     private JFXToggleButton tbNoViaDer;
+    @FXML
+    private Label lbltimeCost;
     
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
