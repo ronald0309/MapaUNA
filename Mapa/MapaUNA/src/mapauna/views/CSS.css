@@ -14,7 +14,7 @@ and open the template in the editor.
     -fx-base-color-etiquetas:#4d4d4d/*#bcbcbc*/;
     -fx-base-color-titulos:#51b6cd;
 }
-.jfx-button{
+.button{
     -fx-background-color: -fx-base-color-unfocus;
     -jfx-button-type: RAISED;
     -fx-opacity: 0.8;
@@ -24,13 +24,13 @@ and open the template in the editor.
     -fx-font-size: 14px;
     -fx-alignment:CENTER_LEFT;
 }
-.jfx-button .jfx-rippler{-jfx-rippler-fill: white;}
-.jfx-button:hover, .button:hover{-fx-background-color: #FF6D00;}
-.jfx-button:disabled, .button:disabled {
+.button .jfx-rippler{-jfx-rippler-fill: white;}
+.button:hover, .button:hover{-fx-background-color: #FF6D00;}
+.button:disabled, .button:disabled {
     -fx-background-color: #cccccc;
     -fx-opacity: 0.4;
 }
-.jfx-toggle-button {
+.toggle-button {
     -fx-font-size: 14.0px;
     -fx-pref-height: 26px;
     -fx-min-height: 26px;
@@ -39,11 +39,11 @@ and open the template in the editor.
     -jfx-unchecked-color: -fx-base-color-unfocus;
     -fx-text-fill: -fx-base-color-etiquetas;
 }
-.jfx-toggle-button:disabled,.jfx-radio-button:disabled{
+.toggle-button:disabled,.radio-button:disabled{
     -fx-opacity: 0.7;
 }
 
-.jfx-radio-button{
+.radio-button{
     -fx-font-size: 14.0px;
     -fx-pref-height: 26px;
     -fx-min-height: 26px;
@@ -53,7 +53,7 @@ and open the template in the editor.
     -fx-text-fill: -fx-base-color-etiquetas;
 }
 
-.jfx-combo-box{
+.combo-box{
     -fx-font-size: 14.0px;
     -fx-pref-height: 28px;
     -fx-min-height: 28px;
@@ -63,7 +63,7 @@ and open the template in the editor.
     -jfx-unfocus-color: -fx-base-color-unfocus;
 }
 
-.jfx-combo-box .cell {
+.combo-box .cell {
 	-fx-text-fill: -fx-base-color-etiquetas;
 }
 

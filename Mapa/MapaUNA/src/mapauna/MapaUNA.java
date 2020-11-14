@@ -21,7 +21,7 @@ public class MapaUNA extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/mapauna/views/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/mapauna/views/una.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.getIcons().add(new Image("/mapauna/resources/logo.png"));
