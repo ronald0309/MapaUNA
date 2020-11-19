@@ -1,307 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="689.0" prefWidth="1200.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapsuna.controller.WindowController">
-   <children>
-      <HBox layoutX="14.0" prefHeight="618.0" prefWidth="817.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+<BorderPane prefHeight="726.0" prefWidth="881.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapsuna.controller.WindowController">
+   <center>
+      <AnchorPane fx:id="baseMap" prefHeight="601.0" prefWidth="637.0" style="-fx-border-color: black;" styleClass="imagen" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="689.0" prefWidth="679.0" HBox.hgrow="ALWAYS">
+            <RadioButton fx:id="A26" layoutX="331.0" layoutY="266.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A24" layoutX="340.0" layoutY="248.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A1" layoutX="244.0" layoutY="6.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A2" layoutX="213.0" layoutY="23.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A6" layoutX="294.0" layoutY="107.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A5" layoutX="239.0" layoutY="88.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A4" layoutX="226.0" layoutY="69.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A3" layoutX="204.0" layoutY="46.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A8" layoutX="254.0" layoutY="127.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A11" layoutX="213.0" layoutY="143.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A9" layoutX="188.0" layoutY="116.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A10" layoutX="183.0" layoutY="135.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A7" layoutX="312.0" layoutY="143.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A75" layoutX="342.0" layoutY="190.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A15" layoutX="367.0" layoutY="231.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A27" layoutX="429.0" layoutY="327.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A16" layoutX="358.0" layoutY="254.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A17" layoutX="324.0" layoutY="242.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A25" layoutX="314.0" layoutY="259.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A29" layoutX="347.0" layoutY="295.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A28" layoutX="415.0" layoutY="324.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A21" layoutX="226.0" layoutY="182.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A12" layoutX="254.0" layoutY="167.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A13" layoutX="296.0" layoutY="182.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A14" layoutX="335.0" layoutY="204.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A20" layoutX="232.0" layoutY="207.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A19" layoutX="259.0" layoutY="215.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A18" layoutX="283.0" layoutY="223.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A31" layoutX="268.0" layoutY="261.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A30" layoutX="308.0" layoutY="278.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A32" layoutX="247.0" layoutY="252.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A33" layoutX="228.0" layoutY="250.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A34" layoutX="193.0" layoutY="241.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A35" layoutX="150.0" layoutY="231.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A22" layoutX="170.0" layoutY="199.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A23" layoutX="201.0" layoutY="207.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A36" layoutX="138.0" layoutY="249.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A37" layoutX="181.0" layoutY="268.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A38" layoutX="221.0" layoutY="285.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A39" layoutX="259.0" layoutY="295.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A40" layoutX="275.0" layoutY="304.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A41" layoutX="294.0" layoutY="312.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A42" layoutX="331.0" layoutY="328.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A43" layoutX="367.0" layoutY="345.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A44" layoutX="402.0" layoutY="362.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A53" layoutX="388.0" layoutY="401.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A52" layoutX="350.0" layoutY="386.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A51" layoutX="317.0" layoutY="368.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A50" layoutX="270.0" layoutY="350.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A49" layoutX="258.0" layoutY="345.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A48" layoutX="244.0" layoutY="336.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A58" layoutX="226.0" layoutY="386.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A57" layoutX="183.0" layoutY="368.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A56" layoutX="157.0" layoutY="354.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A46" layoutX="169.0" layoutY="306.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A47" layoutX="204.0" layoutY="319.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A45" layoutX="109.0" layoutY="279.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A54" layoutX="88.0" layoutY="304.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A55" layoutX="126.0" layoutY="337.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A64" layoutX="109.0" layoutY="373.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A63" layoutX="94.0" layoutY="354.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A62" layoutX="62.0" layoutY="337.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A76" layoutX="21.0" layoutY="386.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A72" layoutX="62.0" layoutY="386.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A73" layoutX="156.0" layoutY="430.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A74" layoutX="235.0" layoutY="464.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A66" layoutX="244.0" layoutY="429.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A59" layoutX="258.0" layoutY="394.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A71" layoutX="206.0" layoutY="438.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A67" layoutX="283.0" layoutY="446.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A60" layoutX="296.0" layoutY="410.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A61" layoutX="338.0" layoutY="422.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A68" layoutX="324.0" layoutY="454.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A70" layoutX="318.0" layoutY="468.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A69" layoutX="354.0" layoutY="481.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A80" layoutX="331.0" layoutY="551.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A79" layoutX="312.0" layoutY="543.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A78" layoutX="265.0" layoutY="524.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A77" layoutX="221.0" layoutY="498.0" mnemonicParsing="false" />
+            <RadioButton fx:id="A65" layoutX="140.0" layoutY="384.0" mnemonicParsing="false" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </AnchorPane>
+   </center>
+   <right>
+      <VBox prefHeight="595.0" prefWidth="341.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="401.0" prefWidth="358.0" spacing="40.0">
                <children>
-                  <AnchorPane fx:id="baseMap" prefHeight="661.0" prefWidth="652.0" style="-fx-border-color: black;" styleClass="imagen">
-                     <VBox.margin>
-                        <Insets left="40.0" top="20.0" />
-                     </VBox.margin>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <RadioButton fx:id="A26" layoutX="387.0" layoutY="285.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A24" layoutX="387.0" layoutY="261.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A1" layoutX="156.0" layoutY="7.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A2" layoutX="127.0" layoutY="46.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A6" layoutX="269.0" layoutY="110.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A5" layoutX="189.0" layoutY="115.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A4" layoutX="157.0" layoutY="85.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A3" layoutX="121.0" layoutY="76.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A8" layoutX="226.0" layoutY="151.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A11" layoutX="183.0" layoutY="190.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A9" layoutX="137.0" layoutY="166.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A10" layoutX="143.0" layoutY="196.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A7" layoutX="301.0" layoutY="136.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A75" layoutX="361.0" layoutY="182.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A15" layoutX="413.0" layoutY="222.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A27" layoutX="513.0" layoutY="301.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A16" layoutX="411.0" layoutY="259.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A17" layoutX="360.0" layoutY="260.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A25" layoutX="360.0" layoutY="285.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A29" layoutX="414.0" layoutY="315.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A28" layoutX="516.0" layoutY="319.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A21" layoutX="220.0" layoutY="231.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A12" layoutX="244.0" layoutY="204.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A13" layoutX="302.0" layoutY="206.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A14" layoutX="360.0" layoutY="206.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A20" layoutX="232.0" layoutY="257.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A19" layoutX="269.0" layoutY="258.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A18" layoutX="303.0" layoutY="258.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A31" layoutX="305.0" layoutY="311.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A30" layoutX="360.0" layoutY="313.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A32" layoutX="271.0" layoutY="310.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A33" layoutX="247.0" layoutY="312.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A34" layoutX="202.0" layoutY="322.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A35" layoutX="145.0" layoutY="328.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A22" layoutX="156.0" layoutY="276.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A23" layoutX="188.0" layoutY="270.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A36" layoutX="136.0" layoutY="353.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A37" layoutX="200.0" layoutY="357.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A38" layoutX="256.0" layoutY="359.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A39" layoutX="305.0" layoutY="361.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A40" layoutX="331.0" layoutY="362.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A41" layoutX="360.0" layoutY="361.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A42" layoutX="413.0" layoutY="365.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A43" layoutX="464.0" layoutY="367.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A44" layoutX="514.0" layoutY="369.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A53" layoutX="514.0" layoutY="422.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A52" layoutX="463.0" layoutY="420.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A51" layoutX="409.0" layoutY="419.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A50" layoutX="349.0" layoutY="417.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A49" layoutX="331.0" layoutY="417.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A48" layoutX="304.0" layoutY="416.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A58" layoutX="305.0" layoutY="478.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A57" layoutX="249.0" layoutY="476.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A56" layoutX="211.0" layoutY="473.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A46" layoutX="201.0" layoutY="410.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A47" layoutX="252.0" layoutY="413.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A45" layoutX="115.0" layoutY="401.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A54" layoutX="99.0" layoutY="443.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A55" layoutX="163.0" layoutY="470.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A64" layoutX="157.0" layoutY="517.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A63" layoutX="120.0" layoutY="502.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A62" layoutX="82.0" layoutY="492.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A76" layoutX="46.0" layoutY="573.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A72" layoutX="109.0" layoutY="556.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A73" layoutX="242.0" layoutY="569.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A74" layoutX="356.0" layoutY="574.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A66" layoutX="354.0" layoutY="529.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A59" layoutX="350.0" layoutY="475.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A71" layoutX="310.0" layoutY="549.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A67" layoutX="409.0" layoutY="524.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A60" layoutX="409.0" layoutY="473.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A61" layoutX="460.0" layoutY="473.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A68" layoutX="457.0" layoutY="522.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A70" layoutX="461.0" layoutY="543.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A69" layoutX="512.0" layoutY="543.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A80" layoutX="514.0" layoutY="635.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A79" layoutX="490.0" layoutY="635.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A78" layoutX="419.0" layoutY="633.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A77" layoutX="362.0" layoutY="623.0" mnemonicParsing="false" />
-                        <RadioButton fx:id="A65" layoutX="204.0" layoutY="517.0" mnemonicParsing="false" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </VBox>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="689.0" prefWidth="445.0" style="-fx-border-color: black;" HBox.hgrow="ALWAYS">
-               <children>
-                  <HBox fx:id="title" alignment="CENTER" layoutX="2.0" layoutY="2.0" onMouseDragged="#dragWindow" onMousePressed="#pressWindow" prefHeight="55.0" prefWidth="456.0" styleClass="HBOXTitle" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
-                     <children>
-                        <Label styleClass="label-header" text="Maps UNA" textFill="WHITE">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                           <effect>
-                              <Bloom threshold="0.04" />
-                           </effect>
-                        </Label>
+                        <VBox alignment="CENTER" prefHeight="106.0" prefWidth="253.0" />
                      </children>
                   </HBox>
-                  <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="282.0" prefHeight="307.0" prefWidth="442.0" spacing="40.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="7.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="331.0" spacing="5.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="106.0" prefWidth="253.0">
-                                 <children>
-                                    <VBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="331.0" spacing="5.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Algoritmos">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
-                                             <children>
-                                                <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra">
-                                                   <toggleGroup>
-                                                      <ToggleGroup fx:id="tggAlgoritmo" />
-                                                   </toggleGroup>
-                                                </RadioButton>
-                                                <RadioButton fx:id="rdbFloyd" text="Floyd" toggleGroup="$tggAlgoritmo" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
-                                             <children>
-                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="116.0" prefWidth="444.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="98.0" prefWidth="131.0">
-                                 <children>
-                                    <Label onMousePressed="#onMousePressedSlider" text="Trafico">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="trafficCombo" onAction="#onActionTrafficCombo" prefHeight="26.0" prefWidth="123.0" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="106.0" prefWidth="253.0">
-                                 <children>
-                                    <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <Label text="Costo previo: ">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="costLabel" prefHeight="33.0" prefWidth="36.0">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                                       <children>
-                                          <Label text="Costo final: ">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="costLabel1" prefHeight="33.0" prefWidth="36.0">
-                                             <font>
-                                                <Font size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
-                           <children>
-                              <Label styleClass="label-calculo" text="Tiempo de calculo: " />
-                              <Label fx:id="timeCost" styleClass="label-calculo" text="time" />
-                              <Label styleClass="label-calculo" text="microsegundos" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="104.0" prefWidth="440.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="109.0" prefWidth="440.0">
-                                 <children>
-                                    <Label text="Acciones">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" spacing="25.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <VBox alignment="CENTER" prefHeight="71.0" prefWidth="119.0" spacing="5.0">
-                                             <children>
-                                                <Button fx:id="startButton" onAction="#onActionStart" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Iniciar">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="stopButton"  onAction="#onActionStop" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Detener">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Button>
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="71.0" prefWidth="119.0" spacing="5.0">
-                                             <children>
-                                                <Button fx:id="resetButton" onAction="#onActionResetButton" prefHeight="33.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Reiniciar">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Button>
-                                                <Button fx:id="exitButton" onAction="#onActionExit" prefHeight="32.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Salir">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font>
-                                                </Button>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="131.0" layoutY="142.0">
-                     <children>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true" styleClass="izq">
-                                 <image>
-                                    <Image url="@../resources/rowIzq.png" />
-                                 </image>
-                              </ImageView>
-                              <ToggleButton fx:id="leftway" onAction="#onActionLeftway" text="No hay via" />
-                           </children>
-                        </HBox>
-                        <HBox>
-                           <children>
-                              <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../resources/row.png" />
-                                 </image>
-                              </ImageView>
-                              <ToggleButton fx:id="rightway" onAction="#onActionRightWay" text="No hay via"  />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" layoutX="64.0" layoutY="63.0" prefHeight="90.0" prefWidth="331.0" spacing="5.0">
-                     <children>
-                        <Label text="Eventos">
+                        <Label text="Algoritmos">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="offroadButton" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="93.0" styleClass="btnEventosRuta" text="Cerrar      ">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="accidentButton" styleClass="btnEventosRuta" text="Accidente">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
+                              <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="tggAlgoritmo" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rdbFloyd" text="Floyd" toggleGroup="$tggAlgoritmo" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
@@ -311,9 +144,155 @@
                         </HBox>
                      </children>
                   </VBox>
+                  <HBox alignment="CENTER" prefHeight="116.0" prefWidth="444.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="106.0" prefWidth="253.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Costo previo: ">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="costLabel" prefHeight="33.0" prefWidth="36.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                 <children>
+                                    <Label text="Costo final: ">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="costLabel1" prefHeight="33.0" prefWidth="36.0">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                     <children>
+                        <Label styleClass="label-calculo" text="Tiempo de calculo: " />
+                        <Label fx:id="timeCost" styleClass="label-calculo" text="time" />
+                        <Label styleClass="label-calculo" text="microsegundos" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="104.0" prefWidth="440.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="109.0" prefWidth="440.0">
+                           <children>
+                              <Label text="Acciones">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" spacing="25.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="71.0" prefWidth="119.0" spacing="5.0">
+                                       <children>
+                                          <Button fx:id="startButton" onAction="#onActionStart" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Iniciar">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="stopButton" onAction="#onActionStop" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Detener">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="71.0" prefWidth="119.0" spacing="5.0">
+                                       <children>
+                                          <Button fx:id="resetButton" onAction="#onActionResetButton" prefHeight="33.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Reiniciar">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                          <Button fx:id="exitButton" onAction="#onActionExit" prefHeight="32.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Salir">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
+            </VBox>
+            <VBox>
+               <children>
+                  <HBox />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="98.0" prefWidth="131.0">
+               <children>
+                  <Label onMousePressed="#onMousePressedSlider" text="Trafico">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="trafficCombo" onAction="#onActionTrafficCombo" prefHeight="26.0" prefWidth="123.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </right>
+   <top>
+      <HBox fx:id="title" alignment="CENTER" onMouseDragged="#dragWindow" onMousePressed="#pressWindow" prefHeight="55.0" prefWidth="456.0" styleClass="HBOXTitle" BorderPane.alignment="CENTER">
+         <children>
+            <Label styleClass="label-header" text="Maps UNA" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+               <effect>
+                  <Bloom threshold="0.04" />
+               </effect>
+            </Label>
          </children>
       </HBox>
-   </children>
-</AnchorPane>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true" styleClass="izq">
+               <image>
+                  <Image url="@../resources/rowIzq.png" />
+               </image>
+            </ImageView>
+            <ToggleButton fx:id="leftway" onAction="#onActionLeftway" text="No hay via" />
+            <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/row.png" />
+               </image>
+            </ImageView>
+            <ToggleButton fx:id="rightway" onAction="#onActionRightWay" text="No hay via" />
+            <Button fx:id="offroadButton" alignment="CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="93.0" styleClass="btnEventosRuta" text="Cerrar      ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="accidentButton" styleClass="btnEventosRuta" text="Accidente">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
+

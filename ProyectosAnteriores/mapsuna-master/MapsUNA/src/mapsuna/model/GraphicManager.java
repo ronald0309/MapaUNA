@@ -40,23 +40,23 @@ public class GraphicManager {
     private ArrayList<Line> lineas;
     private ArrayList<Line> lineaInicio;
     private ArrayList<Line> auxLinea;
-    private ArrayList<Line> auxLinea1;
+    private ArrayList<Line> lineaAuxiliar;
     private ArrayList<Double> logicLines;
     private ArrayList<Point> offRoads;
     private Point target;
-    private Point origin;
+    private Point verticeOrigen;
     private Polyline Linea;
     private Line lineaSeleccion;
-    private PathTransition transition;
+    private PathTransition movimiento;
     private StackPane stack;
     private Circle backCircle;
     private Circle backCircle2;
-    private Text text;
+    private Text textoAuxiliar;
     private Thread thread;
     private boolean actualizar;
     private boolean activar;
     private boolean trigger;
-    private Animator animacion;
+    private Animacion animacion;
     private int clicks;
     private Dijkstra dijkstra = new Dijkstra();
     private Floyd floyd = new Floyd();
@@ -65,10 +65,9 @@ public class GraphicManager {
     private boolean rightFlag;
     private int trafico;
 
-    //sampler
     private Circle circle;
     private AnchorPane pane;
-    private AnchorPane baseMap;
+    private AnchorPane paneMapa;
     private RadioButton rdbDijkstra;
     private RadioButton rdbFloyd;
     private Label lbltotalPrevio;
@@ -76,44 +75,48 @@ public class GraphicManager {
     private Label time;
     private ToggleButton leftway;
     private ToggleButton rightway;
-    private boolean recalculate;
+    private boolean reCalcular;
     private String init;
     //
 
     public GraphicManager(Circle circle, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label lbltotalPrevio, ToggleButton leftway,
             ToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafic, Label timeCost,
-            Label costLabel1) {
-        //init biding
+            Label labelCost) { // Variables para resivir del controlador de la ventana
+        
+        
+        
+        textoAuxiliar = new Text("5");
+        textoAuxiliar.setStyle("-fx-fill: Green;-fx-font-size: 14px;-fx-font-weight: bold;");
         this.rdbDijkstra = rdbDijkstra;
         this.rdbFloyd = rdbFloyd;
-        this.baseMap = pane;
+        this.paneMapa = pane;
         this.leftway = leftway;
         this.rightway = rightway;
         this.circle = circle;
         this.pane = pane;
         this.lbltotalPrevio = lbltotalPrevio;
         this.time = timeCost;
-        this.coLabel1 = costLabel1;
-        //end biding
+        this.coLabel1 = labelCost;   
         this.trafico = trafic;
+        
         activar = false;
         trigger = false;
-        auxLinea1 = new ArrayList<>();
+        lineaAuxiliar = new ArrayList<>();
         rclick = 0;
-        animacion = new Animator();
+        animacion = new Animacion();
         contClick = 0;
         online = false;
-        origin = new Point();
+        verticeOrigen = new Point();
         target = new Point();
-        transition = new PathTransition();
+        movimiento = new PathTransition();
         Linea = new Polyline();
         lineas = new ArrayList<>();
         lineaInicio = new ArrayList<>();
         auxLinea = new ArrayList<>();
         logicLines = new ArrayList<>();
         offRoads = new ArrayList<>();
-        transition.setNode(circle);
-        transition.setDuration(Duration.millis(3000));
+        movimiento.setNode(circle);
+        movimiento.setDuration(Duration.millis(3000));
 
         stack = new StackPane();
         backCircle = new Circle();
@@ -122,10 +125,6 @@ public class GraphicManager {
         backCircle2 = new Circle();
         backCircle2.setRadius(11);
         backCircle2.setFill(javafx.scene.paint.Color.BLACK);
-        text = new Text("5");
-        text.setStyle("-fx-fill: white;"
-                + "-fx-font-size: 17px;"
-                + "-fx-font-weight: bold;");
         actualizar = false;
         thread = new Thread(() -> {
             while (true) {
@@ -133,33 +132,16 @@ public class GraphicManager {
                     Thread.sleep(200);
                     Platform.runLater(() -> {
                         if (actualizar) {
-                            if (transition.getStatus() == Animation.Status.RUNNING) {
+                            if (movimiento.getStatus() == Animation.Status.RUNNING) {
                             } else {
                                 if (!animacion.isEmpty()) {
-                                    if (recalculate) {
-                                        //System.out.println("RECALCULAR LA PUTA RUTA");
-                                        int currentCost = animacion.getCurrentCost();
-                                        String finalCost = lbltotalPrevio.getText();
-                                        animacion.reset();
-                                        recalculate = false;
-                                        animacion.setCurrentCost(currentCost);
-                                        origin.setId(animacion.getNextPoint());
-                                        auxLinea1 = auxLinea;
-                                        reCalcular();
-                                        auxLinea1.forEach(x -> {
-                                            pane.getChildren().add(x);
-                                        });
-                                        lbltotalPrevio.setText(finalCost);
-                                    } else {
-                                        transition.setPath(animacion.pop());
-                                        costLabel1.setText(animacion.getCurrentCost() + "");
-                                        //System.out.println(animator.getNextPoint());
-                                        transition.play();
-                                    }
+                                        movimiento.setPath(animacion.saca());
+                                        labelCost.setText(animacion.getAcarreo()+ "");
+                                        movimiento.play();
                                 } else {
                                     actualizar = false;
-                                    costLabel1.setText(animacion.getCurrentCost() + "");
-                                    animacion.getDelayLine();
+                                    labelCost.setText(animacion.getAcarreo() + "");
+                                    animacion.getLineE();
                                 }
                             }
                         }
@@ -173,7 +155,7 @@ public class GraphicManager {
     }
 
     public void setRecalculate(boolean recalculate) {
-        this.recalculate = recalculate;
+        this.reCalcular = recalculate;
     }
 
     private void reCalcular() {
@@ -247,7 +229,7 @@ public class GraphicManager {
     }
 
     public String getOrigin() {
-        return origin.getId();
+        return verticeOrigen.getId();
     }
 
     public String getTarget() {
@@ -256,7 +238,7 @@ public class GraphicManager {
 
     public void launch(int[][] m, int[][] peso, ToggleButton toggle,
             ToggleButton toggle1) {
-        launcher(origin.getXPosition(), origin.getYPosition(),
+        launcher(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
                 target.getXPosition(), target.getYPosition(), pane, circle, m, peso, toggle, toggle1);
     }
 
@@ -264,12 +246,12 @@ public class GraphicManager {
         boolean lock = false;
 
         if (contClick == 0) {
-            animacion.reset();
+            animacion.Restablecer();
             lock = true;
-            origin.update(x);
+            verticeOrigen.update(x);
             init = x.getId();
             trigger = false;
-            auxLinea1.forEach(q -> {
+            lineaAuxiliar.forEach(q -> {
                 pane.getChildren().remove(q);
             });
         }
@@ -296,7 +278,7 @@ public class GraphicManager {
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
                 RadioButton radio = (RadioButton) item;
-                if (radio.getId().equals(origin.getId()) || radio.getId().equals(target.getId())) {
+                if (radio.getId().equals(verticeOrigen.getId()) || radio.getId().equals(target.getId())) {
                     (radio).setSelected(false);
                 }
             }
@@ -327,7 +309,7 @@ public class GraphicManager {
 
             x.addEventFilter(MouseEvent.MOUSE_EXITED, event -> {
                 x.getScene().setCursor(Cursor.DEFAULT);
-                stack.getChildren().remove(text);
+                stack.getChildren().remove(textoAuxiliar);
                 stack.getChildren().remove(backCircle2);
                 pane.getChildren().remove(stack);
             });
@@ -337,7 +319,7 @@ public class GraphicManager {
                 int yyPos = MouseInfo.getPointerInfo().getLocation().y;
                 int xxPos = MouseInfo.getPointerInfo().getLocation().y;
 
-                text.setText(String.valueOf(weightHover(x, peso)));
+                textoAuxiliar.setText(String.valueOf(weightHover(x, peso)));
 
                 double xPos = 0;
                 double yPos = 0;
@@ -359,7 +341,7 @@ public class GraphicManager {
                     stack.setLayoutY(yPos + x.getStartY() - 30);
                 }
 
-                stack.getChildren().addAll(backCircle2, text);
+                stack.getChildren().addAll(backCircle2, textoAuxiliar);
                 pane.getChildren().add(stack);
 
             });
@@ -370,7 +352,7 @@ public class GraphicManager {
         auxLinea = new ArrayList<>();
         lineas.forEach(x -> auxLinea.add(x));
 
-        animacion.set(logicLines, lineas, lineaInicio, pane, m, init);
+        animacion.set(logicLines, pane,lineas, lineaInicio,  m, init);
 
         Linea = new Polyline();
         lineas = new ArrayList<>();
@@ -379,7 +361,7 @@ public class GraphicManager {
 
     public ArrayList<String> getTrajectory() {
         ArrayList<String> trajectory = new ArrayList<>();
-        trajectory.add(origin.getId());
+        trajectory.add(verticeOrigen.getId());
         trajectory.add(target.getId());
         return trajectory;
     }
@@ -406,18 +388,18 @@ public class GraphicManager {
 
         for (int i = 0; i < graphicPath.size(); i++) {
             if (i + 1 < graphicPath.size()) {
-                origin = new Point();
+                verticeOrigen = new Point();
                 target = new Point();
 
-                origin.update((Node) graphicPath.get(i));
+                verticeOrigen.update((Node) graphicPath.get(i));
                 target.update((Node) graphicPath.get(i + 1));
 
-                logicLines.add(origin.getXPosition() + 0.0);
-                logicLines.add(origin.getYPosition() + 0.0);
+                logicLines.add(verticeOrigen.getXPosition() + 0.0);
+                logicLines.add(verticeOrigen.getYPosition() + 0.0);
                 logicLines.add(target.getXPosition() + 0.0);
                 logicLines.add(target.getYPosition() + 0.0);
 
-                lineas.add(new Line(origin.getXPosition(), origin.getYPosition(),
+                lineas.add(new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
                         target.getXPosition(), target.getYPosition()));
                 lineas.forEach(l -> {
                     l.setStyle("-fx-stroke: rgba(0,0, 255,0.3);");
@@ -447,7 +429,7 @@ public class GraphicManager {
 
         });
 
-        origin = new Point();
+        verticeOrigen = new Point();
         target = new Point();
         boolean update = false;
         for (int i = 0; i < 80; i++) {
@@ -456,7 +438,7 @@ public class GraphicManager {
                     update = false;
                     for (RadioButton r : radios) {
                         if (r.getId().equals("A" + (i + 1))) {
-                            origin.update((Node) r);
+                            verticeOrigen.update((Node) r);
                             update = true;
                         }
                         if (r.getId().equals("A" + (j + 1))) {
@@ -466,7 +448,7 @@ public class GraphicManager {
                     }
 
                     if (update) {
-                        Line tmp = new Line(origin.getXPosition(), origin.getYPosition(),
+                        Line tmp = new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
                                 target.getXPosition(), target.getYPosition());
 
                         tmp.setStrokeWidth(5);
@@ -496,7 +478,7 @@ public class GraphicManager {
         lineaInicio.forEach(x -> pane.getChildren().add(x));
         radios.forEach(x -> pane.getChildren().remove(x));
         radios.forEach(x -> pane.getChildren().add(x));
-        origin = new Point();
+        verticeOrigen = new Point();
         target = new Point();
     }
 

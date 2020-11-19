@@ -50,6 +50,8 @@ public class WindowController implements Initializable {
     private Circle circulo;
     private int x;
     private int y;
+    
+    
 
     @FXML
     private RadioButton rdbDijkstra;
