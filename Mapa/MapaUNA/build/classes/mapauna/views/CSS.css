@@ -16,7 +16,7 @@ and open the template in the editor.
 }
 .button{
     -fx-background-color: -fx-base-color-unfocus;
-    -jfx-button-type: RAISED;
+    -fx-button-type: RAISED;
     -fx-opacity: 0.8;
     -fx-content-display: left;
     -fx-text-fill: white;
@@ -48,8 +48,8 @@ and open the template in the editor.
     -fx-pref-height: 26px;
     -fx-min-height: 26px;
     -fx-max-height: 26px;
-    -jfx-selected-color: -fx-base-color-focus;
-    -jfx-unselected-color: -fx-base-color-unfocus;
+    -fx-selected-color: -fx-base-color-focus;
+    -fx-unselected-color: -fx-base-color-unfocus;
     -fx-text-fill: -fx-base-color-etiquetas;
 }
 
@@ -59,8 +59,8 @@ and open the template in the editor.
     -fx-min-height: 28px;
     -fx-max-height: 28px;
     -fx-alignment: TOP_LEFT;
-    -jfx-focus-color: -fx-base-color-focus;
-    -jfx-unfocus-color: -fx-base-color-unfocus;
+    -fx-focus-color: -fx-base-color-focus;
+    -fx-unfocus-color: -fx-base-color-unfocus;
 }
 
 .combo-box .cell {

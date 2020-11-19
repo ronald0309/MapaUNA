@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -26,6 +27,8 @@ import javafx.stage.Stage;
 public class UnaController implements Initializable {
 
     @FXML
+    private VBox titulo;
+    @FXML
     private RadioButton tbNoViaIzq;
     @FXML
     private RadioButton tbNoViaDer;
@@ -34,27 +37,9 @@ public class UnaController implements Initializable {
     @FXML
     private Button btnAccidente;
     @FXML
-    private RadioButton rdbDijkstra;
-    @FXML
-    private RadioButton rdbFloyd;
-    @FXML
-    private ComboBox<?> trafficCombo;
-    @FXML
-    private Label lblCostPrevio;
-    @FXML
-    private Label lblCostFinal;
-    @FXML
-    private Label lbltimeCost;
-    @FXML
-    private Button btnInciar;
-    @FXML
-    private Button btnDetener;
-    @FXML
-    private Button btnReiniciar;
-    @FXML
-    private Button btnSalir;
-    @FXML
     private AnchorPane contMap;
+    @FXML
+    private RadioButton V0;
     @FXML
     private RadioButton V1;
     @FXML
@@ -224,9 +209,27 @@ public class UnaController implements Initializable {
     @FXML
     private RadioButton V84;
     @FXML
-    private RadioButton V85;
-    
-    
+    private RadioButton rdbDijkstra;
+    @FXML
+    private RadioButton rdbFloyd;
+    @FXML
+    private ComboBox<?> trafficCombo;
+    @FXML
+    private Label lblCostPrevio;
+    @FXML
+    private Label lblCostFinal;
+    @FXML
+    private Label lbltimeCost;
+    @FXML
+    private Button btnInciar;
+    @FXML
+    private Button btnDetener;
+    @FXML
+    private Button btnReiniciar;
+    @FXML
+    private Button btnSalir;
+    private double ejeX = 0;
+    private double ejeY = 0;
 
     /**
      * Initializes the controller class.
@@ -234,6 +237,22 @@ public class UnaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    }
+
+    @FXML
+    private void onActionSalir(ActionEvent event) {
+        Stage stage = (Stage) btnInciar.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void MousePressedTitulo(MouseEvent event) {
+
+    }
+
+    @FXML
+    private void dragWindow(MouseEvent event) {
+        
     }
 
     @FXML
@@ -262,12 +281,6 @@ public class UnaController implements Initializable {
 
     @FXML
     private void onActionReiniciar(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionSalir(ActionEvent event) {
-        Stage stage = (Stage) btnInciar.getScene().getWindow();
-        stage.close();
     }
 
 }
