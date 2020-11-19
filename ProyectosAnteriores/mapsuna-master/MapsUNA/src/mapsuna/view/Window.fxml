@@ -38,7 +38,9 @@
             <RadioButton fx:id="A15" layoutX="367.0" layoutY="231.0" mnemonicParsing="false" />
             <RadioButton fx:id="A27" layoutX="429.0" layoutY="327.0" mnemonicParsing="false" />
             <RadioButton fx:id="A16" layoutX="358.0" layoutY="254.0" mnemonicParsing="false" />
+
             <RadioButton fx:id="A17" layoutX="322.0" layoutY="241.0" mnemonicParsing="false" />
+
             <RadioButton fx:id="A25" layoutX="314.0" layoutY="259.0" mnemonicParsing="false" />
             <RadioButton fx:id="A29" layoutX="347.0" layoutY="295.0" mnemonicParsing="false" />
             <RadioButton fx:id="A28" layoutX="415.0" layoutY="324.0" mnemonicParsing="false" />
@@ -281,6 +283,7 @@
                </image>
             </ImageView>
             <ToggleButton fx:id="rightway" onAction="#onActionRightWay" text="No hay via" />
+
          </children>
          <BorderPane.margin>
             <Insets left="20.0" right="20.0" />
