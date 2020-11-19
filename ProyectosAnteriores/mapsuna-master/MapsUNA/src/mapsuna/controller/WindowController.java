@@ -8,12 +8,10 @@ package mapsuna.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -220,10 +218,6 @@ public class WindowController implements Initializable {
     @FXML
     private RadioButton A65;
     @FXML
-    private Button offroadButton;
-    @FXML
-    private Button accidentButton;
-    @FXML
     private Label costLabel;
     @FXML
     private Button startButton;
@@ -254,7 +248,31 @@ public class WindowController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        trafficCombo.setPromptText("Trafico");
+        
+        
+        inicializarValores();
+        manager = new GraphicManager(circulo, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap,false, false, 1, timeCost, costLabel1);
+        baseMap.getChildren().forEach(x -> {
+            if (x.getClass() == RadioButton.class) {
+                RadioButton ver = (RadioButton) x;
+                ver.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> ver.setText(ver.getId()));
+                ver.addEventFilter(MouseEvent.MOUSE_EXITED, event -> ver.setText(""));
+                x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        manager.mouseEvent(x, baseMap, 0);
+                        if (manager.getTrigger()) {
+                           manager.getCalcular();
+                        }
+                    } else if (event.getButton() == MouseButton.SECONDARY) {
+                        manager.mouseEvent(x, baseMap, 1);
+                    }
+                });
+            }
+        });
+        manager.iniciar(baseMap, grafo.getGrafo(), leftway, rightway);
+    }
+   void inicializarValores(){
+       trafficCombo.setPromptText("Trafico");
         /*trafficCombo.getItems().addAll(
                 "Normal",
                 "Moderado",
@@ -268,30 +286,8 @@ public class WindowController implements Initializable {
         circulo.setRadius(8.0f);
         circulo.setFill(javafx.scene.paint.Color.INDIGO);
         circulo.setId("bean");
-        
         baseMap.getChildren().add(circulo);
-        manager = new GraphicManager(circulo, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
-                                    false, false, 1, timeCost, costLabel1);
-        baseMap.getChildren().forEach(x -> {
-            if (x.getClass() == RadioButton.class) {
-                RadioButton r = (RadioButton) x;
-                r.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> r.setText(r.getId()));
-                r.addEventFilter(MouseEvent.MOUSE_EXITED, event -> r.setText(""));
-                x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        manager.mouseEvent(x, baseMap, 0);
-                        if (manager.getTrigger()) {
-                           manager.calcular();
-                        }
-                    } else if (event.getButton() == MouseButton.SECONDARY) {
-                        manager.mouseEvent(x, baseMap, 1);
-                    }
-                });
-            }
-        });
-        manager.start(baseMap, grafo.getGrafo(), leftway, rightway);
-    }
-
+   }
     @FXML
     private void onActionStart(ActionEvent event) {
         manager.enable();
@@ -344,7 +340,6 @@ public class WindowController implements Initializable {
                 }
             } else {
                 leftway.setSelected(false);
-                //message("Seleccione una linea para deshabilitar el camino");
             }
         } else {
             manager.removeOffRoad(x, y);
@@ -365,7 +360,7 @@ public class WindowController implements Initializable {
                 }
             } else {
                 rightway.setSelected(false);
-                message("Seleccione una linea para deshabilitar el camino");
+                Mensaje("Seleccione una linea para deshabilitar el camino");
             }
         } else {
             manager.removeOffRoad(y, x);
@@ -386,9 +381,8 @@ public class WindowController implements Initializable {
         ejeY = event.getSceneY();
     }
 
-    private void message(String msj) {
+    private void Mensaje(String msj) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Deshabilitar ruta");
         alert.setHeaderText("Informacion");
         alert.setContentText(msj);
         alert.showAndWait();
@@ -416,8 +410,5 @@ public class WindowController implements Initializable {
         limpiarRutaPrevia();
     }
 
-    @FXML
-    private void onMousePressedSlider(MouseEvent event) {
-    }
 
 }

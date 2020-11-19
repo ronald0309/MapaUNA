@@ -41,12 +41,11 @@ public class GraphicManager {
     private ArrayList<Line> lineaInicio;
     private ArrayList<Line> auxLinea;
     private ArrayList<Line> auxLinea1;
-    private ArrayList<Double> logicLines;
+    private ArrayList<Double> logicaL;
     private ArrayList<Point> offRoads;
     private Point target;
     private Point origin;
     private Polyline Linea;
-    private Line lineaSeleccion;
     private PathTransition transition;
     private StackPane stack;
     private Circle backCircle;
@@ -66,7 +65,7 @@ public class GraphicManager {
     private int trafico;
 
     //sampler
-    private Circle circle;
+    private Circle circulo;
     private AnchorPane pane;
     private AnchorPane baseMap;
     private RadioButton rdbDijkstra;
@@ -81,7 +80,7 @@ public class GraphicManager {
     //
 
     public GraphicManager(Circle circle, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label lbltotalPrevio, ToggleButton leftway,
-            ToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafic, Label timeCost,
+            ToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafico, Label timeCost,
             Label costLabel1) {
         //init biding
         this.rdbDijkstra = rdbDijkstra;
@@ -89,13 +88,13 @@ public class GraphicManager {
         this.baseMap = pane;
         this.leftway = leftway;
         this.rightway = rightway;
-        this.circle = circle;
+        this.circulo = circle;
         this.pane = pane;
         this.lbltotalPrevio = lbltotalPrevio;
         this.time = timeCost;
         this.coLabel1 = costLabel1;
         //end biding
-        this.trafico = trafic;
+        this.trafico = trafico;
         activar = false;
         trigger = false;
         auxLinea1 = new ArrayList<>();
@@ -110,7 +109,7 @@ public class GraphicManager {
         lineas = new ArrayList<>();
         lineaInicio = new ArrayList<>();
         auxLinea = new ArrayList<>();
-        logicLines = new ArrayList<>();
+        logicaL = new ArrayList<>();
         offRoads = new ArrayList<>();
         transition.setNode(circle);
         transition.setDuration(Duration.millis(3000));
@@ -214,12 +213,12 @@ public class GraphicManager {
             lbltotalPrevio.setText(String.valueOf(floyd.obtenerCostoPrevio(path.get(0), path.get(1))));
             path = (ArrayList<String>) floyd.obtenerRuta(path.get(0), path.get(1));
         }
-        toLines(path);
+        toLinea(path);
         launch(grafo.getMatPeso(), grafo.getMatPeso(), leftway, rightway);
         path = new ArrayList<>();
         leftway.setSelected(false);
         rightway.setSelected(false);
-        repaint();
+        Repintar();
     }
 
     public void setUpdate() {
@@ -257,7 +256,7 @@ public class GraphicManager {
     public void launch(int[][] m, int[][] peso, ToggleButton toggle,
             ToggleButton toggle1) {
         launcher(origin.getXPosition(), origin.getYPosition(),
-                target.getXPosition(), target.getYPosition(), pane, circle, m, peso, toggle, toggle1);
+                target.getXPosition(), target.getYPosition(), pane, circulo, m, peso, toggle, toggle1);
     }
 
     public void mouseEvent(Node x, AnchorPane pane, int n) {
@@ -288,16 +287,12 @@ public class GraphicManager {
         return trigger;
     }
 
-    public int getR() {
-        return rclick;
-    }
-
     private void Limpiar(AnchorPane pane) {
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                if (radio.getId().equals(origin.getId()) || radio.getId().equals(target.getId())) {
-                    (radio).setSelected(false);
+                RadioButton vertice = (RadioButton) item;
+                if (vertice.getId().equals(origin.getId()) || vertice.getId().equals(target.getId())) {
+                    (vertice).setSelected(false);
                 }
             }
         });
@@ -319,9 +314,9 @@ public class GraphicManager {
             });
 
             x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                searchConectedRadios(x, pane, toggle, toggle1);
+                BuscarCamino(x, pane, toggle, toggle1);
                 online = true;
-                clearSelection();
+                LimpiarSeleccionados();
                 x.setStyle("-fx-stroke: rgba(0,255, 255,0.3);");
             });
 
@@ -370,35 +365,35 @@ public class GraphicManager {
         auxLinea = new ArrayList<>();
         lineas.forEach(x -> auxLinea.add(x));
 
-        animacion.set(logicLines, lineas, lineaInicio, pane, m, init);
+        animacion.set(logicaL, lineas, lineaInicio, pane, m, init);
 
         Linea = new Polyline();
         lineas = new ArrayList<>();
-        logicLines = new ArrayList<>();
+        logicaL = new ArrayList<>();
     }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<String> getTrajectory() {
-        ArrayList<String> trajectory = new ArrayList<>();
-        trajectory.add(origin.getId());
-        trajectory.add(target.getId());
-        return trajectory;
+        ArrayList<String> trayecto = new ArrayList<>();
+        trayecto.add(origin.getId());
+        trayecto.add(target.getId());
+        return trayecto;
     }
 
-    public void toLines(ArrayList<String> logicPath) {
-        ArrayList<RadioButton> radios = new ArrayList<>();
+    public void toLinea(ArrayList<String> logicPath) {
+        ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> graphicPath = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radio.setSelected(false);
-                radios.add(radio);
+                RadioButton vertice = (RadioButton) item;
+                vertice.setSelected(false);
+                vertices.add(vertice);
             }
         });
 
         logicPath.forEach(x -> {
-            radios.forEach(y -> {
+            vertices.forEach(y -> {
                 if (y.getId().equals(x)) {
-                    RadioButton radio = (RadioButton) y;
+                    RadioButton vertice = (RadioButton) y;
                     graphicPath.add(y);
                 }
             });
@@ -412,10 +407,10 @@ public class GraphicManager {
                 origin.update((Node) graphicPath.get(i));
                 target.update((Node) graphicPath.get(i + 1));
 
-                logicLines.add(origin.getXPosition() + 0.0);
-                logicLines.add(origin.getYPosition() + 0.0);
-                logicLines.add(target.getXPosition() + 0.0);
-                logicLines.add(target.getYPosition() + 0.0);
+                logicaL.add(origin.getXPosition() + 0.0);
+                logicaL.add(origin.getYPosition() + 0.0);
+                logicaL.add(target.getXPosition() + 0.0);
+                logicaL.add(target.getYPosition() + 0.0);
 
                 lineas.add(new Line(origin.getXPosition(), origin.getYPosition(),
                         target.getXPosition(), target.getYPosition()));
@@ -427,112 +422,112 @@ public class GraphicManager {
 
     }
 
-    public void start(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
-        boolean start = true;
+    public void iniciar(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
+        boolean iniciar = true;
         superMatrix = m;
         Line selectedLine = new Line();
-        ArrayList<RadioButton> radios = new ArrayList<>();
+        ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> graphicPath = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radios.add(radio);
+                RadioButton vertice = (RadioButton) item;
+                vertices.add(vertice);
             }
         });
 
-        radios.forEach(y -> {
+        vertices.forEach(y -> {
 
-            RadioButton radio = (RadioButton) y;
+            RadioButton vertice = (RadioButton) y;
             graphicPath.add(y);
 
         });
 
         origin = new Point();
         target = new Point();
-        boolean update = false;
+        boolean actualizar = false;
         for (int i = 0; i < 80; i++) {
             for (int j = 0; j < 80; j++) {
                 if (m[i][j] == 1) {
-                    update = false;
-                    for (RadioButton r : radios) {
+                    actualizar = false;
+                    for (RadioButton r : vertices) {
                         if (r.getId().equals("A" + (i + 1))) {
                             origin.update((Node) r);
-                            update = true;
+                            actualizar = true;
                         }
                         if (r.getId().equals("A" + (j + 1))) {
                             target.update((Node) r);
-                            update = true;
+                            actualizar = true;
                         }
                     }
 
-                    if (update) {
-                        Line tmp = new Line(origin.getXPosition(), origin.getYPosition(),
+                    if (actualizar) {
+                        Line linea = new Line(origin.getXPosition(), origin.getYPosition(),
                                 target.getXPosition(), target.getYPosition());
 
-                        tmp.setStrokeWidth(5);
+                        linea.setStrokeWidth(5);
 
-                        tmp.addEventFilter(MouseEvent.MOUSE_EXITED, event -> {
-                            tmp.getScene().setCursor(Cursor.DEFAULT);
+                        linea.addEventFilter(MouseEvent.MOUSE_EXITED, event -> {
+                            linea.getScene().setCursor(Cursor.DEFAULT);
                         });
 
-                        tmp.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> {
-                            tmp.getScene().setCursor(Cursor.HAND);
+                        linea.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> {
+                            linea.getScene().setCursor(Cursor.HAND);
                         });
 
-                        tmp.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                            searchConectedRadios(tmp, pane, toggle, toggle1);
+                        linea.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                            BuscarCamino(linea, pane, toggle, toggle1);
                             online = true;
-                            clearSelection();
-                            tmp.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
+                            LimpiarSeleccionados();
+                            linea.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
                         });
-                        tmp.toFront();
+                        linea.toFront();
 
-                        lineaInicio.add(tmp);
+                        lineaInicio.add(linea);
                     }
                 }
             }
         }
         lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
         lineaInicio.forEach(x -> pane.getChildren().add(x));
-        radios.forEach(x -> pane.getChildren().remove(x));
-        radios.forEach(x -> pane.getChildren().add(x));
+        vertices.forEach(x -> pane.getChildren().remove(x));
+        vertices.forEach(x -> pane.getChildren().add(x));
         origin = new Point();
         target = new Point();
     }
 
-    public void calcular() {
+    public void getCalcular() {
         reCalcular();
     }
 
-    private void clearSelection() {
+    private void LimpiarSeleccionados() {
         lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
         lineas.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);"));
         auxLinea.forEach(x -> x.setStyle("-fx-stroke: rgba(0,0, 255,0.3);"));
     }
 
     private int weightHover(Line line, int[][] weightMatrix) {
-        ArrayList<RadioButton> radios = new ArrayList<>();
-        ArrayList<RadioButton> conected = new ArrayList<>();
+        ArrayList<RadioButton> vertices = new ArrayList<>();
+        ArrayList<RadioButton> calles = new ArrayList<>();
 
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radios.add(radio);
+                RadioButton vertice = (RadioButton) item;
+                vertices.add(vertice);
             }
         });
 
-        radios.forEach(x -> {
+        vertices.forEach(x -> {
             if ((x.getLayoutX() == line.getStartX() - 7 || x.getLayoutX() == line.getEndX() - 7)
                     && (x.getLayoutY() == line.getStartY() - 9 || x.getLayoutY() == line.getEndY() - 9)) {
 
-                conected.add(x);
+                calles.add(x);
             }
         });
         int peso1 = 0;
         int peso2 = 0;
         int visible = 0;
-        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+        int localOrigin = Integer.valueOf(calles.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int localTarget = Integer.valueOf(calles.get(1).getId().replaceAll("\\D+", "")) - 1;
         if (superMatrix[localOrigin][localTarget] == 1) {
             peso1 = weightMatrix[localOrigin][localTarget];
         }
@@ -551,27 +546,27 @@ public class GraphicManager {
         }
     }
 
-    private void searchConectedRadios(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
-        ArrayList<RadioButton> radios = new ArrayList<>();
-        ArrayList<RadioButton> conected = new ArrayList<>();
+    private void BuscarCamino(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
+        ArrayList<RadioButton> vertices = new ArrayList<>();
+        ArrayList<RadioButton> ruta = new ArrayList<>();
 
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radios.add(radio);
+                RadioButton vertice = (RadioButton) item;
+                vertices.add(vertice);
             }
         });
 
-        radios.forEach(x -> {
+        vertices.forEach(x -> {
             if ((x.getLayoutX() == l.getStartX() - 7 || x.getLayoutX() == l.getEndX() - 7)
                     && (x.getLayoutY() == l.getStartY() - 9 || x.getLayoutY() == l.getEndY() - 9)) {
 
-                conected.add(x);
+                ruta.add(x);
             }
         });
 
-        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+        int localOrigin = Integer.valueOf(ruta.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int localTarget = Integer.valueOf(ruta.get(1).getId().replaceAll("\\D+", "")) - 1;
         boolean rightWay = true;
         boolean leftWay = true;
         boolean bandera1 = true;
@@ -587,12 +582,12 @@ public class GraphicManager {
                     }
                 }
             }
-            toggle.setText(conected.get(0).getId() + "->" + conected.get(1).getId());
+            toggle.setText(ruta.get(0).getId() + "->" + ruta.get(1).getId());
             leftWay = false;
         }
         if (superMatrix[localTarget][localOrigin] == 1) {
-            int localOrigin1 = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
-            int localTarget1 = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+            int localOrigin1 = Integer.valueOf(ruta.get(1).getId().replaceAll("\\D+", "")) - 1;
+            int localTarget1 = Integer.valueOf(ruta.get(0).getId().replaceAll("\\D+", "")) - 1;
             for (int i = 0; i < offRoads.size(); i++) {
                 if (bandera2) {
                     if (localOrigin1 == offRoads.get(i).getXPosition() && localTarget1 == offRoads.get(i).getYPosition()) {
@@ -603,7 +598,7 @@ public class GraphicManager {
                     }
                 }
             }
-            toggle1.setText(conected.get(1).getId() + "->" + conected.get(0).getId());
+            toggle1.setText(ruta.get(1).getId() + "->" + ruta.get(0).getId());
             rightWay = false;
         }
 
@@ -651,9 +646,7 @@ public class GraphicManager {
         offRoads.forEach(x -> System.out.println(x.getXPosition() + "-" + x.getYPosition()));
     }
 
-    public void resetOffRodas() {
-        offRoads = new ArrayList<>();
-    }
+  
 
     public boolean getOnline() {
         return online;
@@ -667,9 +660,7 @@ public class GraphicManager {
         return offRoads;
     }
 
-    public void activate() {
-        activar = !activar;
-    }
+    
 
     public void limpiarRuta(AnchorPane pane) {
         auxLinea.forEach(x -> {
@@ -679,53 +670,30 @@ public class GraphicManager {
         lineas.forEach(x -> auxLinea.add(x));
         Linea = new Polyline();
         lineas = new ArrayList<>();
-        logicLines = new ArrayList<>();
-    }
-
-    public int getClicks() {
-        return clicks;
+        logicaL = new ArrayList<>();
     }
 
     public void setClicks(int clicks) {
         this.clicks = clicks;
     }
 
-    public void ex(int i) {
-        if (i == 0) {
-            System.exit(-1);
-        }
-    }
-
-    public void printlists() {
-
-        //System.err.println("que: ");
-        //animator.getQ().forEach(x->System.out.println(x));
-    }
-
-    public void repaint() {
-        ArrayList<RadioButton> radios = new ArrayList<>();
+    public void Repintar() {
+        ArrayList<RadioButton> vertices = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radio.setSelected(false);
-                radios.add(radio);
+                RadioButton vertice = (RadioButton) item;
+                vertice.setSelected(false);
+                vertices.add(vertice);
             }
         });
-        radios.forEach(x -> pane.getChildren().remove(x));
-        radios.forEach(x -> pane.getChildren().add(x));
-    }
-
-    public boolean isLeftFlag() {
-        return leftFlag;
+        vertices.forEach(x -> pane.getChildren().remove(x));
+        vertices.forEach(x -> pane.getChildren().add(x));
     }
 
     public void setLeftFlag(boolean leftFlag) {
         this.leftFlag = leftFlag;
     }
 
-    public boolean isRightFlag() {
-        return rightFlag;
-    }
 
     public void setRightFlag(boolean rightFlag) {
         this.rightFlag = rightFlag;
