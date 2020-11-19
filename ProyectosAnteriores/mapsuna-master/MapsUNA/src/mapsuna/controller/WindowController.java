@@ -46,7 +46,7 @@ public class WindowController implements Initializable {
     Floyd floyd = new Floyd();
     Dijkstra dijkstra = new Dijkstra();
     Grafo grafo = new Grafo();
-    private GraphicManager master;
+    private GraphicManager manager;
     private Circle circle;
     private int x;
     private int y;
@@ -269,7 +269,7 @@ public class WindowController implements Initializable {
         circle.setFill(javafx.scene.paint.Color.INDIGO);
         circle.setId("bean");
         baseMap.getChildren().add(circle);
-        master = new GraphicManager(circle, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
+        manager = new GraphicManager(circle, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
                                     false, false, 1, timeCost, costLabel1);
         baseMap.getChildren().forEach(x -> {
             if (x.getClass() == RadioButton.class) {
@@ -278,22 +278,22 @@ public class WindowController implements Initializable {
                 r.addEventFilter(MouseEvent.MOUSE_EXITED, event -> r.setText(""));
                 x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
-                        master.mouseEvent(x, baseMap, 0);
-                        if (master.getTrigger()) {
-                           master.calcular();
+                        manager.mouseEvent(x, baseMap, 0);
+                        if (manager.getTrigger()) {
+                           manager.calcular();
                         }
                     } else if (event.getButton() == MouseButton.SECONDARY) {
-                        master.mouseEvent(x, baseMap, 1);
+                        manager.mouseEvent(x, baseMap, 1);
                     }
                 });
             }
         });
-        master.start(baseMap, grafo.getGrafo(), leftway, rightway);
+        manager.start(baseMap, grafo.getGrafo(), leftway, rightway);
     }
 
     @FXML
     private void onActionStart(ActionEvent event) {
-        master.enable();
+        manager.enable();
         System.out.println("-----------");
         ArrayList<RadioButton> radios = new ArrayList<>();
         baseMap.getChildren().forEach(item -> {
@@ -305,8 +305,8 @@ public class WindowController implements Initializable {
     }
 
     private void limpiarRutaPrevia() {
-        master.limpiarRuta(baseMap);
-        master.setClicks(0);
+        manager.limpiarRuta(baseMap);
+        manager.setClicks(0);
         costLabel.setText("0");
         costLabel1.setText("0");
     }
@@ -314,12 +314,12 @@ public class WindowController implements Initializable {
     @FXML
     private void onActionStop(ActionEvent event) {
         //limpiarRutaPrevia();
-        if (!master.getUpdate()) {
+        if (!manager.getUpdate()) {
             stopButton.setText("Pausar");
         } else {
             stopButton.setText("Reanudar");
         }
-        master.setUpdate();
+        manager.setUpdate();
     }
 
     @FXML
@@ -330,44 +330,44 @@ public class WindowController implements Initializable {
 
     @FXML
     private void onActionLeftway(ActionEvent event) {
-        master.setRecalculate(true);
-        master.setLeftFlag(true);//setear verdadero para revisar en la lista offRoad
-        x = master.toNumber(leftway, 0);
-        y = master.toNumber(leftway, 1);
+        manager.setRecalculate(true);
+        manager.setLeftFlag(true);//setear verdadero para revisar en la lista offRoad
+        x = manager.toNumber(leftway, 0);
+        y = manager.toNumber(leftway, 1);
         if (leftway.isSelected()) {
-            if (master.getOnline()) {
+            if (manager.getOnline()) {
                 if (!"No hay via".equals(leftway.getText())) {
-                    master.addOffRoad(x, y);
-                    master.printOffRoads();
-                    master.restoreOnline();
+                    manager.addOffRoad(x, y);
+                    manager.printOffRoads();
+                    manager.restoreOnline();
                 }
             } else {
                 leftway.setSelected(false);
                 //message("Seleccione una linea para deshabilitar el camino");
             }
         } else {
-            master.removeOffRoad(x, y);
+            manager.removeOffRoad(x, y);
         }
     }
 
     @FXML
     private void onActionRightWay(ActionEvent event) {
-        master.setRecalculate(true);
-        master.setRightFlag(true);
-        y = master.toNumber(rightway, 0);
-        x = master.toNumber(rightway, 1);
+        manager.setRecalculate(true);
+        manager.setRightFlag(true);
+        y = manager.toNumber(rightway, 0);
+        x = manager.toNumber(rightway, 1);
         if (rightway.isSelected()) {
-            if (master.getOnline()) {
+            if (manager.getOnline()) {
                 if (!"No hay via".equals(rightway.getText())) {
-                    master.addOffRoad(y, x);
-                    master.printOffRoads();
+                    manager.addOffRoad(y, x);
+                    manager.printOffRoads();
                 }
             } else {
                 rightway.setSelected(false);
                 message("Seleccione una linea para deshabilitar el camino");
             }
         } else {
-            master.removeOffRoad(y, x);
+            manager.removeOffRoad(y, x);
         }
 
     }
@@ -400,16 +400,16 @@ public class WindowController implements Initializable {
     @FXML
     private void onActionTrafficCombo(ActionEvent event) {
         if (trafficCombo.getSelectionModel().getSelectedItem().equals("Normal")) {
-            master.setTrafico(1);
-            grafo.editarMatriz(master.getTrafico());
+            manager.setTrafico(1);
+            grafo.editarMatriz(manager.getTrafico());
         } else {
             if (trafficCombo.getSelectionModel().getSelectedItem().equals("Moderado")) {
-                master.setTrafico(2);
-                grafo.editarMatriz(master.getTrafico());
+                manager.setTrafico(2);
+                grafo.editarMatriz(manager.getTrafico());
             } else {
                 //ES LENTO
-                master.setTrafico(3);
-                grafo.editarMatriz(master.getTrafico());
+                manager.setTrafico(3);
+                grafo.editarMatriz(manager.getTrafico());
             }
         }
     }
