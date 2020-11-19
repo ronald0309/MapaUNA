@@ -32,31 +32,31 @@ import javafx.util.Duration;
  */
 public class GraphicManager {
 
-    private int clickCounter;
+    private int contClick;
     private int rclick;
     private int clickCounterDelay;
     private int superMatrix[][];
     private boolean online;
-    private ArrayList<Line> lines;
-    private ArrayList<Line> startLines;
-    private ArrayList<Line> auxiliarLines;
-    private ArrayList<Line> auxiliarLines1;
+    private ArrayList<Line> lineas;
+    private ArrayList<Line> lineaInicio;
+    private ArrayList<Line> auxLinea;
+    private ArrayList<Line> auxLinea1;
     private ArrayList<Double> logicLines;
     private ArrayList<Point> offRoads;
     private Point target;
     private Point origin;
-    private Polyline line;
-    private Line selectedLine;
+    private Polyline Linea;
+    private Line lineaSeleccion;
     private PathTransition transition;
     private StackPane stack;
     private Circle backCircle;
     private Circle backCircle2;
     private Text text;
     private Thread thread;
-    private boolean update;
-    private boolean activate;
+    private boolean actualizar;
+    private boolean activar;
     private boolean trigger;
-    private Animator animator;
+    private Animator animacion;
     private int clicks;
     private Dijkstra dijkstra = new Dijkstra();
     private Floyd floyd = new Floyd();
@@ -96,20 +96,20 @@ public class GraphicManager {
         this.coLabel1 = costLabel1;
         //end biding
         this.trafico = trafic;
-        activate = false;
+        activar = false;
         trigger = false;
-        auxiliarLines1 = new ArrayList<>();
+        auxLinea1 = new ArrayList<>();
         rclick = 0;
-        animator = new Animator();
-        clickCounter = 0;
+        animacion = new Animator();
+        contClick = 0;
         online = false;
         origin = new Point();
         target = new Point();
         transition = new PathTransition();
-        line = new Polyline();
-        lines = new ArrayList<>();
-        startLines = new ArrayList<>();
-        auxiliarLines = new ArrayList<>();
+        Linea = new Polyline();
+        lineas = new ArrayList<>();
+        lineaInicio = new ArrayList<>();
+        auxLinea = new ArrayList<>();
         logicLines = new ArrayList<>();
         offRoads = new ArrayList<>();
         transition.setNode(circle);
@@ -126,44 +126,42 @@ public class GraphicManager {
         text.setStyle("-fx-fill: white;"
                 + "-fx-font-size: 17px;"
                 + "-fx-font-weight: bold;");
-        update = false;
+        actualizar = false;
         thread = new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(200);
                     Platform.runLater(() -> {
-                        if (update) {
+                        if (actualizar) {
                             if (transition.getStatus() == Animation.Status.RUNNING) {
                             } else {
-                                if (!animator.isEmpty()) {
+                                if (!animacion.isEmpty()) {
                                     if (recalculate) {
                                         //System.out.println("RECALCULAR LA PUTA RUTA");
-                                        int currentCost = animator.getCurrentCost();
+                                        int currentCost = animacion.getCurrentCost();
                                         String finalCost = lbltotalPrevio.getText();
-                                        animator.reset();
+                                        animacion.reset();
                                         recalculate = false;
-                                        animator.setCurrentCost(currentCost);
-                                        origin.setId(animator.getNextPoint());
-                                        auxiliarLines1 = auxiliarLines;
+                                        animacion.setCurrentCost(currentCost);
+                                        origin.setId(animacion.getNextPoint());
+                                        auxLinea1 = auxLinea;
                                         reCalcular();
-                                        auxiliarLines1.forEach(x -> {
+                                        auxLinea1.forEach(x -> {
                                             pane.getChildren().add(x);
                                         });
                                         lbltotalPrevio.setText(finalCost);
                                     } else {
-                                        transition.setPath(animator.pop());
-                                        costLabel1.setText(animator.getCurrentCost() + "");
+                                        transition.setPath(animacion.pop());
+                                        costLabel1.setText(animacion.getCurrentCost() + "");
                                         //System.out.println(animator.getNextPoint());
                                         transition.play();
                                     }
                                 } else {
-                                    update = false;
-                                    costLabel1.setText(animator.getCurrentCost() + "");
-                                    animator.getDelayLine();
+                                    actualizar = false;
+                                    costLabel1.setText(animacion.getCurrentCost() + "");
+                                    animacion.getDelayLine();
                                 }
                             }
-                        }
-                        if (recalculate && !animator.isEmpty()) {
                         }
                     });
                 } catch (InterruptedException ex) {
@@ -225,11 +223,11 @@ public class GraphicManager {
     }
 
     public void setUpdate() {
-        update = !update;
+        actualizar = !actualizar;
     }
 
     public boolean getUpdate() {
-        return update;
+        return actualizar;
     }
 
     public void setMouseCounter(int x) {
@@ -237,11 +235,11 @@ public class GraphicManager {
     }
 
     public void disable() {
-        update = false;
+        actualizar = false;
     }
 
     public void enable() {
-        update = true;
+        actualizar = true;
     }
 
     public int getClickCounter() {
@@ -265,24 +263,24 @@ public class GraphicManager {
     public void mouseEvent(Node x, AnchorPane pane, int n) {
         boolean lock = false;
 
-        if (clickCounter == 0) {
-            animator.reset();
+        if (contClick == 0) {
+            animacion.reset();
             lock = true;
             origin.update(x);
             init = x.getId();
             trigger = false;
-            auxiliarLines1.forEach(q -> {
+            auxLinea1.forEach(q -> {
                 pane.getChildren().remove(q);
             });
         }
 
-        if (clickCounter == 1) {
+        if (contClick == 1) {
             target.update(x);
-            clickCounter = 0;
+            contClick = 0;
             trigger = true;
         }
         if (lock) {
-            clickCounter++;
+            contClick++;
         }
     }
 
@@ -294,7 +292,7 @@ public class GraphicManager {
         return rclick;
     }
 
-    private void clear(AnchorPane pane) {
+    private void Limpiar(AnchorPane pane) {
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
                 RadioButton radio = (RadioButton) item;
@@ -305,23 +303,14 @@ public class GraphicManager {
         });
     }
 
-    public void fullClear(AnchorPane pane) {
-        pane.getChildren().forEach(item -> {
-            if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                (radio).setSelected(false);
-            }
-        });
-    }
-
     private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circle, int[][] m, int[][] peso,
             ToggleButton toggle, ToggleButton toggle1) {
 
-        auxiliarLines.forEach(x -> {
+        auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
         });
 
-        lines.forEach(x -> {
+        lineas.forEach(x -> {
             x.setSmooth(true);
             x.setStrokeWidth(4);
 
@@ -378,32 +367,14 @@ public class GraphicManager {
             pane.getChildren().add(x);
         });
 
-        auxiliarLines = new ArrayList<>();
-        lines.forEach(x -> auxiliarLines.add(x));
+        auxLinea = new ArrayList<>();
+        lineas.forEach(x -> auxLinea.add(x));
 
-        animator.set(logicLines, lines, startLines, pane, m, init);
+        animacion.set(logicLines, lineas, lineaInicio, pane, m, init);
 
-        line = new Polyline();
-        lines = new ArrayList<>();
+        Linea = new Polyline();
+        lineas = new ArrayList<>();
         logicLines = new ArrayList<>();
-    }
-
-    private void reSelect(AnchorPane pane) {
-        pane.getChildren().forEach(item -> {
-            if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                if (radio.getId().equals(origin.getId()) || radio.getId().equals(target.getId())) {
-                    radio.setSelected(true);
-                }
-            }
-        });
-    }
-
-    public void delete(AnchorPane pane) {
-        lines.forEach(x -> {
-
-            pane.getChildren().remove(x);
-        });
     }
 
     public ArrayList<String> getTrajectory() {
@@ -446,9 +417,9 @@ public class GraphicManager {
                 logicLines.add(target.getXPosition() + 0.0);
                 logicLines.add(target.getYPosition() + 0.0);
 
-                lines.add(new Line(origin.getXPosition(), origin.getYPosition(),
+                lineas.add(new Line(origin.getXPosition(), origin.getYPosition(),
                         target.getXPosition(), target.getYPosition()));
-                lines.forEach(l -> {
+                lineas.forEach(l -> {
                     l.setStyle("-fx-stroke: rgba(0,0, 255,0.3);");
                 });
             }
@@ -516,13 +487,13 @@ public class GraphicManager {
                         });
                         tmp.toFront();
 
-                        startLines.add(tmp);
+                        lineaInicio.add(tmp);
                     }
                 }
             }
         }
-        startLines.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
-        startLines.forEach(x -> pane.getChildren().add(x));
+        lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
+        lineaInicio.forEach(x -> pane.getChildren().add(x));
         radios.forEach(x -> pane.getChildren().remove(x));
         radios.forEach(x -> pane.getChildren().add(x));
         origin = new Point();
@@ -534,9 +505,9 @@ public class GraphicManager {
     }
 
     private void clearSelection() {
-        startLines.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
-        lines.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);"));
-        auxiliarLines.forEach(x -> x.setStyle("-fx-stroke: rgba(0,0, 255,0.3);"));
+        lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
+        lineas.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);"));
+        auxLinea.forEach(x -> x.setStyle("-fx-stroke: rgba(0,0, 255,0.3);"));
     }
 
     private int weightHover(Line line, int[][] weightMatrix) {
@@ -644,9 +615,6 @@ public class GraphicManager {
         }
     }
 
-    private void update(ArrayList<String> points) {
-
-    }
 
     public int toNumber(ToggleButton button, int n) {
         if (!"No hay via".equals(button.getText())) {
@@ -700,17 +668,17 @@ public class GraphicManager {
     }
 
     public void activate() {
-        activate = !activate;
+        activar = !activar;
     }
 
     public void limpiarRuta(AnchorPane pane) {
-        auxiliarLines.forEach(x -> {
+        auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
         });
-        auxiliarLines = new ArrayList<>();
-        lines.forEach(x -> auxiliarLines.add(x));
-        line = new Polyline();
-        lines = new ArrayList<>();
+        auxLinea = new ArrayList<>();
+        lineas.forEach(x -> auxLinea.add(x));
+        Linea = new Polyline();
+        lineas = new ArrayList<>();
         logicLines = new ArrayList<>();
     }
 
@@ -769,15 +737,5 @@ public class GraphicManager {
 
     public void setTrafico(int trafico) {
         this.trafico = trafico;
-    }
-
-    public void reset() {
-        lines.forEach(x->pane.getChildren().remove(x));
-        startLines.forEach(x->pane.getChildren().remove(x));
-        auxiliarLines.forEach(x->pane.getChildren().remove(x));
-        auxiliarLines1.forEach(x->pane.getChildren().remove(x));
-        logicLines.forEach(x->pane.getChildren().remove(x));
-        offRoads.forEach(x->pane.getChildren().remove(x));
-        repaint();
     }
 }

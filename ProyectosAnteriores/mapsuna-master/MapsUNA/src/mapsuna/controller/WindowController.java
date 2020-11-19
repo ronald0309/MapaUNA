@@ -47,7 +47,7 @@ public class WindowController implements Initializable {
     Dijkstra dijkstra = new Dijkstra();
     Grafo grafo = new Grafo();
     private GraphicManager manager;
-    private Circle circle;
+    private Circle circulo;
     private int x;
     private int y;
 
@@ -262,14 +262,15 @@ public class WindowController implements Initializable {
         );*/
         grafo.inicializarPesos();
         grafo.inicializarMatAux();
-        circle = new Circle();
-        circle.setCenterX(300.0f);
-        circle.setCenterY(135.0f);
-        circle.setRadius(8.0f);
-        circle.setFill(javafx.scene.paint.Color.INDIGO);
-        circle.setId("bean");
-        baseMap.getChildren().add(circle);
-        manager = new GraphicManager(circle, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
+        circulo = new Circle();
+        circulo.setCenterX(300.0f);
+        circulo.setCenterY(135.0f);
+        circulo.setRadius(8.0f);
+        circulo.setFill(javafx.scene.paint.Color.INDIGO);
+        circulo.setId("bean");
+        
+        baseMap.getChildren().add(circulo);
+        manager = new GraphicManager(circulo, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
                                     false, false, 1, timeCost, costLabel1);
         baseMap.getChildren().forEach(x -> {
             if (x.getClass() == RadioButton.class) {
@@ -394,10 +395,6 @@ public class WindowController implements Initializable {
     }
 
     @FXML
-    private void onMousePressedSlider(MouseEvent event) {
-    }
-
-    @FXML
     private void onActionTrafficCombo(ActionEvent event) {
         if (trafficCombo.getSelectionModel().getSelectedItem().equals("Normal")) {
             manager.setTrafico(1);
@@ -417,6 +414,10 @@ public class WindowController implements Initializable {
     @FXML
     private void onActionResetButton(ActionEvent event) {
         limpiarRutaPrevia();
+    }
+
+    @FXML
+    private void onMousePressedSlider(MouseEvent event) {
     }
 
 }
