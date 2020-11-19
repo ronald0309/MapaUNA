@@ -14,7 +14,6 @@ public class Dijkstra{
             DistanciasMasCortas[VerticeIndice] = Integer.MAX_VALUE;
             revisados[VerticeIndice] = false;
         }
-        
         DistanciasMasCortas[iniVertice] = 0;
         int[] padres = new int[nVertices];
         padres[iniVertice] = NO_PARENT;
@@ -39,7 +38,6 @@ public class Dijkstra{
         }
         return solution(iniVertice, DistanciasMasCortas, padres, finalVertice);
     }
-    
     public static List<Vertice> solution(int iniVertice,int[] distances,int[] padres, int finalVertice){
         List<Vertice> road = new ArrayList<>();
         int peso = -1;
@@ -52,7 +50,6 @@ public class Dijkstra{
         }
         return road;
     }
-    
     public static void path(int verticeInicial,int VerticeIndice,int[] padres, int finalVertice, List<Vertice> road){
         if( verticeInicial == NO_PARENT ) return;
         path(padres[verticeInicial],VerticeIndice, padres, finalVertice, road);

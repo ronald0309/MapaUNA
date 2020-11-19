@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="800.0" maxWidth="1200.0" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" styleClass="jfx-contenedor-principal" stylesheets="@CSS.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapauna.controller.UnaController">
+<BorderPane maxHeight="800.0" maxWidth="1200.0" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" styleClass="jfx-contenedor-principal" stylesheets="@CSS.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapauna.controller.UnaController">
     <top>
         <AnchorPane prefHeight="78.0" prefWidth="1200.0" styleClass="jfx-contenedor-titulo" BorderPane.alignment="CENTER">
             <children>
@@ -177,8 +178,11 @@
                                                 </Label>
                                                 <HBox alignment="CENTER">
                                                     <children>
-                                                        <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra" />
-                                                        <RadioButton fx:id="rdbFloyd" text="Floyd" />
+                                                        <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="ToggleGrupAlgoritmo" />
+                                             </toggleGroup></RadioButton>
+                                                        <RadioButton fx:id="rdbFloyd" text="Floyd" toggleGroup="$ToggleGrupAlgoritmo" />
                                                     </children>
                                                 </HBox>
                                                 <Label onMousePressed="#onMousePressedSlider" styleClass="subtitulo-label" text="Trafico">

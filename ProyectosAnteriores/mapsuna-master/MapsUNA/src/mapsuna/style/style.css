@@ -8,17 +8,41 @@ and open the template in the editor.
     Author     : ema_9
 */
 
-
+*{
+    -fx-font-family: Roboto;
+    -fx-base-color-focus:#09b6bc;
+    -fx-base-color-unfocus:#4d4d4d;
+    -fx-base-color-etiquetas:#4d4d4d/*#bcbcbc*/;
+    -fx-base-color-titulos:#51b6cd;
+}
+.button{
+    -fx-background-color: -fx-base-color-unfocus;
+    -jfx-button-type: RAISED;
+    -fx-opacity: 0.8;
+    -fx-content-display: left;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-alignment:CENTER_LEFT;
+}
+.button .jfx-rippler{-jfx-rippler-fill: white;}
+.button:hover, .button:hover{-fx-background-color: #FF6D00;}
+.button:disabled, .button:disabled {
+    -fx-background-color: #cccccc;
+    -fx-opacity: 0.4;
+}
+.toggle-button {
+    -fx-font-size: 14.0px;
+    -fx-pref-height: 26px;
+    -fx-min-height: 26px;
+    -fx-max-height: 26px;
+    -jfx-checked-color: -fx-base-color-focus;
+    -jfx-unchecked-color: -fx-base-color-unfocus;
+    -fx-text-fill: -fx-base-color-etiquetas;
+}
 .imagen{
-    /*-fx-image: url("../resources/map.png");*/
     -fx-background-image:url('../resources/mapp7.png');
-    /*background: url('../resources/map.png') no-repeat center top;*/
-     /*width: 100%; height: 100%;*/
-    
     -fx-background-size: cover;
-    /*-fx-background-size: 900 506;*/
-    /*-fx-background-position: center center;*/
-    /*-fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);*/ 
 }
 
 /*.izq{

@@ -5,8 +5,6 @@
  */
 package mapsuna.model;
 
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXToggleButton;
 import java.awt.MouseInfo;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +16,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -70,19 +69,19 @@ public class GraphicManager {
     private Circle circle;
     private AnchorPane pane;
     private AnchorPane baseMap;
-    private JFXRadioButton rdbDijkstra;
-    private JFXRadioButton rdbFloyd;
+    private RadioButton rdbDijkstra;
+    private RadioButton rdbFloyd;
     private Label lbltotalPrevio;
     private Label coLabel1;
     private Label time;
-    private JFXToggleButton leftway;
-    private JFXToggleButton rightway;
+    private ToggleButton leftway;
+    private ToggleButton rightway;
     private boolean recalculate;
     private String init;
     //
 
-    public GraphicManager(Circle circle, JFXRadioButton rdbDijkstra, JFXRadioButton rdbFloyd, Label lbltotalPrevio, JFXToggleButton leftway,
-            JFXToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafic, Label timeCost,
+    public GraphicManager(Circle circle, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label lbltotalPrevio, ToggleButton leftway,
+            ToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafic, Label timeCost,
             Label costLabel1) {
         //init biding
         this.rdbDijkstra = rdbDijkstra;
@@ -257,8 +256,8 @@ public class GraphicManager {
         return target.getId();
     }
 
-    public void launch(int[][] m, int[][] peso, JFXToggleButton toggle,
-            JFXToggleButton toggle1) {
+    public void launch(int[][] m, int[][] peso, ToggleButton toggle,
+            ToggleButton toggle1) {
         launcher(origin.getXPosition(), origin.getYPosition(),
                 target.getXPosition(), target.getYPosition(), pane, circle, m, peso, toggle, toggle1);
     }
@@ -316,7 +315,7 @@ public class GraphicManager {
     }
 
     private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circle, int[][] m, int[][] peso,
-            JFXToggleButton toggle, JFXToggleButton toggle1) {
+            ToggleButton toggle, ToggleButton toggle1) {
 
         auxiliarLines.forEach(x -> {
             pane.getChildren().remove(x);
@@ -457,7 +456,7 @@ public class GraphicManager {
 
     }
 
-    public void start(AnchorPane pane, int[][] m, JFXToggleButton toggle, JFXToggleButton toggle1) {
+    public void start(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
         boolean start = true;
         superMatrix = m;
         Line selectedLine = new Line();
@@ -581,7 +580,7 @@ public class GraphicManager {
         }
     }
 
-    private void searchConectedRadios(Line l, AnchorPane pane, JFXToggleButton toggle, JFXToggleButton toggle1) {
+    private void searchConectedRadios(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
         ArrayList<RadioButton> radios = new ArrayList<>();
         ArrayList<RadioButton> conected = new ArrayList<>();
 
@@ -649,7 +648,7 @@ public class GraphicManager {
 
     }
 
-    public int toNumber(JFXToggleButton button, int n) {
+    public int toNumber(ToggleButton button, int n) {
         if (!"No hay via".equals(button.getText())) {
             int x = Integer.valueOf(button.getText().split("->")[n].replaceAll("\\D+", "")) - 1;
             return x;

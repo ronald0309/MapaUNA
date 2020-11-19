@@ -243,13 +243,9 @@ public class UnaController implements Initializable {
     int VOrigen = -1;
     final ToggleGroup group = new ToggleGroup();
     private GrafoMatriz grafo = new GrafoMatriz(85);
-    private Algoritmo_Ruta_Mas_Corta algoritmo = Algoritmo_Ruta_Mas_Corta.FLOYD;
-    
-    
-
-    /**
-     * Initializes the controller class.
-     */
+    private Algoritmo_Ruta_Mas_Corta algoritmo = Algoritmo_Ruta_Mas_Corta.DIJKSTRA;
+    @FXML
+    private ToggleGroup ToggleGrupAlgoritmo;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

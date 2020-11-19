@@ -5,11 +5,7 @@
  */
 package mapsuna.controller;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXToggleButton;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,8 +16,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -53,11 +52,11 @@ public class WindowController implements Initializable {
     private int y;
 
     @FXML
-    private JFXRadioButton rdbDijkstra;
+    private RadioButton rdbDijkstra;
     @FXML
     private ToggleGroup tggAlgoritmo;
     @FXML
-    private JFXRadioButton rdbFloyd;
+    private RadioButton rdbFloyd;
     @FXML
     private AnchorPane baseMap;
     @FXML
@@ -221,31 +220,31 @@ public class WindowController implements Initializable {
     @FXML
     private RadioButton A65;
     @FXML
-    private JFXButton offroadButton;
+    private Button offroadButton;
     @FXML
-    private JFXButton accidentButton;
+    private Button accidentButton;
     @FXML
     private Label costLabel;
     @FXML
-    private JFXButton startButton;
+    private Button startButton;
     @FXML
-    private JFXButton stopButton;
+    private Button stopButton;
     @FXML
-    private JFXButton exitButton;
+    private Button exitButton;
     @FXML
     private HBox title;
     @FXML
-    private JFXToggleButton leftway;
+    private ToggleButton leftway;
     @FXML
-    private JFXToggleButton rightway;
+    private ToggleButton rightway;
     @FXML
     private Label costLabel1;
     @FXML
-    private JFXComboBox<String> trafficCombo;
+    private ComboBox<?> trafficCombo;
     @FXML
     private Label timeCost;
     @FXML
-    private JFXButton resetButton;
+    private Button resetButton;
 
     /**
      * Initializes the controller class.
@@ -256,11 +255,11 @@ public class WindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         trafficCombo.setPromptText("Trafico");
-        trafficCombo.getItems().addAll(
+        /*trafficCombo.getItems().addAll(
                 "Normal",
                 "Moderado",
                 "Lento"
-        );
+        );*/
         grafo.inicializarPesos();
         grafo.inicializarMatAux();
         circle = new Circle();
