@@ -39,10 +39,11 @@ and open the template in the editor.
     -jfx-unchecked-color: -fx-base-color-unfocus;
     -fx-text-fill: -fx-base-color-etiquetas;
 }
+/*
 .toggle-button:disabled,.radio-button:disabled{
     -fx-opacity: 0.7;
-}
-
+}*/
+/*
 .radio-button{
     -fx-font-size: 14.0px;
     -fx-pref-height: 26px;
@@ -52,7 +53,7 @@ and open the template in the editor.
     -jfx-unselected-color: -fx-base-color-unfocus;
     -fx-text-fill: -fx-base-color-etiquetas;
 }
-
+*/
 .combo-box{
     -fx-font-size: 14.0px;
     -fx-pref-height: 28px;
@@ -94,6 +95,20 @@ and open the template in the editor.
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 30.0px;
+}
+.baseMap{
+    -fx-background-image:url('../resources/mapa.png');
+    -fx-min-height: 500px;
+    -fx-min-weight: 500px;
+    -fx-background-repeat: no-repeat;
+}
+
+.dot{
+    -fx-border-width: 2px;
+    -fx-border-color: rgba(9, 182, 188, 0.8);
+    -fx-background-color: rgba(9, 182, 188, 0.8);
+    -fx-border-radius: 15px;
+    -fx-padding: 1px;
 }
 
 /*******************************************************************************
