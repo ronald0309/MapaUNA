@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package mapsuna.controller;
 
 
@@ -6,6 +10,8 @@ import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -226,17 +231,15 @@ public class WindowController implements Initializable {
     @FXML
     private Button btnDetener;
     @FXML
-    private ComboBox<String> comboTrafico;
-    private JFXRadioButton rbdNoDR;
-    private JFXRadioButton rbdNoIZ;
-    @FXML
-    private ToggleButton leftway;
-    @FXML
-    private ToggleButton rightway;
-    @FXML
     private Button btnReiniciar;
     @FXML
     private Button btnSalir;
+    @FXML
+    private ComboBox<String> comboTrafico;
+     @FXML
+    private RadioButton rbdNoDR;
+    @FXML
+    private RadioButton rbdNoIZ;
     /**
      * Initializes the controller class.
      *
@@ -245,8 +248,8 @@ public class WindowController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
-       // comboTrafico.setPromptText("Trafico");
+        String opcion="medio";
+        comboTrafico.setPromptText("Trafico");
         comboTrafico.getItems().add("Normal");
         comboTrafico.getItems().add("Medio");
         comboTrafico.getItems().add("Alto");
@@ -284,6 +287,18 @@ public class WindowController implements Initializable {
         controlador.inicio(mapaBASe, grafo.getGrafo(), rbdNoIZ, rbdNoDR);
     }
 
+    @FXML
+    private void dragWindow(MouseEvent event) {
+        Stage stage = (Stage) titulo.getScene().getWindow();
+        stage.setX(event.getScreenX() - ejeX);
+        stage.setY(event.getScreenY() - ejeY);
+    }
+
+    @FXML
+    private void pressWindow(MouseEvent event) {
+        ejeX = event.getSceneX();
+        ejeY = event.getSceneY();
+    }
 
     @FXML
     private void onActionBtnIniciar(ActionEvent event) {
@@ -337,29 +352,6 @@ public class WindowController implements Initializable {
             }
         }
     }
-
-    @FXML
-    private void onActionLeftway(ActionEvent event) {
-    }
-
-    @FXML
-    private void onActionRightWay(ActionEvent event) {
-    }
-
-    @FXML
-    private void moverVentana(MouseEvent event) {
-        Stage stage = (Stage) titulo.getScene().getWindow();
-        stage.setX(event.getScreenX() - ejeX);
-        stage.setY(event.getScreenY() - ejeY);
-    }
-
-    @FXML
-    private void presionar(MouseEvent event) {
-        ejeX = event.getSceneX();
-        ejeY = event.getSceneY();
-    }
-
-
 
 
 }

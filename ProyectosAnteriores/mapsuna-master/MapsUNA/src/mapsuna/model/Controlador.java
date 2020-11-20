@@ -16,7 +16,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -71,12 +70,12 @@ public class Controlador {
     private Label lbltotalPrevio;
     private Label coLabel1;
     private Label time;
-    private ToggleButton calleDR;
-    private ToggleButton calleIZ;
+    private RadioButton calleDR;
+    private RadioButton calleIZ;
     private boolean reCalcular;
     private String init;
     //
-public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, ToggleButton iz, ToggleButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo,Label costTo) { // Variables para resivir del controlador de la ventana
+public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, RadioButton iz, RadioButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo,Label costTo) { // Variables para resivir del controlador de la ventana
         
         
         
@@ -146,6 +145,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         });
         thread.setDaemon(true);
         thread.start();
+        
     }
 
     public void setRecalculate(boolean recalculate) {
@@ -195,7 +195,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         path = new ArrayList<>();
         calleDR.setSelected(false);
         calleIZ.setSelected(false);
-        repaint();
+        repintar();
     }
 
     public void setActualizar() {
@@ -230,9 +230,9 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         return destino.getId();
     }
 
-    public void launch(int[][] m, int[][] peso, ToggleButton toggle, ToggleButton toggle1) {
+    public void launch(int[][] m, int[][] peso, RadioButton rbtn, RadioButton rbtn1) {
         launcher(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
-                destino.getXPosition(), destino.getYPosition(), pane, circulo, m, peso, toggle, toggle1);
+                destino.getXPosition(), destino.getYPosition(), pane, circulo, m, peso, rbtn, rbtn1);
     }
 
     public void mouseEvent(Node x, AnchorPane pane, int n) {
@@ -279,7 +279,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
     }
 
     private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circulo, int[][] m, int[][] peso,
-         ToggleButton toggle, ToggleButton toggle1) {
+         RadioButton rbtn, RadioButton rbtn1) {
 
         auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
@@ -294,7 +294,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
             });
 
             x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                searchConectedRadios(x, pane, toggle, toggle1);
+                BuscarConexion(x, pane, rbtn, rbtn1);
                 habilitado = true;
                 clearSelection();
                 x.setStyle("-fx-stroke: rgba(0,255, 255,0.3);");
@@ -402,7 +402,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
 
     }
 
-    public void inicio(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
+    public void inicio(AnchorPane pane, int[][] m, RadioButton rbtn, RadioButton rbtn1) {
         
         Matriz = m;
         Line selectedLine = new Line();
@@ -455,7 +455,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
                         });
 
                         linea.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                            searchConectedRadios(linea, pane, toggle, toggle1);
+                            BuscarConexion(linea, pane, rbtn, rbtn1);
                             habilitado = true;
                             clearSelection();
                             linea.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
@@ -506,13 +506,13 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         int peso1 = 0;
         int peso2 = 0;
         int visible = 0;
-        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
-        if (Matriz[localOrigin][localTarget] == 1) {
-            peso1 = weightMatrix[localOrigin][localTarget];
+        int verticeInicial = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int rutaIni = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+        if (Matriz[verticeInicial][rutaIni] == 1) {
+            peso1 = weightMatrix[verticeInicial][rutaIni];
         }
-        if (Matriz[localTarget][localOrigin] == 1) {
-            peso2 = weightMatrix[localTarget][localOrigin];
+        if (Matriz[rutaIni][verticeInicial] == 1) {
+            peso2 = weightMatrix[rutaIni][verticeInicial];
         }
         visible = cualquiera(peso1, peso2);
         return visible;
@@ -526,10 +526,11 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         }
     }
 
-    private void searchConectedRadios(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
+    private void BuscarConexion(Line l, AnchorPane pane, RadioButton rbtn, RadioButton rbtn1) {
         ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> conected = new ArrayList<>();
-
+        rbtn.setSelected(false);
+        rbtn.setSelected(false);
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
                 RadioButton vertice = (RadioButton) item;
@@ -545,53 +546,53 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
             }
         });
 
-        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
-        boolean rightWay = true;
-        boolean leftWay = true;
+        int verticeInicial = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int rutaIni = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+        boolean calleDer = true;
+        boolean calleIzq = true;
         boolean bandera1 = true;
         boolean bandera2 = true;
-        if (Matriz[localOrigin][localTarget] == 1) {
+        if (Matriz[verticeInicial][rutaIni] == 1) {
             for (int i = 0; i < trayecto.size(); i++) {
                 if (bandera1) {
-                    if (localOrigin == trayecto.get(i).getXPosition() && localTarget == trayecto.get(i).getYPosition()) {
-                        toggle.setSelected(true);
+                    if (verticeInicial == trayecto.get(i).getXPosition() && rutaIni == trayecto.get(i).getYPosition()) {
+                        rbtn.setSelected(true);
                         bandera1 = false;
                     } else {
-                        toggle.setSelected(false);
+                        rbtn.setSelected(false);
                     }
                 }
             }
-            toggle.setText(conected.get(0).getId() + "->" + conected.get(1).getId());
-            leftWay = false;
+            rbtn.setText(conected.get(0).getId() + "->" + conected.get(1).getId());
+            calleIzq = false;
         }
-        if (Matriz[localTarget][localOrigin] == 1) {
-            int localOrigin1 = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
-            int localTarget1 = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+        if (Matriz[rutaIni][verticeInicial] == 1) {
+            int verticeInicial1 = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+            int rutaIni1 = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
             for (int i = 0; i < trayecto.size(); i++) {
                 if (bandera2) {
-                    if (localOrigin1 == trayecto.get(i).getXPosition() && localTarget1 == trayecto.get(i).getYPosition()) {
-                        toggle1.setSelected(true);
+                    if (verticeInicial1 == trayecto.get(i).getXPosition() && rutaIni1 == trayecto.get(i).getYPosition()) {
+                        rbtn1.setSelected(true);
                         bandera2 = false;
                     } else {
-                        toggle1.setSelected(false);
+                        rbtn1.setSelected(false);
                     }
                 }
             }
-            toggle1.setText(conected.get(1).getId() + "->" + conected.get(0).getId());
-            rightWay = false;
+            rbtn1.setText(conected.get(1).getId() + "->" + conected.get(0).getId());
+            calleDer = false;
         }
 
-        if (leftWay) {
-            toggle.setText("No hay via");
+        if (calleIzq) {
+            rbtn.setText("No hay via");
         }
-        if (rightWay) {
-            toggle1.setText("");
+        if (calleDer) {
+            rbtn1.setText("");
         }
     }
 
 
-    public int toNumber(ToggleButton button, int n) {
+    public int toNumber(RadioButton button, int n) {
         if (!"No hay via".equals(button.getText())) {
             int x = Integer.valueOf(button.getText().split("->")[n].replaceAll("\\D+", "")) - 1;
             return x;
@@ -600,7 +601,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         return 0;
     }
 
-    public void addOffRoad(int x, int y) {
+    public void añadirRuta(int x, int y) {
         Point localOffRoad = new Point();
         boolean found = false;
         localOffRoad.actualizar(x, y);
@@ -615,35 +616,10 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         }
     }
 
-    public void removeOffRoad(int x, int y) {
+    public void removerRuta(int x, int y) {
         trayecto = (ArrayList) trayecto.
                 stream().filter(i -> i.getXPosition() != x && i.getYPosition() != y).
                 collect(Collectors.<Point>toList());
-    }
-
-    public void printOffRoads() {
-        System.out.println("-----------------");
-        trayecto.forEach(x -> System.out.println(x.getXPosition() + "-" + x.getYPosition()));
-    }
-
-    public void resetOffRodas() {
-        trayecto = new ArrayList<>();
-    }
-
-    public boolean getOnline() {
-        return habilitado;
-    }
-
-    public void restoreOnline() {
-        habilitado = false;
-    }
-
-    public ArrayList<Point> getOffRoads() {
-        return trayecto;
-    }
-
-    public void activate() {
-        activar = !activar;
     }
 
     public void limpiarRuta(AnchorPane pane) {
@@ -664,14 +640,7 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
     public void setClicks(int clicks) {
         this.clicks = clicks;
     }
-
-    public void ex(int i) {
-        if (i == 0) {
-            System.exit(-1);
-        }
-    }
-
-    public void repaint() {
+    public void repintar() {
         ArrayList<RadioButton> vertices = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -682,22 +651,6 @@ public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd
         });
         vertices.forEach(x -> pane.getChildren().remove(x));
         vertices.forEach(x -> pane.getChildren().add(x));
-    }
-
-    public boolean isLeftFlag() {
-        return banIzq;
-    }
-
-    public void setLeftFlag(boolean banIzq) {
-        this.banIzq = banIzq;
-    }
-
-    public boolean isRightFlag() {
-        return banDer;
-    }
-
-    public void setRightFlag(boolean banDer) {
-        this.banDer = banDer;
     }
 
     public int getTrafico() {
