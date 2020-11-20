@@ -72,7 +72,7 @@ public class Animacion {
         Line auxiliarLine;
         Polyline p = cola.peek();
         if (!enabled) {
-            lineE.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
+            lineE.setStyle("-fx-stroke: rgba(0, 0, 255,1);");
         }
        lineE = new Line(p.getPoints().get(0),p.getPoints().get(1),p.getPoints().get(2),p.getPoints().get(3));
         lineE = colGra.peek();
@@ -91,12 +91,8 @@ public class Animacion {
         puntoS= inicio;
         return p;
     }
-
-    public Line getLineE() {
-        lineE.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
-        return lineE;
-    }
-      public ArrayList<RadioButton> Ruta(Line l) {
+    
+   public ArrayList<RadioButton> Ruta(Line l) {
         ArrayList<RadioButton> radios = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {

@@ -6,21 +6,19 @@
 package mapsuna.controller;
 
 
+import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -29,10 +27,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import mapsuna.model.Dijkstra;
-import mapsuna.model.GraphicManager;
+import mapsuna.model.Controlador;
 import mapsuna.model.Floyd;
 import mapsuna.model.Grafo;
-
 /**
  * FXML Controller class
  *
@@ -46,7 +43,7 @@ public class WindowController implements Initializable {
     Floyd floyd = new Floyd();
     Dijkstra dijkstra = new Dijkstra();
     Grafo grafo = new Grafo();
-    private GraphicManager manager;
+    private Controlador controlador;
     private Circle circulo;
     private int x;
     private int y;
@@ -59,8 +56,6 @@ public class WindowController implements Initializable {
     private ToggleGroup tggAlgoritmo;
     @FXML
     private RadioButton rdbFloyd;
-    @FXML
-    private AnchorPane baseMap;
     @FXML
     private RadioButton A26;
     @FXML
@@ -222,32 +217,29 @@ public class WindowController implements Initializable {
     @FXML
     private RadioButton A65;
     @FXML
-    private Button offroadButton;
-    @FXML
-    private Button accidentButton;
-    @FXML
     private Label costLabel;
     @FXML
-    private Button startButton;
-    @FXML
-    private Button stopButton;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private HBox title;
-    @FXML
-    private ToggleButton leftway;
-    @FXML
-    private ToggleButton rightway;
-    @FXML
-    private Label costLabel1;
-    @FXML
-    private ComboBox<?> trafficCombo;
+    private Label costLabel1;  
     @FXML
     private Label timeCost;
     @FXML
-    private Button resetButton;
-
+    private HBox titulo;
+    @FXML
+    private AnchorPane mapaBASe;
+    @FXML
+    private Button btnIniciar;
+    @FXML
+    private Button btnDetener;
+    @FXML
+    private Button btnReiniciar;
+    @FXML
+    private Button btnSalir;
+    @FXML
+    private ComboBox<String> comboTrafico;
+     @FXML
+    private JFXRadioButton rbdNoDR;
+    @FXML
+    private JFXRadioButton rbdNoIZ;
     /**
      * Initializes the controller class.
      *
@@ -256,128 +248,48 @@ public class WindowController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        trafficCombo.setPromptText("Trafico");
-        /*trafficCombo.getItems().addAll(
-                "Normal",
-                "Moderado",
-                "Lento"
-        );*/
+        String opcion="medio";
+        comboTrafico.setPromptText("Trafico");
+        comboTrafico.getItems().add("Normal");
+        comboTrafico.getItems().add("Medio");
+        comboTrafico.getItems().add("Alto");
+        //INICIALIZACION DE PESOS Y MATRIZ AUXILIAR
         grafo.inicializarPesos();
         grafo.inicializarMatAux();
+        
+        //Inicialisazion de vheiculo"circulo"
         circulo = new Circle();
-        circulo.setCenterX(300.0f);
-        circulo.setCenterY(135.0f);
+        circulo.setCenterX(0.0f);
+        circulo.setCenterY(0.0f);
         circulo.setRadius(8.0f);
         circulo.setFill(javafx.scene.paint.Color.INDIGO);
-        circulo.setId("bean");
+        circulo.setId("auto");
         
-        baseMap.getChildren().add(circulo);
-        manager = new GraphicManager(circulo, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap, 
-                                    false, false, 1, timeCost, costLabel1);
-        baseMap.getChildren().forEach(x -> {
+        // Se agrega el vheiculo en la ventana y se inicializa el controlador
+        mapaBASe.getChildren().add(circulo);
+        controlador = new Controlador(circulo, rdbDijkstra, rdbFloyd, costLabel, rbdNoIZ, rbdNoDR, mapaBASe, false, false, 1, timeCost, costLabel1);
+       
+        // SE la agrega los eventos del mouse a cada rbd del mapa
+        mapaBASe.getChildren().forEach(x -> {
             if (x.getClass() == RadioButton.class) {
-                RadioButton r = (RadioButton) x;
-                r.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> r.setText(r.getId()));
-                r.addEventFilter(MouseEvent.MOUSE_EXITED, event -> r.setText(""));
                 x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
-                        manager.mouseEvent(x, baseMap, 0);
-                        if (manager.getTrigger()) {
-                           manager.calcular();
+                        controlador.mouseEvent(x, mapaBASe, 0);
+                        if (controlador.getTrigger()) {
+                           controlador.calcular();
                         }
                     } else if (event.getButton() == MouseButton.SECONDARY) {
-                        manager.mouseEvent(x, baseMap, 1);
+                        controlador.mouseEvent(x, mapaBASe, 1);
                     }
                 });
             }
         });
-        manager.start(baseMap, grafo.getGrafo(), leftway, rightway);
-    }
-
-    @FXML
-    private void onActionStart(ActionEvent event) {
-        manager.enable();
-        System.out.println("-----------");
-        ArrayList<RadioButton> radios = new ArrayList<>();
-        baseMap.getChildren().forEach(item -> {
-            if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radio.setSelected(false);
-            }
-        });
-    }
-
-    private void limpiarRutaPrevia() {
-        manager.limpiarRuta(baseMap);
-        manager.setClicks(0);
-        costLabel.setText("0");
-        costLabel1.setText("0");
-    }
-
-    @FXML
-    private void onActionStop(ActionEvent event) {
-        //limpiarRutaPrevia();
-        if (!manager.getUpdate()) {
-            stopButton.setText("Pausar");
-        } else {
-            stopButton.setText("Reanudar");
-        }
-        manager.setUpdate();
-    }
-
-    @FXML
-    private void onActionExit(ActionEvent event) {
-        Stage stage = (Stage) startButton.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    private void onActionLeftway(ActionEvent event) {
-        manager.setRecalculate(true);
-        manager.setLeftFlag(true);//setear verdadero para revisar en la lista offRoad
-        x = manager.toNumber(leftway, 0);
-        y = manager.toNumber(leftway, 1);
-        if (leftway.isSelected()) {
-            if (manager.getOnline()) {
-                if (!"No hay via".equals(leftway.getText())) {
-                    manager.addOffRoad(x, y);
-                    manager.printOffRoads();
-                    manager.restoreOnline();
-                }
-            } else {
-                leftway.setSelected(false);
-                //message("Seleccione una linea para deshabilitar el camino");
-            }
-        } else {
-            manager.removeOffRoad(x, y);
-        }
-    }
-
-    @FXML
-    private void onActionRightWay(ActionEvent event) {
-        manager.setRecalculate(true);
-        manager.setRightFlag(true);
-        y = manager.toNumber(rightway, 0);
-        x = manager.toNumber(rightway, 1);
-        if (rightway.isSelected()) {
-            if (manager.getOnline()) {
-                if (!"No hay via".equals(rightway.getText())) {
-                    manager.addOffRoad(y, x);
-                    manager.printOffRoads();
-                }
-            } else {
-                rightway.setSelected(false);
-                message("Seleccione una linea para deshabilitar el camino");
-            }
-        } else {
-            manager.removeOffRoad(y, x);
-        }
-
+        controlador.start(mapaBASe, grafo.getGrafo(), rbdNoIZ, rbdNoDR);
     }
 
     @FXML
     private void dragWindow(MouseEvent event) {
-        Stage stage = (Stage) title.getScene().getWindow();
+        Stage stage = (Stage) titulo.getScene().getWindow();
         stage.setX(event.getScreenX() - ejeX);
         stage.setY(event.getScreenY() - ejeY);
     }
@@ -388,38 +300,58 @@ public class WindowController implements Initializable {
         ejeY = event.getSceneY();
     }
 
-    private void message(String msj) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Deshabilitar ruta");
-        alert.setHeaderText("Informacion");
-        alert.setContentText(msj);
-        alert.showAndWait();
+    @FXML
+    private void onActionBtnIniciar(ActionEvent event) {
+         controlador.enable();
+        ArrayList<RadioButton> radios = new ArrayList<>();
+        mapaBASe.getChildren().forEach(item -> {
+            if (item.getClass() == RadioButton.class) {
+                RadioButton radio = (RadioButton) item;
+                radio.setSelected(false);
+            }
+        });
     }
 
     @FXML
-    private void onActionTrafficCombo(ActionEvent event) {
-        if (trafficCombo.getSelectionModel().getSelectedItem().equals("Normal")) {
-            manager.setTrafico(1);
-            grafo.editarMatriz(manager.getTrafico());
+    private void onActionBtnDetener(ActionEvent event) {
+        if (!controlador.getUpdate()) {
+            btnDetener.setText("Pausar");
         } else {
-            if (trafficCombo.getSelectionModel().getSelectedItem().equals("Moderado")) {
-                manager.setTrafico(2);
-                grafo.editarMatriz(manager.getTrafico());
+            btnDetener.setText("Reanudar");
+        }
+        controlador.setUpdate();
+    }
+
+    @FXML
+    private void onActionBtnReiniciar(ActionEvent event) {
+;       controlador.limpiarRuta(mapaBASe);
+        controlador.setClicks(0);
+        costLabel.setText("0");
+        costLabel1.setText("0");
+    }
+
+    @FXML
+    private void onActionBtnSalir(ActionEvent event) {
+        Stage stage = (Stage) btnIniciar.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void onActionComboTrafico(ActionEvent event) {
+        if (comboTrafico.getSelectionModel().getSelectedItem().equals("Alto")) {
+                controlador.setTrafico(3);
+                grafo.editarMatriz(controlador.getTrafico());
+        } else {
+            if (comboTrafico.getSelectionModel().getSelectedItem().equals("Medio")) {
+                controlador.setTrafico(2);
+                grafo.editarMatriz(controlador.getTrafico());
             } else {
                 //ES LENTO
-                manager.setTrafico(3);
-                grafo.editarMatriz(manager.getTrafico());
+                controlador.setTrafico(1);
+                grafo.editarMatriz(controlador.getTrafico());
             }
         }
     }
 
-    @FXML
-    private void onActionResetButton(ActionEvent event) {
-        limpiarRutaPrevia();
-    }
-
-    @FXML
-    private void onMousePressedSlider(MouseEvent event) {
-    }
 
 }
