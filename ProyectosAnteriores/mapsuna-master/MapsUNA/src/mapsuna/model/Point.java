@@ -22,13 +22,13 @@ public class Point {
         id = "-1";
     }
     
-    public void update(Node n) {
+    public void actualizar(Node n) {
         xPosition = (int) ((n.getLayoutX()) + 7) ;
         yPosition = (int) ((n.getLayoutY()) + 9);
         id = n.getId();
     }
     
-    public void update(int xPosition, int yPosition) {
+    public void actualizar(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
@@ -57,7 +57,7 @@ public class Point {
         this.id = id;
     }
     
-    public void print() {
+    public void imprimir() {
         System.out.println(xPosition);
         System.out.println(yPosition);
         System.out.println(id);

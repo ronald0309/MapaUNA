@@ -33,7 +33,6 @@ public class Animacion {
     private int costoFinal;
     private String puntos;
     private String inicio;
-    private String last;
     public Animacion() {
         camino = 1;
         enable = true;
@@ -42,32 +41,28 @@ public class Animacion {
         lineas = new ArrayList<>();
     }
     
-    public void set(ArrayList<Double> logics, ArrayList<Line> lines, ArrayList<Line> aux, 
-            AnchorPane pane, int[][] m, String init) {
-        this.inicio = init;
+    public void set(ArrayList<Double> lg,  AnchorPane p,ArrayList<Line> ln, ArrayList<Line> a, int[][] mat, String inic) {
+        inicio = inic;
         Polyline l1 = new Polyline();
         Queue<Line> gl;
         acarreo = 0;
         costoFinal = 0;
-        for (int i = 0; i < logics.size(); i+=4) {
+        for (int i = 0; i < lg.size(); i+=4) {
             Polyline l = new Polyline();
-            l.getPoints().addAll(new Double[]{logics.get(i),
-                                                logics.get(i+1),
-                                                logics.get(i+2),
-                                                logics.get(i+3)});
+            l.getPoints().addAll(new Double[]{lg.get(i), lg.get(i+1), lg.get(i+2), lg.get(i+3)});
             cola.add(l);
         }
-        this.pane = pane;
-        this.m = m;
-        
-        lines.forEach(x->colGra.add(x));
-        
-        lines.forEach(l->{
-            searchNode(l);
+        pane = p;
+        m = mat;
+
+        ln.forEach(x->colGra.add(x));
+
+        ln.forEach(l->{
+            BuscarVertice(l);
         });
-        
+
         acarreo = 0;
-        lineE = lines.get(0);
+        lineE = ln.get(0);
         enable = true;
     }
     
@@ -76,7 +71,7 @@ public class Animacion {
         Line auxiliarLine;
         Polyline p = cola.peek();
 
-        if (!enabled) {
+        if (!enable) {
             lineE.setStyle("-fx-stroke: rgba(0, 0, 255,1);");
         }
         Line l = new Line(p.getPoints().get(0),
@@ -84,7 +79,7 @@ public class Animacion {
                         p.getPoints().get(2),
                         p.getPoints().get(3));
         lineE = colGra.peek();
-        searchNode(l);
+        BuscarVertice(l);
         
         colGra.remove();
         
@@ -116,7 +111,7 @@ public class Animacion {
         camino = 1;
     }
     
-    private void searchNode(Line l) {
+    private void BuscarVertice(Line l) {
 
         ArrayList<RadioButton> radios = new ArrayList<>();
         ArrayList<RadioButton> conected = new ArrayList<>();

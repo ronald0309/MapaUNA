@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mapsuna.controller;
 
 
@@ -10,17 +6,14 @@ import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -35,7 +28,7 @@ import mapsuna.model.Grafo;
 /**
  * FXML Controller class
  *
- * @author Ronny
+ * @author Jona
  */
 public class WindowController implements Initializable {
 
@@ -49,6 +42,8 @@ public class WindowController implements Initializable {
     private Circle circulo;
     private int x;
     private int y;
+    
+    
 
     @FXML
     private RadioButton rdbDijkstra;
@@ -231,15 +226,17 @@ public class WindowController implements Initializable {
     @FXML
     private Button btnDetener;
     @FXML
+    private ComboBox<String> comboTrafico;
+    private JFXRadioButton rbdNoDR;
+    private JFXRadioButton rbdNoIZ;
+    @FXML
+    private ToggleButton leftway;
+    @FXML
+    private ToggleButton rightway;
+    @FXML
     private Button btnReiniciar;
     @FXML
     private Button btnSalir;
-    @FXML
-    private ComboBox<String> comboTrafico;
-     @FXML
-    private JFXRadioButton rbdNoDR;
-    @FXML
-    private JFXRadioButton rbdNoIZ;
     /**
      * Initializes the controller class.
      *
@@ -248,39 +245,8 @@ public class WindowController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
-        inicializarValores();
-        controlador = new Controlador(circulo, rdbDijkstra, rdbFloyd, costLabel, leftway, rightway, baseMap,false, false, 1, timeCost, costLabel1);
-        baseMap.getChildren().forEach(x -> {
-            if (x.getClass() == RadioButton.class) {
-                RadioButton ver = (RadioButton) x;
-                ver.addEventFilter(MouseEvent.MOUSE_ENTERED, event -> ver.setText(ver.getId()));
-                ver.addEventFilter(MouseEvent.MOUSE_EXITED, event -> ver.setText(""));
-                x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        controlador.mouseEvent(x, baseMap, 0);
-                        if (controlador.getTrigger()) {
-                           controlador.getCalcular();
-                        }
-                    } else if (event.getButton() == MouseButton.SECONDARY) {
-                        controlador.mouseEvent(x, baseMap, 1);
-                    }
-                });
-            }
-        });
-        controlador.iniciar(baseMap, grafo.getGrafo(), leftway, rightway);
-    }
-   void inicializarValores(){
-       trafficCombo.setPromptText("Trafico");
-        /*trafficCombo.getItems().addAll(
-                "Normal",
-                "Moderado",
-                "Lento"
-        );*/
-
-        String opcion="medio";
-        comboTrafico.setPromptText("Trafico");
+      
+       // comboTrafico.setPromptText("Trafico");
         comboTrafico.getItems().add("Normal");
         comboTrafico.getItems().add("Medio");
         comboTrafico.getItems().add("Alto");
@@ -294,38 +260,6 @@ public class WindowController implements Initializable {
         circulo.setCenterY(0.0f);
         circulo.setRadius(8.0f);
         circulo.setFill(javafx.scene.paint.Color.INDIGO);
-        circulo.setId("bean");
-        baseMap.getChildren().add(circulo);
-   }
-    @FXML
-    private void onActionStart(ActionEvent event) {
-        controlador.enable();
-        System.out.println("-----------");
-        ArrayList<RadioButton> radios = new ArrayList<>();
-        baseMap.getChildren().forEach(item -> {
-            if (item.getClass() == RadioButton.class) {
-                RadioButton radio = (RadioButton) item;
-                radio.setSelected(false);
-            }
-        });
-    }
-
-    private void limpiarRutaPrevia() {
-        controlador.limpiarRuta(baseMap);
-        controlador.setClicks(0);
-        costLabel.setText("0");
-        costLabel1.setText("0");
-    }
-
-    @FXML
-    private void onActionStop(ActionEvent event) {
-        //limpiarRutaPrevia();
-        if (!controlador.getActualizar()) {
-            stopButton.setText("Pausar");
-        } else {
-            stopButton.setText("Reanudar");
-        }
-        controlador.setActualizar();
         circulo.setId("auto");
         
         // Se agrega el vheiculo en la ventana y se inicializa el controlador
@@ -347,64 +281,13 @@ public class WindowController implements Initializable {
                 });
             }
         });
-        controlador.start(mapaBASe, grafo.getGrafo(), rbdNoIZ, rbdNoDR);
+        controlador.inicio(mapaBASe, grafo.getGrafo(), rbdNoIZ, rbdNoDR);
     }
 
-    @FXML
-    private void dragWindow(MouseEvent event) {
-        Stage stage = (Stage) titulo.getScene().getWindow();
-        stage.setX(event.getScreenX() - ejeX);
-        stage.setY(event.getScreenY() - ejeY);
-    }
 
     @FXML
-    private void pressWindow(MouseEvent event) {
-        ejeX = event.getSceneX();
-        ejeY = event.getSceneY();
-    }
-
-    @FXML
-    private void onActionLeftway(ActionEvent event) {
-        controlador.setRecalcular(true);
-        controlador.setLeftFlag(true);//setear verdadero para revisar en la lista offRoad
-        x = controlador.toNumber(leftway, 0);
-        y = controlador.toNumber(leftway, 1);
-        if (leftway.isSelected()) {
-            if (controlador.getOnline()) {
-                if (!"No hay via".equals(leftway.getText())) {
-                    controlador.addOffRoad(x, y);
-                    controlador.printOffRoads();
-                    controlador.restoreOnline();
-                }
-            } else {
-                leftway.setSelected(false);
-            }
-        } else {
-            controlador.removeOffRoad(x, y);
-        }
-    }
-
-    @FXML
-    private void onActionRightWay(ActionEvent event) {
-        controlador.setRecalcular(true);
-        controlador.setRightFlag(true);
-        y = controlador.toNumber(rightway, 0);
-        x = controlador.toNumber(rightway, 1);
-        if (rightway.isSelected()) {
-            if (controlador.getOnline()) {
-                if (!"No hay via".equals(rightway.getText())) {
-                    controlador.addOffRoad(y, x);
-                    controlador.printOffRoads();
-                }
-            } else {
-                rightway.setSelected(false);
-                Mensaje("Seleccione una linea para deshabilitar el camino");
-            }
-        } else {
-            controlador.removeOffRoad(y, x);
-
     private void onActionBtnIniciar(ActionEvent event) {
-         controlador.enable();
+         controlador.Habilitar();
         ArrayList<RadioButton> radios = new ArrayList<>();
         mapaBASe.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -416,13 +299,12 @@ public class WindowController implements Initializable {
 
     @FXML
     private void onActionBtnDetener(ActionEvent event) {
-        if (!controlador.getUpdate()) {
+        if (!controlador.getActualizar()) {
             btnDetener.setText("Pausar");
         } else {
             btnDetener.setText("Reanudar");
-
         }
-        controlador.setUpdate();
+        controlador.setActualizar();
     }
 
     @FXML
@@ -434,25 +316,6 @@ public class WindowController implements Initializable {
     }
 
     @FXML
-    private void pressWindow(MouseEvent event) {
-        ejeX = event.getSceneX();
-        ejeY = event.getSceneY();
-    }
-
-    private void Mensaje(String msj) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setHeaderText("Informacion");
-        alert.setContentText(msj);
-        alert.showAndWait();
-    }
-
-    @FXML
-    private void onActionTrafficCombo(ActionEvent event) {
-        if (trafficCombo.getSelectionModel().getSelectedItem().equals("Normal")) {
-            controlador.setTrafico(1);
-            grafo.editarMatriz(controlador.getTrafico());
-        } else {
-            if (trafficCombo.getSelectionModel().getSelectedItem().equals("Moderado")) {
     private void onActionBtnSalir(ActionEvent event) {
         Stage stage = (Stage) btnIniciar.getScene().getWindow();
         stage.close();
@@ -476,8 +339,27 @@ public class WindowController implements Initializable {
     }
 
     @FXML
-    private void onActionResetButton(ActionEvent event) {
-        limpiarRutaPrevia();
+    private void onActionLeftway(ActionEvent event) {
     }
+
+    @FXML
+    private void onActionRightWay(ActionEvent event) {
+    }
+
+    @FXML
+    private void moverVentana(MouseEvent event) {
+        Stage stage = (Stage) titulo.getScene().getWindow();
+        stage.setX(event.getScreenX() - ejeX);
+        stage.setY(event.getScreenY() - ejeY);
+    }
+
+    @FXML
+    private void presionar(MouseEvent event) {
+        ejeX = event.getSceneX();
+        ejeY = event.getSceneY();
+    }
+
+
+
 
 }

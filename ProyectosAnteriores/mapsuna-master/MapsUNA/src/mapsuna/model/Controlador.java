@@ -34,14 +34,13 @@ public class Controlador {
 
     private int contadorCK;
     private int rclick;
-    private int clickCounterDelay;
+    private int contClick;
     private int[][] Matriz;
     private boolean habilitado;
     private ArrayList<Line> lineas;
     private ArrayList<Line> lineaInicio;
     private ArrayList<Line> auxLinea;
     private ArrayList<Line> lineaAuxiliar;
-
     private ArrayList<Double> logicLines;
     private ArrayList<Point> trayecto;
     private Point destino;
@@ -72,21 +71,19 @@ public class Controlador {
     private Label lbltotalPrevio;
     private Label coLabel1;
     private Label time;
-
     private ToggleButton calleDR;
     private ToggleButton calleIZ;
     private boolean reCalcular;
     private String init;
     //
-
-
-    public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, ToggleButton iz, ToggleButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo,Label costTo) { // Variables para resivir del controlador de la ventana
-
+public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, ToggleButton iz, ToggleButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo,Label costTo) { // Variables para resivir del controlador de la ventana
+        
+        
+        
         textoAuxiliar = new Text("5");
-        textoAuxiliar.setStyle("-fx-fill: white;" + "-fx-font-size: 17px;" + "-fx-font-weight: bold;");
+        textoAuxiliar.setStyle("-fx-fill: Green;-fx-font-size: 14px;-fx-font-weight: bold;");
         this.rdbDijkstra = rdbDijkstra;
         this.rdbFloyd = rdbFloyd;
-
         paneMapa = pa;
         calleDR = dr;
         calleIZ = dr;
@@ -96,6 +93,7 @@ public class Controlador {
         coLabel1 = costTo;   
         trafico = tra;
         
+        //inicializacion de variables
         activar = false;
         trigger = false;
         lineaAuxiliar = new ArrayList<>();
@@ -110,7 +108,6 @@ public class Controlador {
         lineas = new ArrayList<>();
         lineaInicio = new ArrayList<>();
         auxLinea = new ArrayList<>();
-
         logicLines = new ArrayList<>();
         trayecto = new ArrayList<>();
         movimiento.setNode(circulo);
@@ -122,7 +119,6 @@ public class Controlador {
         backCircle2 = new Circle();
         backCircle2.setRadius(11);
         backCircle2.setFill(javafx.scene.paint.Color.BLACK);
-
         actualizar = false;
         
         thread = new Thread(() -> {
@@ -131,30 +127,15 @@ public class Controlador {
                     Thread.sleep(200);
                     Platform.runLater(() -> {
                         if (actualizar) {
-                            if (movimiento.getStatus() != Animation.Status.RUNNING) {
-                                if (animacion.isEmpty()) {
-                                    actualizar = false;
-                                    labelCost.setText(animacion.getAcarreo() + "");
-                                    animacion.getDelayLine();
-                                } else {
-                                    if (reCalcular) {
-                                        int currentCost = animacion.getAcarreo();
-                                        String finalCost = lbltotalPrevio.getText();
-                                        animacion.Restablecer();
-                                        reCalcular = false;
-                                        animacion.setAcarreo(currentCost);
-                                        verticeOrigen.setId(animacion.getPuntos());
-                                        lineaAuxiliar = auxLinea;
-                                        reCalcularRuta();
-                                        lineaAuxiliar.forEach(x -> {
-                                            pane.getChildren().add(x);
-                                        });
-                                        lbltotalPrevio.setText(finalCost);
-                                    } else {
+                            if (movimiento.getStatus() == Animation.Status.RUNNING) {
+                            } else {
+                                if (!animacion.isEmpty()) {
                                         movimiento.setPath(animacion.pop());
-                                        labelCost.setText(animacion.getAcarreo() + "");
+                                        costTo.setText(animacion.getAcarreo()+ "");
                                         movimiento.play();
-                                    }
+                                } else {
+                                    actualizar = false;
+                                    costTo.setText(animacion.getAcarreo() + "");
                                 }
                             }
                         }
@@ -167,13 +148,13 @@ public class Controlador {
         thread.start();
     }
 
-    public void setRecalcular(boolean recalculate) {
+    public void setRecalculate(boolean recalculate) {
         this.reCalcular = recalculate;
     }
 
-    private void reCalcularRuta() {//Se obtiene una nueva ruta cuando una calle se cierra 
+    private void reCalcular() {
         ArrayList<String> path = new ArrayList<>();
-        path = getTrayectoria();
+        path = getTrajectory();
         grafo.inicializarMatAux();
         grafo.inicializarPesos();
         grafo.editarMatriz(trafico);
@@ -187,14 +168,7 @@ public class Controlador {
                 grafo.cortarPasoMatPeso(x.getXPosition(), x.getYPosition());
             }
         });
-        if (rdbFloyd.isSelected()) {
-            floyd.setMatPesos(grafo.getMatPeso());
-            floyd.floyd();//Resuelve mediante Floyd
-            long micro = (floyd.getResultTime() / 1000);
-            time.setText(String.valueOf(micro));
-            lbltotalPrevio.setText(String.valueOf(floyd.obtenerCostoPrevio(path.get(0), path.get(1))));
-            path = (ArrayList<String>) floyd.obtenerRuta(path.get(0), path.get(1));
-        } else {
+        if (rdbDijkstra.isSelected()) {
             int fila = Integer.valueOf(path.get(0).replaceAll("\\D+", ""));
             int col = Integer.valueOf(path.get(1).replaceAll("\\D+", ""));
             dijkstra.setMatPeso(grafo.getMatPeso());
@@ -208,14 +182,20 @@ public class Controlador {
             time.setText(String.valueOf(micro));
             lbltotalPrevio.setText(String.valueOf(dijkstra.getCostoTotal()));
 
+        } else if (rdbFloyd.isSelected()) {
+            floyd.setMatPesos(grafo.getMatPeso());
+            floyd.floyd();//Resuelve mediante Floyd
+            long micro = (floyd.getResultTime() / 1000);
+            time.setText(String.valueOf(micro));
+            lbltotalPrevio.setText(String.valueOf(floyd.obtenerCostoPrevio(path.get(0), path.get(1))));
+            path = (ArrayList<String>) floyd.obtenerRuta(path.get(0), path.get(1));
         }
-        toLinea(path);
-        launch(grafo.getMatPeso(), grafo.getMatPeso(), viaIzq, viaDer);
+        toLines(path);
+        launch(grafo.getMatPeso(), grafo.getMatPeso(), calleDR, calleIZ);
         path = new ArrayList<>();
-		calleDR.setSelected(false);
+        calleDR.setSelected(false);
         calleIZ.setSelected(false);
-        Repintar();
-
+        repaint();
     }
 
     public void setActualizar() {
@@ -226,26 +206,33 @@ public class Controlador {
         return actualizar;
     }
 
-    public void enable() {
+    public void setContClick(int x) {
+        contClick = x;
+    }
+
+    public void inhabilitar() {
+        actualizar = false;
+    }
+
+    public void Habilitar() {
         actualizar = true;
     }
 
-
-    public int getClickCounter() {
-        return clickCounterDelay;
+    public int getContClick() {
+        return contClick;
     }
 
     public String getOrigin() {
         return verticeOrigen.getId();
     }
 
-    public String getTarget() {
+    public String getDestino() {
         return destino.getId();
     }
 
     public void launch(int[][] m, int[][] peso, ToggleButton toggle, ToggleButton toggle1) {
         launcher(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
-                destino.getXPosition(), destino.getYPosition(), pane, circle, m, peso, toggle, toggle1);
+                destino.getXPosition(), destino.getYPosition(), pane, circulo, m, peso, toggle, toggle1);
     }
 
     public void mouseEvent(Node x, AnchorPane pane, int n) {
@@ -254,7 +241,7 @@ public class Controlador {
         if (contadorCK == 0) {
             animacion.Restablecer();
             lock = true;
-            verticeOrigen.update(x);
+            verticeOrigen.actualizar(x);
             init = x.getId();
             trigger = false;
             lineaAuxiliar.forEach(q -> {
@@ -263,7 +250,7 @@ public class Controlador {
         }
 
         if (contadorCK == 1) {
-            destino.update(x);
+            destino.actualizar(x);
             contadorCK = 0;
             trigger = true;
         }
@@ -276,18 +263,22 @@ public class Controlador {
         return trigger;
     }
 
+    public int getR() {
+        return rclick;
+    }
+
     private void Limpiar(AnchorPane pane) {
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
                 RadioButton vertice = (RadioButton) item;
-                if (vertice.getId().equals(verticeOrigen.getId()) || vertice.getId().equals(target.getId())) {
+                if (vertice.getId().equals(verticeOrigen.getId()) || vertice.getId().equals(destino.getId())) {
                     (vertice).setSelected(false);
                 }
             }
         });
     }
 
-    private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circle, int[][] m, int[][] peso,
+    private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circulo, int[][] m, int[][] peso,
          ToggleButton toggle, ToggleButton toggle1) {
 
         auxLinea.forEach(x -> {
@@ -303,9 +294,9 @@ public class Controlador {
             });
 
             x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                BuscarCamino(x, pane, toggle, toggle1);
+                searchConectedRadios(x, pane, toggle, toggle1);
                 habilitado = true;
-                LimpiarSeleccionados();
+                clearSelection();
                 x.setStyle("-fx-stroke: rgba(0,255, 255,0.3);");
             });
 
@@ -354,20 +345,21 @@ public class Controlador {
         auxLinea = new ArrayList<>();
         lineas.forEach(x -> auxLinea.add(x));
 
-        animacion.set(logicaL, lineas, lineaInicio, pane, m, init);
+        animacion.set(logicLines, pane,lineas, lineaInicio,  m, init);
 
         Linea = new Polyline();
         lineas = new ArrayList<>();
-        logicaL = new ArrayList<>();
-    }
-    public ArrayList<String> getTrayectoria() {
-        ArrayList<String> trayecto = new ArrayList<>();
-        trayecto.add(verticeOrigen.getId());
-        trayecto.add(target.getId());
-        return trayecto;
+        logicLines = new ArrayList<>();
     }
 
-    public void toLinea(ArrayList<String> logicPath) {
+    public ArrayList<String> getTrajectory() {
+        ArrayList<String> trajectory = new ArrayList<>();
+        trajectory.add(verticeOrigen.getId());
+        trajectory.add(destino.getId());
+        return trajectory;
+    }
+
+    public void toLines(ArrayList<String> logicPath) {
         ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> graphicPath = new ArrayList<>();
         pane.getChildren().forEach(item -> {
@@ -392,14 +384,13 @@ public class Controlador {
                 verticeOrigen = new Point();
                 destino = new Point();
 
-                verticeOrigen.update((Node) graphicPath.get(i));
-                destino.update((Node) graphicPath.get(i + 1));
+                verticeOrigen.actualizar((Node) graphicPath.get(i));
+                destino.actualizar((Node) graphicPath.get(i + 1));
 
-                logicaL.add(verticeOrigen.getXPosition() + 0.0);
-                logicaL.add(verticeOrigen.getYPosition() + 0.0);
-                logicaL.add(target.getXPosition() + 0.0);
-                logicaL.add(destino.getYPosition() + 0.0);
-
+                logicLines.add(verticeOrigen.getXPosition() + 0.0);
+                logicLines.add(verticeOrigen.getYPosition() + 0.0);
+                logicLines.add(destino.getXPosition() + 0.0);
+                logicLines.add(destino.getYPosition() + 0.0);
 
                 lineas.add(new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
                         destino.getXPosition(), destino.getYPosition()));
@@ -411,8 +402,8 @@ public class Controlador {
 
     }
 
-    public void iniciar(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
-        boolean iniciar = true;
+    public void inicio(AnchorPane pane, int[][] m, ToggleButton toggle, ToggleButton toggle1) {
+        
         Matriz = m;
         Line selectedLine = new Line();
         ArrayList<RadioButton> vertices = new ArrayList<>();
@@ -425,6 +416,7 @@ public class Controlador {
         });
 
         vertices.forEach(y -> {
+
             RadioButton vertice = (RadioButton) y;
             graphicPath.add(y);
 
@@ -439,11 +431,11 @@ public class Controlador {
                     actualizar = false;
                     for (RadioButton r : vertices) {
                         if (r.getId().equals("A" + (i + 1))) {
-                            verticeOrigen.update((Node) r);
+                            verticeOrigen.actualizar((Node) r);
                             actualizar = true;
                         }
                         if (r.getId().equals("A" + (j + 1))) {
-                            destino.update((Node) r);
+                            destino.actualizar((Node) r);
                             actualizar = true;
                         }
                     }
@@ -451,7 +443,6 @@ public class Controlador {
                     if (actualizar) {
                         Line linea = new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
                                 destino.getXPosition(), destino.getYPosition());
-
 
                         linea.setStrokeWidth(5);
 
@@ -464,9 +455,9 @@ public class Controlador {
                         });
 
                         linea.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                            BuscarCamino(linea, pane, toggle, toggle1);
+                            searchConectedRadios(linea, pane, toggle, toggle1);
                             habilitado = true;
-                            LimpiarSeleccionados();
+                            clearSelection();
                             linea.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
                         });
                         linea.toFront();
@@ -484,11 +475,11 @@ public class Controlador {
         destino = new Point();
     }
 
-    public void getCalcular() {
-        reCalcularRuta();
+    public void calcular() {
+        reCalcular();
     }
 
-    private void LimpiarSeleccionados() {
+    private void clearSelection() {
         lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
         lineas.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);"));
         auxLinea.forEach(x -> x.setStyle("-fx-stroke: rgba(0,0, 255,0.3);"));
@@ -496,7 +487,7 @@ public class Controlador {
 
     private int weightHover(Line line, int[][] weightMatrix) {
         ArrayList<RadioButton> vertices = new ArrayList<>();
-        ArrayList<RadioButton> calles = new ArrayList<>();
+        ArrayList<RadioButton> conected = new ArrayList<>();
 
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -509,14 +500,14 @@ public class Controlador {
             if ((x.getLayoutX() == line.getStartX() - 7 || x.getLayoutX() == line.getEndX() - 7)
                     && (x.getLayoutY() == line.getStartY() - 9 || x.getLayoutY() == line.getEndY() - 9)) {
 
-                calles.add(x);
+                conected.add(x);
             }
         });
         int peso1 = 0;
         int peso2 = 0;
         int visible = 0;
-        int localOrigin = Integer.valueOf(calles.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(calles.get(1).getId().replaceAll("\\D+", "")) - 1;
+        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
         if (Matriz[localOrigin][localTarget] == 1) {
             peso1 = weightMatrix[localOrigin][localTarget];
         }
@@ -535,9 +526,9 @@ public class Controlador {
         }
     }
 
-    private void BuscarCamino(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
+    private void searchConectedRadios(Line l, AnchorPane pane, ToggleButton toggle, ToggleButton toggle1) {
         ArrayList<RadioButton> vertices = new ArrayList<>();
-        ArrayList<RadioButton> ruta = new ArrayList<>();
+        ArrayList<RadioButton> conected = new ArrayList<>();
 
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -550,12 +541,12 @@ public class Controlador {
             if ((x.getLayoutX() == l.getStartX() - 7 || x.getLayoutX() == l.getEndX() - 7)
                     && (x.getLayoutY() == l.getStartY() - 9 || x.getLayoutY() == l.getEndY() - 9)) {
 
-                ruta.add(x);
+                conected.add(x);
             }
         });
 
-        int localOrigin = Integer.valueOf(ruta.get(0).getId().replaceAll("\\D+", "")) - 1;
-        int localTarget = Integer.valueOf(ruta.get(1).getId().replaceAll("\\D+", "")) - 1;
+        int localOrigin = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
+        int localTarget = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
         boolean rightWay = true;
         boolean leftWay = true;
         boolean bandera1 = true;
@@ -571,14 +562,13 @@ public class Controlador {
                     }
                 }
             }
-            toggle.setText(ruta.get(0).getId() + "->" + ruta.get(1).getId());
+            toggle.setText(conected.get(0).getId() + "->" + conected.get(1).getId());
             leftWay = false;
         }
         if (Matriz[localTarget][localOrigin] == 1) {
-            int localOrigin1 = Integer.valueOf(ruta.get(1).getId().replaceAll("\\D+", "")) - 1;
-            int localTarget1 = Integer.valueOf(ruta.get(0).getId().replaceAll("\\D+", "")) - 1;
+            int localOrigin1 = Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", "")) - 1;
+            int localTarget1 = Integer.valueOf(conected.get(0).getId().replaceAll("\\D+", "")) - 1;
             for (int i = 0; i < trayecto.size(); i++) {
-
                 if (bandera2) {
                     if (localOrigin1 == trayecto.get(i).getXPosition() && localTarget1 == trayecto.get(i).getYPosition()) {
                         toggle1.setSelected(true);
@@ -588,7 +578,7 @@ public class Controlador {
                     }
                 }
             }
-            toggle1.setText(ruta.get(1).getId() + "->" + ruta.get(0).getId());
+            toggle1.setText(conected.get(1).getId() + "->" + conected.get(0).getId());
             rightWay = false;
         }
 
@@ -599,6 +589,7 @@ public class Controlador {
             toggle1.setText("");
         }
     }
+
 
     public int toNumber(ToggleButton button, int n) {
         if (!"No hay via".equals(button.getText())) {
@@ -612,7 +603,7 @@ public class Controlador {
     public void addOffRoad(int x, int y) {
         Point localOffRoad = new Point();
         boolean found = false;
-        localOffRoad.update(x, y);
+        localOffRoad.actualizar(x, y);
         for (Point p : trayecto) {
             if (p.getXPosition() == x && p.getYPosition() == y) {
                 found = true;
@@ -635,6 +626,9 @@ public class Controlador {
         trayecto.forEach(x -> System.out.println(x.getXPosition() + "-" + x.getYPosition()));
     }
 
+    public void resetOffRodas() {
+        trayecto = new ArrayList<>();
+    }
 
     public boolean getOnline() {
         return habilitado;
@@ -648,6 +642,10 @@ public class Controlador {
         return trayecto;
     }
 
+    public void activate() {
+        activar = !activar;
+    }
+
     public void limpiarRuta(AnchorPane pane) {
         auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
@@ -656,14 +654,24 @@ public class Controlador {
         lineas.forEach(x -> auxLinea.add(x));
         Linea = new Polyline();
         lineas = new ArrayList<>();
-        logicaL = new ArrayList<>();
+        logicLines = new ArrayList<>();
     }
 
-    public void setClicks(int click) {
-        this.clicks = click;
+    public int getClicks() {
+        return clicks;
     }
 
-    public void Repintar() {
+    public void setClicks(int clicks) {
+        this.clicks = clicks;
+    }
+
+    public void ex(int i) {
+        if (i == 0) {
+            System.exit(-1);
+        }
+    }
+
+    public void repaint() {
         ArrayList<RadioButton> vertices = new ArrayList<>();
         pane.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -676,12 +684,20 @@ public class Controlador {
         vertices.forEach(x -> pane.getChildren().add(x));
     }
 
-    public void setLeftFlag(boolean leftFlag) {
-        this.banIzq = leftFlag;
+    public boolean isLeftFlag() {
+        return banIzq;
     }
 
-    public void setRightFlag(boolean rightFlag) {
-        this.banDer = rightFlag;
+    public void setLeftFlag(boolean banIzq) {
+        this.banIzq = banIzq;
+    }
+
+    public boolean isRightFlag() {
+        return banDer;
+    }
+
+    public void setRightFlag(boolean banDer) {
+        this.banDer = banDer;
     }
 
     public int getTrafico() {

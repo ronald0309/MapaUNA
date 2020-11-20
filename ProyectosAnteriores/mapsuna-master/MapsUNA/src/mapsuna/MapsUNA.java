@@ -31,22 +31,8 @@ public class MapsUNA extends Application {
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
-//        root.setOnMousePressed((MouseEvent event) -> {
-//            ejeX = event.getSceneX();
-//            ejeY = event.getSceneY();
-//        });
-//        root.setOnMouseDragged((MouseEvent event) -> {
-//            stage.setX(event.getScreenX() - ejeX);
-//            stage.setY(event.getScreenY() - ejeY);
-//        });
 
         Grafo grafo = new Grafo();
-//        Dijkstra dijskstra = new Dijkstra();
-//        grafo.inicializarPesos();
-//        
-//        dijskstra.dijkstra(grafo.getMatPeso(), 64, 28);
-//        Collections.reverse(dijskstra.getLista());
-//        System.out.println(dijskstra.getLista());
 
         stage.show();
     }
