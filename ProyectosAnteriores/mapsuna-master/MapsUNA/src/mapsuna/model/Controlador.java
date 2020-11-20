@@ -392,7 +392,6 @@ public class Controlador {
     public void inicio(AnchorPane pane, int[][] m, ToggleButton rbtn, ToggleButton rbtn1) {
 
         Matriz = m;
-        Line selectedLine = new Line();
         ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> graphicPath = new ArrayList<>();
         pane.getChildren().forEach(item -> {

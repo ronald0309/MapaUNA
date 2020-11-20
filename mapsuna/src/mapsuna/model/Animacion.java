@@ -15,7 +15,7 @@ import javafx.scene.shape.Polyline;
 
 /**
  *
- * @author fredy
+ * @author Freddy
  */
 public class Animacion {
     

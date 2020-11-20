@@ -30,7 +30,7 @@ import mapsuna.model.Grafo;
 /**
  * FXML Controller class
  *
- * @author Jona
+ * @author Freddy
  */
 public class WindowController implements Initializable {
 
