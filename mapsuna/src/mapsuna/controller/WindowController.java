@@ -5,13 +5,9 @@
  */
 package mapsuna.controller;
 
-
-import com.jfoenix.controls.JFXRadioButton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +26,7 @@ import mapsuna.model.Dijkstra;
 import mapsuna.model.Controlador;
 import mapsuna.model.Floyd;
 import mapsuna.model.Grafo;
+
 /**
  * FXML Controller class
  *
@@ -48,8 +44,6 @@ public class WindowController implements Initializable {
     private Circle circulo;
     private int x;
     private int y;
-    
-    
 
     @FXML
     private RadioButton rdbDijkstra;
@@ -220,7 +214,7 @@ public class WindowController implements Initializable {
     @FXML
     private Label costLabel;
     @FXML
-    private Label costLabel1;  
+    private Label costLabel1;
     @FXML
     private Label timeCost;
     @FXML
@@ -237,10 +231,11 @@ public class WindowController implements Initializable {
     private Button btnSalir;
     @FXML
     private ComboBox<String> comboTrafico;
-     @FXML
-    private ToggleButton rbdNoDR;
     @FXML
-    private ToggleButton rbdNoIZ;
+    private RadioButton rbdNoDR;
+    @FXML
+    private RadioButton rbdNoIZ;
+
     /**
      * Initializes the controller class.
      *
@@ -256,7 +251,7 @@ public class WindowController implements Initializable {
         //INICIALIZACION DE PESOS Y MATRIZ AUXILIAR
         grafo.inicializarPesos();
         grafo.inicializarMatAux();
-        
+
         //Inicialisazion de vheiculo"circulo"
         circulo = new Circle();
         circulo.setCenterX(0.0f);
@@ -264,11 +259,11 @@ public class WindowController implements Initializable {
         circulo.setRadius(8.0f);
         circulo.setFill(javafx.scene.paint.Color.INDIGO);
         circulo.setId("auto");
-        
+
         // Se agrega el vheiculo en la ventana y se inicializa el controlador
         mapaBASe.getChildren().add(circulo);
         controlador = new Controlador(circulo, rdbDijkstra, rdbFloyd, costLabel, rbdNoIZ, rbdNoDR, mapaBASe, false, false, 1, timeCost, costLabel1);
-       
+
         // SE la agrega los eventos del mouse a cada rbd del mapa
         mapaBASe.getChildren().forEach(x -> {
             if (x.getClass() == RadioButton.class) {
@@ -276,7 +271,7 @@ public class WindowController implements Initializable {
                     if (event.getButton() == MouseButton.PRIMARY) {
                         controlador.mouseEvent(x, mapaBASe, 0);
                         if (controlador.getTrigger()) {
-                           controlador.calcular();
+                            controlador.calcular();
                         }
                     } else if (event.getButton() == MouseButton.SECONDARY) {
                         controlador.mouseEvent(x, mapaBASe, 1);
@@ -286,24 +281,10 @@ public class WindowController implements Initializable {
         });
         controlador.inicio(mapaBASe, grafo.getGrafo(), rbdNoIZ, rbdNoDR);
     }
-//evento para mover la ventana
-    @FXML
-    private void MoverVentana(MouseEvent event) {
-        Stage stage = (Stage) titulo.getScene().getWindow();
-        stage.setX(event.getScreenX() - ejeX);
-        stage.setY(event.getScreenY() - ejeY);
-    }
-//evento para detectar el click dentra del anchor pane del titulo
-    @FXML
-    private void PresionarVentana(MouseEvent event) {
-        ejeX = event.getSceneX();
-        ejeY = event.getSceneY();
-    }
-   
 
     @FXML
     private void onActionBtnIniciar(ActionEvent event) {
-         controlador.Habilitar();
+        controlador.Habilitar();
         ArrayList<RadioButton> radios = new ArrayList<>();
         mapaBASe.getChildren().forEach(item -> {
             if (item.getClass() == RadioButton.class) {
@@ -325,7 +306,8 @@ public class WindowController implements Initializable {
 
     @FXML
     private void onActionBtnReiniciar(ActionEvent event) {
-;       controlador.limpiarRuta(mapaBASe);
+        ;
+        controlador.limpiarRuta(mapaBASe);
         controlador.setClicks(0);
         costLabel.setText("0");
         costLabel1.setText("0");
@@ -340,8 +322,8 @@ public class WindowController implements Initializable {
     @FXML
     private void onActionComboTrafico(ActionEvent event) {
         if (comboTrafico.getSelectionModel().getSelectedItem().equals("Alto")) {
-                controlador.setTrafico(3);
-                grafo.editarMatriz(controlador.getTrafico());
+            controlador.setTrafico(3);
+            grafo.editarMatriz(controlador.getTrafico());
         } else {
             if (comboTrafico.getSelectionModel().getSelectedItem().equals("Medio")) {
                 controlador.setTrafico(2);
@@ -354,6 +336,17 @@ public class WindowController implements Initializable {
         }
     }
 
+    @FXML
+    private void MoverVentana(MouseEvent event) {
+        Stage stage = (Stage) titulo.getScene().getWindow();
+        stage.setX(event.getScreenX() - ejeX);
+        stage.setY(event.getScreenY() - ejeY);
+    }
 
+    @FXML
+    private void PresionarVentana(MouseEvent event) {
+        ejeX = event.getSceneX();
+        ejeY = event.getSceneY();
+    }
 
 }

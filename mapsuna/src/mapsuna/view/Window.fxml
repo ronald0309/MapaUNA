@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Bloom?>
@@ -263,12 +262,12 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="842.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ToggleButton fx:id="rbdNoDR" text="(DR)No hay via" textFill="WHITE" />
-            <ToggleButton fx:id="rbdNoIZ" text="(IZ)No hay via" textFill="WHITE">
+            <RadioButton fx:id="rbdNoDR" text="(DR)No hay via" textFill="WHITE" />
+            <RadioButton fx:id="rbdNoIZ" text="(IZ)No hay via" textFill="WHITE">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
-            </ToggleButton>
+            </RadioButton>
          </children>
          <BorderPane.margin>
             <Insets left="20.0" right="20.0" top="-10.0" />

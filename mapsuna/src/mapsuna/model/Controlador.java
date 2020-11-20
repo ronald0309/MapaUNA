@@ -16,7 +16,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -69,15 +68,13 @@ public class Controlador {
     private Label lbltotalPrevio;
     private Label coLabel1;
     private Label time;
-    private boolean baniz;
-    private boolean bander;
-    private ToggleButton calleDR;
-    private ToggleButton calleIZ;
+    private RadioButton calleDR;
+    private RadioButton calleIZ;
     private boolean reCalcular;
     private String init;
     //
 
-    public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, ToggleButton iz, ToggleButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo, Label costTo) { // Variables para resivir del controlador de la ventana
+    public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, RadioButton iz, RadioButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo, Label costTo) { // Variables para resivir del controlador de la ventana
 
         //inicializacion de variables
         activar = false;
@@ -86,8 +83,6 @@ public class Controlador {
         rclick = 0;
         animacion = new Animacion();
         contadorCK = 0;
-        this.calleIZ = iz;
-        this.calleDR = dr;
         habilitado = false;
         verticeOrigen = new Point();
         destino = new Point();
@@ -121,41 +116,24 @@ public class Controlador {
         time = tiempo;
         coLabel1 = costTo;
         trafico = tra;
+         
         thread = new Thread(() -> {
             while (true) {
                 try {
                     Thread.sleep(200);
                     Platform.runLater(() -> {
-                        if (actualizar) {
+                        if (actualizar) {//verfica que no se haya detenido el proceso 
                             if (movimiento.getStatus() == Animation.Status.RUNNING) {
                             } else {
                                 if (!animacion.isEmpty()) {
-                                    if (reCalcular) {
-                                        int currentCost = animacion.getAcarreo();
-                                        String finalCost = lbltotalPrevio.getText();
-                                        animacion.Resetear();
-                                        reCalcular = false;
-                                        animacion.setAcarreo(currentCost);
-                                        verticeOrigen.setId(animacion.getPuntos());
-                                        lineaAuxiliar = auxLinea;
-                                        reCalcular();
-                                        lineaAuxiliar.forEach(x -> {
-                                        pane.getChildren().add(x);
-                                        });
-                                        lbltotalPrevio.setText(finalCost);
-                                    } else {
-                                        movimiento.setPath(animacion.pop());
-                                        costTo.setText(animacion.getAcarreo() + "");
-                                        movimiento.play();
-                                    }
+                                    movimiento.setPath(animacion.pop());
+                                    costTo.setText(animacion.getAcarreo() + "");
+                                    movimiento.play();
                                 } else {
                                     actualizar = false;
                                     costTo.setText(animacion.getAcarreo() + "");
-                                    animacion.getDelayLine();
                                 }
                             }
-                        }
-                        if (reCalcular && !animacion.isEmpty()) {
                         }
                     });
                 } catch (InterruptedException ex) {
@@ -164,8 +142,6 @@ public class Controlador {
         });
         thread.setDaemon(true);
         thread.start();
-        
-        
 
     }
 
@@ -173,55 +149,11 @@ public class Controlador {
 
     }
 
-    public void setRecalculate(boolean recalcular) {
-        this.reCalcular = recalcular;
+    public void setRecalculate(boolean reCalcular) {
+        this.reCalcular = reCalcular;
     }
 ///calcula la ruta
-    private void reCalcular() {
-        ArrayList<String> path = new ArrayList<>();
-        path = ruta();
-        grafo.inicializarMatAux();
-        grafo.inicializarPesos();
-        grafo.editarMatriz(trafico);
-        trayecto.forEach(x -> {if (baniz) {
-                grafo.cortarPaso(x.getX(), x.getY());
-                grafo.cortarPasoMatPeso(x.getX(), x.getY());//Se trabaja con la de pesos
-            }
-            if (bander) {
-                grafo.cortarPaso(x.getY(), x.getX());
-                grafo.cortarPasoMatPeso(x.getX(), x.getY());
-            }
-        });
-        if (rdbFloyd.isSelected()) {///si esta seleccionad floyd se ejecuta el algoritmo de floid
-            floyd.setMatPesos(grafo.getMatPeso());
-            floyd.floyd();//Resuelve mediante Floyd
-            long micro = (floyd.getResultTime() / 1000);
-            time.setText(String.valueOf(micro));
-            lbltotalPrevio.setText(String.valueOf(floyd.obtenerCostoPrevio(path.get(0), path.get(1))));
-            path = (ArrayList<String>) floyd.obtenerRuta(path.get(0), path.get(1));
-        } else {// si no se ejecuta el algoritmo de dijkstra
-            int fila = Integer.valueOf(path.get(0).replaceAll("\\D+", ""));
-            int col = Integer.valueOf(path.get(1).replaceAll("\\D+", ""));
-            dijkstra.setMatPeso(grafo.getMatPeso());
-            dijkstra.dijkstra(fila - 1, col - 1);//Resuelve mediante Dijkstra
-            Collections.reverse(dijkstra.getLista());
-            path = new ArrayList<>();
-            for (int i = 0; i < dijkstra.getLista().size(); i++) {
-                path.add("A" + (Integer.valueOf(dijkstra.getLista().get(i)) + 1));
-            }
-            long micro = (dijkstra.getResultTime() / 1000);
-            time.setText(String.valueOf(micro));
-            lbltotalPrevio.setText(String.valueOf(dijkstra.getCostoTotal()));
-
-        }
-        toLines(path);
-        empiezo(grafo.getMatPeso(), grafo.getMatPeso(), calleDR, calleIZ);
-        path = new ArrayList<>();
-        calleDR.setSelected(false);
-        calleIZ.setSelected(false);
-        repintar();
-    }
-
+    
     public void setActualizar() {
         actualizar = !actualizar;
     }
@@ -234,7 +166,7 @@ public class Controlador {
         actualizar = true;
     }
 
-    public void empiezo(int[][] m, int[][] peso, ToggleButton rbtn, ToggleButton rbtn1) {
+    public void empiezo(int[][] m, int[][] peso, RadioButton rbtn, RadioButton rbtn1) {
         iniciar(verticeOrigen.getX(), verticeOrigen.getY(),
                 destino.getX(), destino.getY(), pane, circulo, m, peso, rbtn, rbtn1);
     }
@@ -271,7 +203,7 @@ public class Controlador {
         return rclick;
     }
 
-    private void iniciar(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circulo, int[][] m, int[][] peso, ToggleButton rbtn, ToggleButton rbtn1) {
+    private void iniciar(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circulo, int[][] m, int[][] peso, RadioButton rbtn, RadioButton rbtn1) {
 
         auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
@@ -285,7 +217,7 @@ public class Controlador {
             x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                 BuscarConexion(x, pane, rbtn, rbtn1);
                 habilitado = true;
-                clearSelection();
+                LimpiarSeleccionados();
                 x.setStyle("-fx-stroke: rgba(0,255, 255,0.3);");
             });
             //limpia la linea
@@ -388,11 +320,63 @@ public class Controlador {
         }
 
     }
+    
+    private void reCalcular() {
+        ArrayList<String> path = new ArrayList<>();
+        path = ruta();
+        grafo.inicializarMatAux();
+        grafo.inicializarPesos();
+        grafo.editarMatriz(trafico);
+        trayecto.forEach(x -> {
+        });
+        if (rdbFloyd.isSelected()) {///si esta seleccionad floyd se ejecuta el algoritmo de floid
+            floyd.setMatPesos(grafo.getMatPeso());
+            floyd.floyd();//Resuelve mediante Floyd
+            long micro = (floyd.getResultTime() / 1000);
+            time.setText(String.valueOf(micro));
+            lbltotalPrevio.setText(String.valueOf(floyd.obtenerCostoPrevio(path.get(0), path.get(1))));
+            path = (ArrayList<String>) floyd.obtenerRuta(path.get(0), path.get(1));
+        } else {// si no se ejecuta el algoritmo de dijkstra
+            int fila = Integer.valueOf(path.get(0).replaceAll("\\D+", ""));
+            int col = Integer.valueOf(path.get(1).replaceAll("\\D+", ""));
+            dijkstra.setMatPeso(grafo.getMatPeso());
+            dijkstra.dijkstra(fila - 1, col - 1);//Resuelve mediante Dijkstra
+            Collections.reverse(dijkstra.getLista());
+            path = new ArrayList<>();
+            for (int i = 0; i < dijkstra.getLista().size(); i++) {
+                path.add("A" + (Integer.valueOf(dijkstra.getLista().get(i)) + 1));
+            }
+            long micro = (dijkstra.getResultTime() / 1000);
+            time.setText(String.valueOf(micro));
+            lbltotalPrevio.setText(String.valueOf(dijkstra.getCostoTotal()));
 
-    public void inicio(AnchorPane pane, int[][] m, ToggleButton rbtn, ToggleButton rbtn1) {
+        }
+        toLines(path);
+        empiezo(grafo.getMatPeso(), grafo.getMatPeso(), calleDR, calleIZ);
+        path = new ArrayList<>();
+        calleDR.setSelected(false);
+        calleIZ.setSelected(false);
+        repintar();
+    } 
+     public void repintar() {
+        ArrayList<RadioButton> vertices = new ArrayList<>();
+        pane.getChildren().forEach(item -> {
+            if (item.getClass() == RadioButton.class) {
+                RadioButton vertice = (RadioButton) item;
+                vertice.setSelected(false);
+                vertices.add(vertice);
+            }
+        });
+        vertices.forEach(x -> pane.getChildren().remove(x));
+        vertices.forEach(x -> pane.getChildren().add(x));
+    }
+
+    public int getTrafico() {
+        return trafico;
+    }
+    public void inicio(AnchorPane pane, int[][] m, RadioButton rbtn, RadioButton rbtn1) {
 
         Matriz = m;
-        Line selectedLine = new Line();
         ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> graphicPath = new ArrayList<>();
         pane.getChildren().forEach(item -> {
@@ -444,7 +428,7 @@ public class Controlador {
                         linea.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                             BuscarConexion(linea, pane, rbtn, rbtn1);
                             habilitado = true;
-                            clearSelection();
+                            LimpiarSeleccionados();
                             linea.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
                         });
                         linea.toFront();
@@ -466,7 +450,7 @@ public class Controlador {
         reCalcular();
     }
 
-    private void clearSelection() {
+    private void LimpiarSeleccionados() {
         lineaInicio.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.1);"));
         lineas.forEach(x -> x.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);"));
         auxLinea.forEach(x -> x.setStyle("-fx-stroke: rgba(0,0, 255,0.3);"));
@@ -513,7 +497,7 @@ public class Controlador {
         }
     }
 
-    private void BuscarConexion(Line l, AnchorPane pane, ToggleButton rbtn, ToggleButton rbtn1) {
+    private void BuscarConexion(Line l, AnchorPane pane, RadioButton rbtn, RadioButton rbtn1) {
         ArrayList<RadioButton> vertices = new ArrayList<>();
         ArrayList<RadioButton> conected = new ArrayList<>();
         rbtn.setSelected(false);
@@ -627,22 +611,7 @@ public class Controlador {
         this.clicks = clicks;
     }
 
-    public void repintar() {
-        ArrayList<RadioButton> vertices = new ArrayList<>();
-        pane.getChildren().forEach(item -> {
-            if (item.getClass() == RadioButton.class) {
-                RadioButton vertice = (RadioButton) item;
-                vertice.setSelected(false);
-                vertices.add(vertice);
-            }
-        });
-        vertices.forEach(x -> pane.getChildren().remove(x));
-        vertices.forEach(x -> pane.getChildren().add(x));
-    }
-
-    public int getTrafico() {
-        return trafico;
-    }
+   
 
     public void setTrafico(int trafico) {
         this.trafico = trafico;

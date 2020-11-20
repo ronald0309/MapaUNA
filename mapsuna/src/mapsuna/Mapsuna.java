@@ -21,7 +21,7 @@ import mapsuna.model.Grafo;
  *
  * @author Ronny
  */
-public class MapsUNA extends Application {
+public class Mapsuna extends Application {
     private double ejeX = 0;
     private double ejeY = 0;
     
