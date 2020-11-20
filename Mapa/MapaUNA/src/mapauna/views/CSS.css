@@ -111,6 +111,32 @@ and open the template in the editor.
     -fx-padding: 1px;
 }
 
+.carro{
+    -fx-background-image:url('../resources/car2.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 25 30;
+    
+}
+
+.camino{
+    -fx-stroke: rgba(46, 255, 143, 0.6);
+    -fx-stroke-width: 6px;
+}
+
+.accidente{
+    -fx-stroke: rgba(218, 164, 62, 0.6);
+    -fx-stroke-width: 6px;
+}
+
+.provisional{
+    -fx-stroke: rgba(154, 147, 148, 0.6);
+    -fx-stroke-width: 6px;
+}
+
+.cerrado{
+    -fx-stroke: rgba(208, 37, 62, 0.6);
+    -fx-stroke-width: 6px;
+}
 /*******************************************************************************
 *                                                                              *
 * Etiquetas                                                                 *

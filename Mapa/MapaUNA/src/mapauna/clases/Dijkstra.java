@@ -5,7 +5,7 @@ import java.util.List;
 public class Dijkstra{
     public static final int NO_PARENT = -1;
     
-    public static List<Vertice> evaluate(int[][] matrizPesos,int iniVertice, int finalVertice){
+    public static List<Vertice> evaluate(int[][] matrizPesos, int iniVertice, int finalVertice){
         int nVertices = matrizPesos[0].length;
         int[] DistanciasMasCortas = new int[nVertices];
         boolean[] revisados = new boolean[nVertices];

@@ -11,13 +11,13 @@ public class Vertice{
     public Vertice () { this("", -1); }
     public Vertice (int numVertice) { this("V", numVertice); }
     public Vertice(String nombre){ this(nombre, -1); }
-    public String getNomVertice(){ return nombre; }
-    public void setNomVertice(String nombre){ this.nombre = nombre; }
+    public String getNombre(){ return nombre; }
+    public void setNombre(String nombre){ this.nombre = nombre; }
     public Boolean igual(Vertice n){ return nombre.equals(n.nombre); }// decide entre la igualdad de nombres
-    public void setNumVertice(int numVertice){ this.numVertice = numVertice; }
-    public int getNumVertice(){ return numVertice; }
+    public void setNumero(int numVertice){ this.numVertice = numVertice; }
+    public int getNumero(){ return numVertice; }
     @Override
     public String toString() {
-        return "Vertice{" + "nombre=" + nombre + ", numVertice=" + numVertice + '}';
+        return nombre + numVertice;
     }
 }

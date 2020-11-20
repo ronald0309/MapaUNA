@@ -16,7 +16,6 @@ public class Floyd {
                 traza[i][j] = -1;
             }
         }
-
         int i, j, k;
         for (i = 0; i < n; i++) {
             D[i][i] = 0;

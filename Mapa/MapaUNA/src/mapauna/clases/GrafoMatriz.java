@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GrafoMatriz {
-    
+
     private int maxVerts; // máximo numero de vértices
     private int numVerts; // número de vértices actual
     private List<Vertice> verts; // array de vértices
-    private int  matAd[][]; // matriz de adyacencia
+    private int matAd[][]; // matriz de adyacencia
     public static final int INF = -1;
- 
-    public GrafoMatriz(int mx){
+
+    public GrafoMatriz(int mx) {
         maxVerts = mx;
         verts = new ArrayList<>(); // vector de vértices
-        matAd = new int [mx][mx]; // vector de punteros
+        matAd = new int[mx][mx]; // vector de punteros
         numVerts = mx;
+        //Debe estar fuera de la clase
         inicializar_matriz();
+        inicializar_vertices();
     }
 
     public int OnumeroDeVertices() {
@@ -50,103 +52,113 @@ public class GrafoMatriz {
     public void setMatAd(int[][] matAd) {
         this.matAd = matAd;
     }
-    
-    public void nuevoVertice(String nom)
-    {
-    boolean esta = numVertice(nom) >= 0;
-    if (!esta){
-        verts.add(new Vertice(nom, numVerts));
-        // No se comprueba que sobrepase el máximo
-    }
-    }
-    
-    public int numVertice(String vn)
-    {
-        return verts.stream()
-                .reduce(new Vertice(), (v,a) -> v.getNomVertice().equals(vn) ? v : a)
-                .getNumVertice();
-    }
-    
-    public void nuevoArco(String a, String b)
-    {
-     int va, vb;
-     va = numVertice(a);
-     vb = numVertice(b);
-     if (va <= 0 || vb <= 0) {
-        matAd[va][vb] = 1;
-     }
+
+    public void nuevoVertice(String nom) {
+        boolean esta = numVertice(nom) >= 0;
+        if (!esta) {
+            verts.add(new Vertice(nom, numVerts));
+            // No se comprueba que sobrepase el máximo
+        }
     }
 
-    public void nuevoArco(int va, int vb, int valor)
-    {
-     if (va >= 0 || vb >= 0 || va < numVerts || vb < numVerts)
-     matAd[va][vb] = valor;
+    public int numVertice(String vn) {
+        return verts.stream()
+                .reduce(new Vertice(), (v, a) -> v.getNombre().equals(vn) ? v : a)
+                .getNumero();
+    }
+    public void setArco(Vertice origen, Vertice destino, int peso) {
+        matAd[origen.getNumero()][destino.getNumero()] = peso;
     }
     
-    public boolean adyacente(String a, String b)
-    {
-     int va, vb;
-     va = numVertice(a);
-     vb = numVertice(b);
-     if (va >= 0 || vb >= 0){
-        return matAd[va][vb] == 1;
-     }
-     return false;
+    public int getArco(Vertice origen, Vertice destino) {
+        return matAd[origen.getNumero()][destino.getNumero()];
     }
-    public boolean adyacente(int va, int vb)
-    {
-     if (va >= 0 || vb >= 0 || va < numVerts || vb < numVerts){
-        return true; 
-     }
-     return false;
+
+    public void nuevoArco(String a, String b) {
+        int va,
+         vb;
+        va  = numVertice(a);
+        vb = numVertice(b);
+        if (va  <= 0 || vb <= 0) {
+            matAd[va][vb] = 1;
+        }
     }
-    
-    public int Ovalor(String a, String b)
-    {
-     int va, vb;
-     va = numVertice(a);
-     vb = numVertice(b);
-     if (va >= 0 || vb >= 0){ 
-        return matAd[va][vb];
-     }
-     return -1;
+
+    public void nuevoArco(int va, int vb, int valor) {
+        if (va  >= 0 || vb >= 0 || va  < numVerts || vb < numVerts) {
+            matAd[va][vb] = valor;
+        }
     }
-    
-    public int Ovalor( int va, int vb)
-    {
-     if (va >= 0 && vb >= 0 && va < numVerts && vb < numVerts){
-        return matAd[va][vb];
-     }else{
-       return 0;  
-     }
-     
+
+    public boolean adyacente(String a, String b) {
+        int va,
+         vb;
+        va  = numVertice(a);
+        vb = numVertice(b);
+        if (va  >= 0 || vb >= 0) {
+            return matAd[va][vb] == 1;
+        }
+        return false;
     }
-    
-    public void Pvalor(int va, int vb, int v)
-    {
-     if (va >= 0 || vb >= 0 || va < numVerts || vb < numVerts)
-         matAd[va][vb] = v;
+
+    public boolean adyacente(int va, int vb) {
+        if (va  >= 0 || vb >= 0 || va  < numVerts || vb < numVerts) {
+            return true;
+        }
+        return false;
     }
-    
-    public void Pvalor( String a, String b, int v)
-    {
-     int va, vb;
-     va = numVertice(a);
-     vb = numVertice(b);
-     if (va >= 0 && vb >= 0) 
-     matAd[va][vb] = v;
-     }   
-    
+
+    public int Ovalor(String a, String b) {
+        int va,
+         vb;
+        va  = numVertice(a);
+        vb = numVertice(b);
+        if (va  >= 0 || vb >= 0) {
+            return matAd[va][vb];
+        }
+        return -1;
+    }
+
+    public int Ovalor(int va, int vb) {
+        if (va  >= 0 && vb >= 0 && va  < numVerts && vb < numVerts) {
+            return matAd[va][vb];
+        } else {
+            return 0;
+        }
+
+    }
+
+    public void Pvalor(int va, int vb, int v) {
+        if (va  >= 0 || vb >= 0 || va  < numVerts || vb < numVerts) {
+            matAd[va][vb] = v;
+        }
+    }
+
+    public void Pvalor(String a, String b, int v) {
+        int va,
+         vb;
+        va  = numVertice(a);
+        vb = numVertice(b);
+        if (va  >= 0 && vb >= 0) {
+            matAd[va][vb] = v;
+        }
+    }
+
     Vertice Overtice(int va)
-    {
+     {
         return verts.get(va);
     }
-    
-    void Pvertice( int va, Vertice vert)
-    {
+
+    void Pvertice(int va, Vertice vert) {
         verts.set(va, vert);
     }
-    
+
+    private void inicializar_vertices() {
+        for (int i = 0; i < maxVerts; i++) {
+            verts.add(new Vertice(i));
+        }
+    }
+
     private void inicializar_matriz() {
         for (int i = 0; i < maxVerts; i++) {
             for (int j = 0; j < maxVerts; j++) {
@@ -439,4 +451,4 @@ public class GrafoMatriz {
         matAd[84][11] = 2;
 
     }
-}   
+}
