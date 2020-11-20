@@ -248,6 +248,7 @@ public class UnaController implements Initializable {
     private Vertice destino = vertice_null;
     final ToggleGroup group = new ToggleGroup();
     private GrafoMatriz grafo = new GrafoMatriz(85);
+<<<<<<< HEAD
     private Algoritmo algoritmo = Constants.Algoritmo.DIJKSTRA;
     private List<RadioButton> vertices;
     private List<Vertice> road;
@@ -276,6 +277,11 @@ public class UnaController implements Initializable {
     /**
      * Initializes the controller class.
      */
+=======
+    private Algoritmo_Ruta_Mas_Corta algoritmo = Algoritmo_Ruta_Mas_Corta.DIJKSTRA;
+    @FXML
+    private ToggleGroup ToggleGrupAlgoritmo;
+>>>>>>> origin/FR
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
