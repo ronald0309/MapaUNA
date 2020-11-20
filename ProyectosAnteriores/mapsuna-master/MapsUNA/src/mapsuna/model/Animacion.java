@@ -17,7 +17,7 @@ import javafx.scene.shape.Polyline;
  *
  * @author engel
  */
-public class Animator {
+public class Animacion {
     
     private Queue<Polyline> queue;
     private int way;
@@ -35,7 +35,7 @@ public class Animator {
     private String nextPoint;
     private String init;
     private String last;
-    public Animator() {
+    public Animacion() {
         way = 1;
         lock = true;
         queue = new LinkedList<>();
