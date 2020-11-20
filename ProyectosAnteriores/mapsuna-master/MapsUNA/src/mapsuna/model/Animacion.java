@@ -19,103 +19,100 @@ import javafx.scene.shape.Polyline;
  */
 public class Animacion {
     
-    private Queue<Polyline> queue;
-    private int way;
-    private Polyline origin;
-    private ArrayList<Line> lines;
-    private Line delayLine;
-    private Queue<Line> graphicQueue;
-    private boolean lock;
+    private Queue<Polyline> cola;
+    private int camino;
+    private ArrayList<Line> lineas;
+    private Line lineE;
+    private Queue<Line> colGra;
+    private boolean enable;
     private int[][] m;
-    private int currentCost;
+    private int acarreo;
     private AnchorPane pane;
     private int x;
     private int y;
-    private int finalCost;
-    private String nextPoint;
-    private String init;
+    private int costoFinal;
+    private String puntos;
+    private String inicio;
     private String last;
     public Animacion() {
-        way = 1;
-        lock = true;
-        queue = new LinkedList<>();
-        graphicQueue = new LinkedList<>();
-        Polyline l = new Polyline();
-        Polyline l1 = new Polyline();
-        lines = new ArrayList<>();
+        camino = 1;
+        enable = true;
+        cola = new LinkedList<>();
+        colGra = new LinkedList<>();
+        lineas = new ArrayList<>();
     }
     
     public void set(ArrayList<Double> logics, ArrayList<Line> lines, ArrayList<Line> aux, 
             AnchorPane pane, int[][] m, String init) {
-        this.init = init;
+        this.inicio = init;
         Polyline l1 = new Polyline();
         Queue<Line> gl;
-        currentCost = 0;
-        finalCost = 0;
+        acarreo = 0;
+        costoFinal = 0;
         for (int i = 0; i < logics.size(); i+=4) {
             Polyline l = new Polyline();
             l.getPoints().addAll(new Double[]{logics.get(i),
                                                 logics.get(i+1),
                                                 logics.get(i+2),
                                                 logics.get(i+3)});
-            queue.add(l);
+            cola.add(l);
         }
         this.pane = pane;
         this.m = m;
         
-        lines.forEach(x->graphicQueue.add(x));
+        lines.forEach(x->colGra.add(x));
         
         lines.forEach(l->{
             searchNode(l);
         });
         
-        currentCost = 0;
-        delayLine = lines.get(0);
-        lock = true;
+        acarreo = 0;
+        lineE = lines.get(0);
+        enable = true;
     }
     
     public Polyline pop() {
         Queue<Line> auxiliarQueue;
         Line auxiliarLine;
-        Polyline p = queue.peek();
-        if (!lock) {
-            delayLine.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
+        Polyline p = cola.peek();
+        if (!enable) {
+            lineE.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
         }
         Line l = new Line(p.getPoints().get(0),
                         p.getPoints().get(1),
                         p.getPoints().get(2),
                         p.getPoints().get(3));
-        delayLine = graphicQueue.peek();
+        lineE = colGra.peek();
         searchNode(l);
         
-        graphicQueue.remove();
+        colGra.remove();
         
-        lock = false;
-        way++;
-        queue.remove();
-        if (init.equals(search(l).get(0).getId())) {
-            init = search(l).get(1).getId();
+        enable = false;
+        camino++;
+        cola.remove();
+        if (inicio.equals(search(l).get(0).getId())) {
+            inicio = search(l).get(1).getId();
         }
         else {
             
-            init = search(l).get(0).getId();
+            inicio = search(l).get(0).getId();
         }
-        nextPoint= init;
+        puntos= inicio;
         
         return p;
     }
     
     public Line getDelayLine() {
-        delayLine.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
-        return delayLine;
+        lineE.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
+        return lineE;
     }
     
     public boolean isEmpty() {
-        return queue.isEmpty();
+        return cola.isEmpty();
     }
     
-    public void resetWay() {
-        way = 1;
+    public void Resetear() {
+        camino = 1;
     }
     
     private void searchNode(Line l) {
@@ -140,8 +137,8 @@ public class Animacion {
         y =Integer.valueOf(conected.get(1).getId().replaceAll("\\D+", ""));
         x--;
         y--;
-        currentCost = currentCost + m[x][y];
-        finalCost = finalCost + m[x][y];
+        acarreo = acarreo + m[x][y];
+        costoFinal = costoFinal + m[x][y];
     }
     
     public ArrayList<RadioButton> search(Line l) {
@@ -165,32 +162,29 @@ public class Animacion {
         return conected;
     }
     
-    public int getCurrentCost() {
-        return currentCost;
+    public int getAcarreo() {
+        return acarreo;
     }
     
-    public void setCurrentCost(int currentCost) {
-        this.currentCost = currentCost;
+    public void setAcarreo(int acarreo) {
+        this.acarreo = acarreo;
     }
     public int getFinalCost() {
-        return finalCost;
+        return costoFinal;
     }
     
-    public void reset() {
-        while(!queue.isEmpty()) queue.remove();
-        while(!graphicQueue.isEmpty()) graphicQueue.remove();
-        lock = true;
+    public void Restablecer() {
+        while(!cola.isEmpty()) cola.remove();
+        while(!colGra.isEmpty()) colGra.remove();
+        enable = true;
     }
     
     public ArrayList<Line> getLines() {
-        return lines;
+        return lineas;
     }
     
-    public Queue<Polyline> getQ() {
-        return queue;
-    }
     
-    public String getNextPoint() {
-        return nextPoint;
+    public String getPuntos() {
+        return puntos;
     }
 }
