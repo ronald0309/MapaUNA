@@ -32,18 +32,19 @@ import javafx.util.Duration;
  */
 public class Controlador {
 
-    private int contClick;
+    private int contadorCK;
     private int rclick;
     private int clickCounterDelay;
     private int[][] Matriz;
-    private boolean online;
+    private boolean habilitado;
     private ArrayList<Line> lineas;
     private ArrayList<Line> lineaInicio;
     private ArrayList<Line> auxLinea;
     private ArrayList<Line> lineaAuxiliar;
-    private ArrayList<Double> logicaL;
-    private ArrayList<Point> offRoads;
-    private Point target;
+
+    private ArrayList<Double> logicLines;
+    private ArrayList<Point> trayecto;
+    private Point destino;
     private Point verticeOrigen;
     private Polyline Linea;
     private PathTransition movimiento;
@@ -71,48 +72,49 @@ public class Controlador {
     private Label lbltotalPrevio;
     private Label coLabel1;
     private Label time;
-    private ToggleButton viaIzq;
-    private ToggleButton viaDer;
+
+    private ToggleButton calleDR;
+    private ToggleButton calleIZ;
     private boolean reCalcular;
     private String init;
     //
 
-    public Controlador(Circle circle, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label lbltotalPrevio, ToggleButton leftway,
-            ToggleButton rightway, AnchorPane pane, boolean left, boolean right, int trafico, Label timeCost,
-            Label labelCost) {
+
+    public Controlador(Circle circulo, RadioButton rdbDijkstra, RadioButton rdbFloyd, Label topre, ToggleButton iz, ToggleButton dr, AnchorPane pa, boolean izB, boolean drB, int tra, Label tiempo,Label costTo) { // Variables para resivir del controlador de la ventana
+
         textoAuxiliar = new Text("5");
         textoAuxiliar.setStyle("-fx-fill: white;" + "-fx-font-size: 17px;" + "-fx-font-weight: bold;");
         this.rdbDijkstra = rdbDijkstra;
         this.rdbFloyd = rdbFloyd;
-        this.paneMapa = pane;
-        this.viaIzq = leftway;
-        this.viaDer = rightway;
-        this.circulo = circle;
-        this.pane = pane;
-        this.lbltotalPrevio = lbltotalPrevio;
-        this.time = timeCost;
-        this.coLabel1 = labelCost;
-        //end biding
-        this.trafico = trafico;
+
+        paneMapa = pa;
+        calleDR = dr;
+        calleIZ = dr;
+        pane = pa;
+        lbltotalPrevio = topre;
+        time = tiempo;
+        coLabel1 = costTo;   
+        trafico = tra;
+        
         activar = false;
         trigger = false;
         lineaAuxiliar = new ArrayList<>();
         rclick = 0;
         animacion = new Animacion();
-        contClick = 0;
-        online = false;
+        contadorCK = 0;
+        habilitado = false;
         verticeOrigen = new Point();
-        target = new Point();
+        destino = new Point();
         movimiento = new PathTransition();
         Linea = new Polyline();
         lineas = new ArrayList<>();
         lineaInicio = new ArrayList<>();
         auxLinea = new ArrayList<>();
-        logicaL = new ArrayList<>();
-        offRoads = new ArrayList<>();
-        movimiento.setNode(circle);
-        movimiento.setDuration(Duration.millis(3000));
 
+        logicLines = new ArrayList<>();
+        trayecto = new ArrayList<>();
+        movimiento.setNode(circulo);
+        movimiento.setDuration(Duration.millis(3000));
         stack = new StackPane();
         backCircle = new Circle();
         backCircle.setRadius(10);
@@ -122,6 +124,7 @@ public class Controlador {
         backCircle2.setFill(javafx.scene.paint.Color.BLACK);
 
         actualizar = false;
+        
         thread = new Thread(() -> {
             while (true) {
                 try {
@@ -174,7 +177,7 @@ public class Controlador {
         grafo.inicializarMatAux();
         grafo.inicializarPesos();
         grafo.editarMatriz(trafico);
-        offRoads.forEach(x -> {
+        trayecto.forEach(x -> {
             if (banIzq) {
                 grafo.cortarPaso(x.getXPosition(), x.getYPosition());
                 grafo.cortarPasoMatPeso(x.getXPosition(), x.getYPosition());//Se trabaja con la de pesos
@@ -209,9 +212,10 @@ public class Controlador {
         toLinea(path);
         launch(grafo.getMatPeso(), grafo.getMatPeso(), viaIzq, viaDer);
         path = new ArrayList<>();
-        viaIzq.setSelected(false);
-        viaDer.setSelected(false);
+		calleDR.setSelected(false);
+        calleIZ.setSelected(false);
         Repintar();
+
     }
 
     public void setActualizar() {
@@ -226,16 +230,28 @@ public class Controlador {
         actualizar = true;
     }
 
-    public void launch(int[][] m, int[][] peso, ToggleButton toggle,
-            ToggleButton toggle1) {
+
+    public int getClickCounter() {
+        return clickCounterDelay;
+    }
+
+    public String getOrigin() {
+        return verticeOrigen.getId();
+    }
+
+    public String getTarget() {
+        return destino.getId();
+    }
+
+    public void launch(int[][] m, int[][] peso, ToggleButton toggle, ToggleButton toggle1) {
         launcher(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
-                target.getXPosition(), target.getYPosition(), pane, circulo, m, peso, toggle, toggle1);
+                destino.getXPosition(), destino.getYPosition(), pane, circle, m, peso, toggle, toggle1);
     }
 
     public void mouseEvent(Node x, AnchorPane pane, int n) {
         boolean lock = false;
 
-        if (contClick == 0) {
+        if (contadorCK == 0) {
             animacion.Restablecer();
             lock = true;
             verticeOrigen.update(x);
@@ -246,13 +262,13 @@ public class Controlador {
             });
         }
 
-        if (contClick == 1) {
-            target.update(x);
-            contClick = 0;
+        if (contadorCK == 1) {
+            destino.update(x);
+            contadorCK = 0;
             trigger = true;
         }
         if (lock) {
-            contClick++;
+            contadorCK++;
         }
     }
 
@@ -272,7 +288,7 @@ public class Controlador {
     }
 
     private void launcher(int x1, int y1, int x2, int y2, AnchorPane pane, Circle circle, int[][] m, int[][] peso,
-            ToggleButton toggle, ToggleButton toggle1) {
+         ToggleButton toggle, ToggleButton toggle1) {
 
         auxLinea.forEach(x -> {
             pane.getChildren().remove(x);
@@ -288,7 +304,7 @@ public class Controlador {
 
             x.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                 BuscarCamino(x, pane, toggle, toggle1);
-                online = true;
+                habilitado = true;
                 LimpiarSeleccionados();
                 x.setStyle("-fx-stroke: rgba(0,255, 255,0.3);");
             });
@@ -344,7 +360,6 @@ public class Controlador {
         lineas = new ArrayList<>();
         logicaL = new ArrayList<>();
     }
-
     public ArrayList<String> getTrayectoria() {
         ArrayList<String> trayecto = new ArrayList<>();
         trayecto.add(verticeOrigen.getId());
@@ -375,18 +390,19 @@ public class Controlador {
         for (int i = 0; i < graphicPath.size(); i++) {
             if (i + 1 < graphicPath.size()) {
                 verticeOrigen = new Point();
-                target = new Point();
+                destino = new Point();
 
                 verticeOrigen.update((Node) graphicPath.get(i));
-                target.update((Node) graphicPath.get(i + 1));
+                destino.update((Node) graphicPath.get(i + 1));
 
                 logicaL.add(verticeOrigen.getXPosition() + 0.0);
                 logicaL.add(verticeOrigen.getYPosition() + 0.0);
                 logicaL.add(target.getXPosition() + 0.0);
-                logicaL.add(target.getYPosition() + 0.0);
+                logicaL.add(destino.getYPosition() + 0.0);
+
 
                 lineas.add(new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
-                        target.getXPosition(), target.getYPosition()));
+                        destino.getXPosition(), destino.getYPosition()));
                 lineas.forEach(l -> {
                     l.setStyle("-fx-stroke: rgba(0,0, 255,0.3);");
                 });
@@ -415,7 +431,7 @@ public class Controlador {
         });
 
         verticeOrigen = new Point();
-        target = new Point();
+        destino = new Point();
         boolean actualizar = false;
         for (int i = 0; i < 80; i++) {
             for (int j = 0; j < 80; j++) {
@@ -427,14 +443,15 @@ public class Controlador {
                             actualizar = true;
                         }
                         if (r.getId().equals("A" + (j + 1))) {
-                            target.update((Node) r);
+                            destino.update((Node) r);
                             actualizar = true;
                         }
                     }
 
                     if (actualizar) {
                         Line linea = new Line(verticeOrigen.getXPosition(), verticeOrigen.getYPosition(),
-                                target.getXPosition(), target.getYPosition());
+                                destino.getXPosition(), destino.getYPosition());
+
 
                         linea.setStrokeWidth(5);
 
@@ -448,7 +465,7 @@ public class Controlador {
 
                         linea.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
                             BuscarCamino(linea, pane, toggle, toggle1);
-                            online = true;
+                            habilitado = true;
                             LimpiarSeleccionados();
                             linea.setStyle("-fx-stroke: rgba(170, 57, 57,0.5);");
                         });
@@ -464,7 +481,7 @@ public class Controlador {
         vertices.forEach(x -> pane.getChildren().remove(x));
         vertices.forEach(x -> pane.getChildren().add(x));
         verticeOrigen = new Point();
-        target = new Point();
+        destino = new Point();
     }
 
     public void getCalcular() {
@@ -544,9 +561,9 @@ public class Controlador {
         boolean bandera1 = true;
         boolean bandera2 = true;
         if (Matriz[localOrigin][localTarget] == 1) {
-            for (int i = 0; i < offRoads.size(); i++) {
+            for (int i = 0; i < trayecto.size(); i++) {
                 if (bandera1) {
-                    if (localOrigin == offRoads.get(i).getXPosition() && localTarget == offRoads.get(i).getYPosition()) {
+                    if (localOrigin == trayecto.get(i).getXPosition() && localTarget == trayecto.get(i).getYPosition()) {
                         toggle.setSelected(true);
                         bandera1 = false;
                     } else {
@@ -560,9 +577,10 @@ public class Controlador {
         if (Matriz[localTarget][localOrigin] == 1) {
             int localOrigin1 = Integer.valueOf(ruta.get(1).getId().replaceAll("\\D+", "")) - 1;
             int localTarget1 = Integer.valueOf(ruta.get(0).getId().replaceAll("\\D+", "")) - 1;
-            for (int i = 0; i < offRoads.size(); i++) {
+            for (int i = 0; i < trayecto.size(); i++) {
+
                 if (bandera2) {
-                    if (localOrigin1 == offRoads.get(i).getXPosition() && localTarget1 == offRoads.get(i).getYPosition()) {
+                    if (localOrigin1 == trayecto.get(i).getXPosition() && localTarget1 == trayecto.get(i).getYPosition()) {
                         toggle1.setSelected(true);
                         bandera2 = false;
                     } else {
@@ -595,38 +613,39 @@ public class Controlador {
         Point localOffRoad = new Point();
         boolean found = false;
         localOffRoad.update(x, y);
-        for (Point p : offRoads) {
+        for (Point p : trayecto) {
             if (p.getXPosition() == x && p.getYPosition() == y) {
                 found = true;
             }
         }
 
         if (!found) {
-            offRoads.add(localOffRoad);
+            trayecto.add(localOffRoad);
         }
     }
 
     public void removeOffRoad(int x, int y) {
-        offRoads = (ArrayList) offRoads.
+        trayecto = (ArrayList) trayecto.
                 stream().filter(i -> i.getXPosition() != x && i.getYPosition() != y).
                 collect(Collectors.<Point>toList());
     }
 
     public void printOffRoads() {
         System.out.println("-----------------");
-        offRoads.forEach(x -> System.out.println(x.getXPosition() + "-" + x.getYPosition()));
+        trayecto.forEach(x -> System.out.println(x.getXPosition() + "-" + x.getYPosition()));
     }
 
+
     public boolean getOnline() {
-        return online;
+        return habilitado;
     }
 
     public void restoreOnline() {
-        online = false;
+        habilitado = false;
     }
 
     public ArrayList<Point> getOffRoads() {
-        return offRoads;
+        return trayecto;
     }
 
     public void limpiarRuta(AnchorPane pane) {

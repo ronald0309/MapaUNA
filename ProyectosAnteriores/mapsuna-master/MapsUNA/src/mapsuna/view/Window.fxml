@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane prefHeight="726.0" prefWidth="881.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapsuna.controller.WindowController">
+<BorderPane prefHeight="741.0" prefWidth="881.0" style="-fx-background-color: black;" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mapsuna.controller.WindowController">
    <center>
-      <AnchorPane fx:id="baseMap" prefHeight="601.0" prefWidth="637.0" style="-fx-border-color: black;" styleClass="imagen" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="mapaBASe" prefHeight="601.0" prefWidth="637.0" style="-fx-border-color: black;" styleClass="imagen" BorderPane.alignment="CENTER">
          <children>
             <RadioButton fx:id="A26" layoutX="331.0" layoutY="266.0" mnemonicParsing="false" />
             <RadioButton fx:id="A24" layoutX="340.0" layoutY="248.0" mnemonicParsing="false" />
@@ -111,38 +108,34 @@
       </AnchorPane>
    </center>
    <right>
-      <VBox prefHeight="595.0" prefWidth="341.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="532.0" prefWidth="342.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="401.0" prefWidth="358.0" spacing="40.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="106.0" prefWidth="253.0" />
-                     </children>
-                  </HBox>
                   <VBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="331.0" spacing="5.0">
                      <children>
-                        <Label text="Algoritmos">
+                        <Label text="Algoritmos" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Label>
                         <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra">
+                              <RadioButton fx:id="rdbDijkstra" selected="true" text="Dijkstra" textFill="WHITE">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="tggAlgoritmo" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="rdbFloyd" text="Floyd" toggleGroup="$tggAlgoritmo" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+                              <RadioButton fx:id="rdbFloyd" text="Floyd" textFill="WHITE" toggleGroup="$tggAlgoritmo">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin></RadioButton>
                            </children>
                         </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="116.0" prefWidth="444.0">
                      <children>
@@ -150,12 +143,12 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Label text="Costo previo: ">
+                                    <Label text="Costo anterior: " textFill="WHITE">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="costLabel" prefHeight="33.0" prefWidth="36.0">
+                                    <Label fx:id="costLabel" prefHeight="30.0" prefWidth="104.0" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -164,12 +157,12 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                  <children>
-                                    <Label text="Costo final: ">
+                                    <Label text="Costo total: " textFill="WHITE">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="costLabel1" prefHeight="33.0" prefWidth="36.0">
+                                    <Label fx:id="costLabel1" prefHeight="31.0" prefWidth="118.0" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -182,30 +175,33 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                      <children>
-                        <Label styleClass="label-calculo" text="Tiempo de calculo: " />
-                        <Label fx:id="timeCost" styleClass="label-calculo" text="time" />
+                        <Label styleClass="label-calculo" text="Tiempo de Viaje:" textFill="WHITE" />
+                        <Label fx:id="timeCost" styleClass="label-calculo" text="time" textFill="#795b5b" />
                         <Label styleClass="label-calculo" text="microsegundos" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="104.0" prefWidth="440.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="109.0" prefWidth="440.0">
+                        <VBox alignment="CENTER" prefHeight="109.0" prefWidth="342.0">
                            <children>
-                              <Label text="Acciones">
+                              <Label text="Acciones" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                               </Label>
-                              <HBox alignment="CENTER" prefHeight="121.0" prefWidth="331.0" spacing="25.0" VBox.vgrow="ALWAYS">
+                              <HBox alignment="CENTER" prefHeight="105.0" prefWidth="342.0" spacing="25.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <VBox alignment="CENTER" prefHeight="71.0" prefWidth="119.0" spacing="5.0">
                                        <children>
-                                          <Button fx:id="startButton" onAction="#onActionStart" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Iniciar">
+                                          <Button fx:id="btnIniciar" onAction="#onActionBtnIniciar" prefHeight="46.0" prefWidth="365.0" styleClass="record-sales" text="Iniciar">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="stopButton" onAction="#onActionStop" prefHeight="46.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Detener">
+                                          <Button fx:id="btnDetener" onAction="#onActionBtnDetener" prefHeight="46.0" prefWidth="365.0" styleClass="record-sales" text="Detener">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -214,12 +210,12 @@
                                     </VBox>
                                     <VBox prefHeight="71.0" prefWidth="119.0" spacing="5.0">
                                        <children>
-                                          <Button fx:id="resetButton" onAction="#onActionResetButton" prefHeight="33.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Reiniciar">
+                                          <Button fx:id="btnReiniciar" onAction="#onActionBtnReiniciar" prefHeight="33.0" prefWidth="365.0" styleClass="record-sales" text="Reiniciar">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="exitButton" onAction="#onActionExit" prefHeight="32.0" prefWidth="365.0" styleClass="btnEventosRuta" text="Salir">
+                                          <Button fx:id="btnSalir" onAction="#onActionBtnSalir" prefHeight="32.0" prefWidth="365.0" styleClass="record-sales" text="Salir">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -227,6 +223,9 @@
                                        </children>
                                     </VBox>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                         </VBox>
@@ -234,28 +233,23 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox>
-               <children>
-                  <HBox />
-               </children>
-            </VBox>
             <VBox alignment="CENTER" prefHeight="98.0" prefWidth="131.0">
                <children>
-                  <Label text="Trafico">
+                  <Label text="Trafico" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="trafficCombo" onAction="#onActionTrafficCombo" prefHeight="26.0" prefWidth="123.0" />
+                  <ComboBox fx:id="comboTrafico" onAction="#onActionComboTrafico" prefHeight="26.0" prefWidth="123.0" />
                </children>
             </VBox>
          </children>
       </VBox>
    </right>
    <top>
-      <HBox fx:id="title" alignment="CENTER" onMouseDragged="#dragWindow" onMousePressed="#pressWindow" prefHeight="55.0" prefWidth="456.0" styleClass="HBOXTitle" BorderPane.alignment="CENTER">
+      <HBox fx:id="titulo" alignment="CENTER" onMouseDragged="#dragWindow" onMousePressed="#pressWindow" prefHeight="34.0" prefWidth="882.0" styleClass="HBOXTitle" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="label-header" text="Maps UNA" textFill="WHITE">
+            <Label styleClass="label-header" text="HUBER" textFill="WHITE">
                <font>
                   <Font size="25.0" />
                </font>
@@ -267,23 +261,18 @@
       </HBox>
    </top>
    <bottom>
-      <HBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
+
+      <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="842.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true" styleClass="izq">
-               <image>
-                  <Image url="@../resources/rowIzq.png" />
-               </image>
-            </ImageView>
-            <ToggleButton fx:id="leftway" onAction="#onActionLeftway" text="No hay via" />
-            <ImageView fitHeight="60.0" fitWidth="256.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/row.png" />
-               </image>
-            </ImageView>
-            <ToggleButton fx:id="rightway" onAction="#onActionRightWay" text="No hay via" />
+            <JFXRadioButton fx:id="rbdNoDR" text="(DR)No hay via" textFill="WHITE" />
+            <JFXRadioButton fx:id="rbdNoIZ" text="(IZ)No hay via" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </JFXRadioButton>
          </children>
          <BorderPane.margin>
-            <Insets left="20.0" right="20.0" />
+            <Insets left="20.0" right="20.0" top="-10.0" />
          </BorderPane.margin>
          <padding>
             <Insets left="20.0" right="20.0" />

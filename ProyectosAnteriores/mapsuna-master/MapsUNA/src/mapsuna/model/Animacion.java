@@ -15,7 +15,7 @@ import javafx.scene.shape.Polyline;
 
 /**
  *
- * @author engel
+ * @author fredy
  */
 public class Animacion {
     
@@ -75,8 +75,9 @@ public class Animacion {
         Queue<Line> auxiliarQueue;
         Line auxiliarLine;
         Polyline p = cola.peek();
-        if (!enable) {
-            lineE.setStyle("-fx-stroke: rgba(0, 255, 0,0.4);");
+
+        if (!enabled) {
+            lineE.setStyle("-fx-stroke: rgba(0, 0, 255,1);");
         }
         Line l = new Line(p.getPoints().get(0),
                         p.getPoints().get(1),
@@ -116,6 +117,7 @@ public class Animacion {
     }
     
     private void searchNode(Line l) {
+
         ArrayList<RadioButton> radios = new ArrayList<>();
         ArrayList<RadioButton> conected = new ArrayList<>();
 
